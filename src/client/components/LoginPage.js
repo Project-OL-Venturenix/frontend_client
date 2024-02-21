@@ -13,7 +13,7 @@ const LoginPage = ({setLoginUser}) => {
     const handleLogin = async () => {
         try {
             const loginUser = await signInUser(username, password);
-            setLoginUser(loginUser);
+            setLoginUser(loginUser.data);
             console.log('Login successful:', loginUser.data);
             setRedirectToNext(true);
         } catch (error) {

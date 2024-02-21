@@ -11,7 +11,7 @@ function QuestionRowIndividual() {
 
     const getQuestionList = async () => {
         try {
-            const response = await getQuestions(loginUser.data.accessToken);
+            const response = await getQuestions(loginUser.accessToken);
             // Assuming the data is an array inside the response
             setQuestionList(response.data);
         } catch (error) {

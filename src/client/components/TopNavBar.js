@@ -38,7 +38,7 @@ export default function TopNavBar() {
                             }}
                             size="4x"
                         />
-                        <span style={{ fontSize: '2em' }}>{loginUser.data.firstname}</span>
+                        <span style={{ fontSize: '2em' }}>{loginUser.firstname}</span>
                     </div>
 
                     <div/>
