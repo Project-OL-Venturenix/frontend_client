@@ -4,7 +4,8 @@ import questionText from './QuestionText';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 
-function QuestionAreaIndividual() {
+
+function QuestionAreaIndividual({question}) {
     return (
         <>
             <div
@@ -16,7 +17,7 @@ function QuestionAreaIndividual() {
                     fontSize: 14
                 }}
             >
-                <ReactMarkdown rehypePlugins={[rehypeRaw]} children={questionText}/>
+                <ReactMarkdown rehypePlugins={[rehypeRaw]} children={question.questiontext}/>
             </div>
 
         </>

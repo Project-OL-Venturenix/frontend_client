@@ -11,6 +11,8 @@ const SignupPage = () => {
         password: '',
         company: '',
         title: '',
+        status: '',
+        role: '["mod","user"]'
     });
 
     const handleChange = (e) => {
@@ -22,7 +24,8 @@ const SignupPage = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await signUpUser(userData);
+            console.log(userData);
+            const response = await signUpUser([userData]);
             console.log('Signup successful:', response.data);
             // 可以在這裡處理註冊成功後的操作，例如重定向到登錄頁面
         } catch (error) {
