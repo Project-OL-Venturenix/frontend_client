@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './LoginPage.css';
-import { Redirect } from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {signInUser} from "../api/UserApi";
 
 
@@ -110,8 +110,10 @@ const LoginPage = ({setLoginUser}) => {
                                         Login
                                     </button>
 
-                                    <p className="small fw-bold mt-2 pt-1 mb-0">
-                                        {/*Don't have an account? <Redirect to="/signup" className="link-danger">Register</Redirect>*/}
+                                    <p className="small fw-bold mt-2 pt-1 mb-0" >
+                                        Don't have an account?  <Link to="/signup" className="link-danger">
+                                        Register
+                                    </Link>
                                     </p>
                                 </div>
                             </form>
