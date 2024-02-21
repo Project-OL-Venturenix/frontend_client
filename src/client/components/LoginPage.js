@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './LoginPage.css';
 import { Redirect } from 'react-router-dom';
 import {signInUser} from "../api/UserApi";
@@ -13,8 +13,8 @@ const LoginPage = ({setLoginUser}) => {
     const handleLogin = async () => {
         try {
             const loginUser = await signInUser(username, password);
-            console.log('Login successful:', loginUser.data);
             setLoginUser(loginUser);
+            console.log('Login successful:', loginUser.data);
             setRedirectToNext(true);
         } catch (error) {
             console.error('Login failed:', error);
@@ -22,7 +22,7 @@ const LoginPage = ({setLoginUser}) => {
     };
 
     if (redirectToNext) {
-        return <Redirect to="/contest" />;
+        return <Redirect to="/gamemode" />;
     }
 
     return (
@@ -111,7 +111,7 @@ const LoginPage = ({setLoginUser}) => {
                                     </button>
 
                                     <p className="small fw-bold mt-2 pt-1 mb-0">
-                                        Don't have an account? <a href="#!" className="link-danger">Register</a>
+                                        Don't have an account? <Redirect to="/signup" className="link-danger">Register</Redirect>
                                     </p>
                                 </div>
                             </form>

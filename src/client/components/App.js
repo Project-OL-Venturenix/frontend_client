@@ -4,8 +4,9 @@ import QuestionRowIndividual from './QuestionRowIndividual';
 import LoginPage from './LoginPage';
 import GameModePage from './GameModePage';
 import QuestionRowTeam from './QuestionRowTeam';
-import Ranking from "./Ranking";
-import AdminPage from "./AdminPage";
+import Ranking from './Ranking';
+import AdminPage from './AdminPage';
+import SignupPage from "./SignUpPage";
 
 export const LoginUserContext = createContext(null);
 export const TeamContext = createContext(null);
@@ -28,7 +29,7 @@ const App = () => {
 
     const team1 = [Lucas, Oscar, Max];
 
-    const [loginUser, setLoginUser] = useState(Lucas);
+    const [loginUser, setLoginUser] = useState(null);
     const [team, setTeam] = useState(team1);
 
 
@@ -46,6 +47,7 @@ const App = () => {
                     <Route path="/gamemode" component={GameModePage} />
                     <Route path="/ranking" component={Ranking} />
                     <Route path="/adminpage" component={AdminPage} />
+                    <Route path="/signup" component={SignupPage} />
                 </Switch>
             </LoginUserContext.Provider>
             </TeamContext.Provider>

@@ -13,7 +13,6 @@ export default function TopNavBar() {
 
     return (
         <>
-            if (loginUser) {
             <Navbar
                 sticky="top"
                 style={{
@@ -39,14 +38,13 @@ export default function TopNavBar() {
                             }}
                             size="4x"
                         />
-                        <span style={{ fontSize: '2em' }}>{loginUser.firstname}</span>
+                        <span style={{ fontSize: '2em' }}>{loginUser.data.firstname}</span>
                     </div>
 
                     <div/>
 
                 </div>
             </Navbar>
-        }
         </>
     );
 }
