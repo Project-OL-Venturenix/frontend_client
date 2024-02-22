@@ -109,6 +109,15 @@ const LoginPage = ({setLoginUser}) => {
                                     >
                                         Login
                                     </button>
+                                    <a href="http://localhost:5173/#/login">
+                                        <button
+                                            type="button"
+                                            className="btn btn-primary btn-lg"
+                                            style={{ paddingLeft: '2.5rem', paddingRight: '2.5rem' }}
+                                        >
+                                            Admin Login
+                                        </button>
+                                    </a>
 
                                     <p className="small fw-bold mt-2 pt-1 mb-0" >
                                         Don't have an account?  <Link to="/signup" className="link-danger">
