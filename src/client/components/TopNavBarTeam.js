@@ -46,10 +46,10 @@ export default function TopNavBarTeam() {
                             />
                             <span style={{
                                 fontSize: '2em',
-                                fontWeight: team[index].name === loginUser.name ?
+                                fontWeight: team[index].name === loginUser.firstname ?
                                     'bold'
                                     : 'normal',
-                                color: team[index].name === loginUser.name ?
+                                color: team[index].name === loginUser.firstname ?
                                     teamColors[team[index].name]
                                     : 'black'
                             }}>

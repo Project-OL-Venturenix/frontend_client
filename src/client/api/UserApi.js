@@ -14,11 +14,10 @@ export const signInUser = async (username, password)=> {
 };
 
 export const signUpUser = async (userData) => {
-
     try {
         const response = await axios.post(
                 `http://localhost:8081/api/auth/signup`,
-                {userData},
+                {userData}
             );
         return response;
     } catch

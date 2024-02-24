@@ -37,7 +37,7 @@ function QuestionRowTeam() {
                         style={{
                             marginLeft: '20px'
                         }}>
-                        <QuestionAreaTeam borderColor={focusedIndex === index ? teamColors[loginUser.name] : 'transparent'}/>
+                        <QuestionAreaTeam borderColor={focusedIndex === index ? teamColors[loginUser.firstname] : 'transparent'}/>
                     </div>
                     <div>
                         <Editor
