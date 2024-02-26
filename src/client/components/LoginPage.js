@@ -14,7 +14,6 @@ const LoginPage = ({setLoginUser}) => {
     const handleLogin = async () => {
         try {
             const loginUser = await signInUser(username, password);
-            setLoginUser(loginUser.data);
             localStorage.setItem('loginUser', JSON.stringify(loginUser.data));
             console.log('Login successful:', loginUser.data);
             setRedirectToNext(true);

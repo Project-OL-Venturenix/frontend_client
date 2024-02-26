@@ -2,13 +2,13 @@ import React, {useContext, useState} from 'react';
 import Editor from './Editor';
 import {Checkbox} from 'react-bootstrap';
 import TopNavBarTeam from './TopNavBarTeam';
-import {LoginUserContext, TeamContext} from "./App";
+import {TeamContext} from "./App";
 import QuestionAreaTeam from "./QuestionAreaTeam";
 
 function QuestionRowTeam() {
-    const loginUser = useContext(LoginUserContext);
+    const storedUser = JSON.parse(localStorage.getItem('loginUser'));
+    const loginUser = storedUser || null;
     const team = useContext(TeamContext);
-
 
     const teamColors = {};
     const colorArray = ['red', 'blue', 'green', 'purple', 'orange', 'pink'];

@@ -3,7 +3,6 @@ import QuestionAreaIndividual from './QuestionAreaIndividual';
 import Editor from './Editor';
 import TopNavBar from './TopNavBar';
 import {getQuestions} from "../api/QuestionApi";
-import {LoginUserContext} from "./App";
 
 function QuestionRowIndividual() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));

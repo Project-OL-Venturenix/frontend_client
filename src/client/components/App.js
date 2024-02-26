@@ -7,7 +7,7 @@ import QuestionRowTeam from './QuestionRowTeam';
 import Ranking from './Ranking';
 import SignupPage from "./SignUpPage";
 
-export const LoginUserContext = createContext(null);
+
 export const TeamContext = createContext(null);
 
 const App = () => {
@@ -40,16 +40,15 @@ const App = () => {
     return (
         <>
             <TeamContext.Provider value={team}>
-            <LoginUserContext.Provider value={loginUser}>
+
                 <Switch>
-                    <Route exact path="/" render={(props) => <LoginPage {...props} setLoginUser={setLoginUser} />} />
+                    <Route exact path="/" component={LoginPage} />
                     <Route path="/contest" component={QuestionRowIndividual} />
                     <Route path="/team" component={QuestionRowTeam} />
                     <Route path="/gamemode" component={GameModePage} />
                     <Route path="/ranking" component={Ranking} />
                     <Route path="/signup" component={SignupPage} />
                 </Switch>
-            </LoginUserContext.Provider>
             </TeamContext.Provider>
         </>
     );

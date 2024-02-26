@@ -2,7 +2,6 @@ import React, {useContext, useEffect} from 'react';
 import { Navbar} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
-import {LoginUserContext} from './App';
 
 export default function TopNavBar() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));

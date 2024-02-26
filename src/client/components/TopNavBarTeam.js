@@ -2,11 +2,11 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Navbar} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
-import {LoginUserContext, TeamContext} from './App';
-import {getGroupUsers} from "../api/GroupApi";
+import {TeamContext} from './App';
 
 export default function TopNavBarTeam() {
-    const loginUser = useContext(LoginUserContext);
+    const storedUser = JSON.parse(localStorage.getItem('loginUser'));
+    const loginUser = storedUser || null;
     // const [team, setTeam] = useState();
    const team = useContext(TeamContext);
     const teamColors = {};
