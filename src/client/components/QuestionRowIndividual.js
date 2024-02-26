@@ -23,7 +23,7 @@ function QuestionRowIndividual() {
         if (loginUser) {
             getQuestionList();
         }
-    }, [loginUser]);
+    }, []);
 
     return (
         <>
