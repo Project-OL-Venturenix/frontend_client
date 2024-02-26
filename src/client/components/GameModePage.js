@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUser, faUsers} from '@fortawesome/free-solid-svg-icons';
+import {getGroupUsers} from "../api/GroupApi";
 
 const GameModePage = () => {
     const [selection, setSelection] = useState(null);
@@ -9,6 +10,7 @@ const GameModePage = () => {
     const handleSelection = (value) => {
         setSelection(value);
     };
+
 
 
     return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {signUpUser} from "../api/UserApi";
 
 const SignupPage = () => {
@@ -32,57 +32,124 @@ const SignupPage = () => {
     };
 
     return (
-        <div>
-            <h2>Signup</h2>
-            <form>
-                <label>
-                    First Name:
-                    <input type="text" name="firstname" value={userData.firstname} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Last Name:
-                    <input type="text" name="lastname" value={userData.lastname} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Mobile:
-                    <input type="text" name="mobile" value={userData.mobile} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Email:
-                    <input type="text" name="email" value={userData.email} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Username:
-                    <input type="text" name="username" value={userData.username} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Password:
-                    <input type="password" name="password" value={userData.password} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Company:
-                    <input type="text" name="company" value={userData.company} onChange={handleChange} />
-                </label>
-                <br />
-                <label>
-                    Title:
-                    <input type="text" name="title" value={userData.title} onChange={handleChange} />
-                </label>
-                <label>
-                    Status:
-                    <input type="text" name="status" value={userData.status} onChange={handleChange} />
-                </label>
-                <br />
-                <button type="button" onClick={handleSubmit}>
-                    Signup
-                </button>
-            </form>
+        <div className="container"
+             style={{
+                 display: 'flex',
+                 alignItems: 'center',
+                 justifyContent: 'center'
+             }}
+        >
+            <section className="vh-100">
+                <div className="container-fluid h-custom">
+                    <div className="row d-flex justify-content-center align-items-center h-100">
+                        <div className="col-md-9 col-lg-6 col-xl-5">
+                            <img
+                                src="https://scontent-lhr6-1.xx.fbcdn.net/v/t39.30808-6/292037637_1989864014557999_7909280466945465412_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=4m44MxwDT8MAX-BSu4s&_nc_ht=scontent-lhr6-1.xx&oh=00_AfDbm59HDHiXdQK4kErekoCpDZoRKbqyAezQaw7H-h7yMA&oe=65CE8C1C"
+                                className="img-fluid"
+                                alt="Sample image"
+                            />
+                        </div>
+                        <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                            <h2 className="mb-4">Signup</h2>
+                            <form>
+                                <div className="mb-3">
+                                    <label className="form-label">First Name:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="firstname"
+                                        value={userData.firstname}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Last Name:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="lastname"
+                                        value={userData.lastname}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Mobile:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="mobile"
+                                        value={userData.mobile}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Email:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="email"
+                                        value={userData.email}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Username:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="username"
+                                        value={userData.username}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Password:</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        name="password"
+                                        value={userData.password}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Company:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="company"
+                                        value={userData.company}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Title:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="title"
+                                        value={userData.title}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Status:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="status"
+                                        value={userData.status}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                                    Signup
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 };

@@ -6,6 +6,9 @@ import GameModePage from './GameModePage';
 import QuestionRowTeam from './QuestionRowTeam';
 import Ranking from './Ranking';
 import SignupPage from "./SignUpPage";
+import {getQuestions} from "../api/QuestionApi";
+import {getGroupUsers} from "../api/GroupApi";
+
 
 export const LoginUserContext = createContext(null);
 export const TeamContext = createContext(null);
@@ -26,6 +29,7 @@ const App = () => {
         teamID: 1,
     };
 
+
     const team1 = [Lucas, Oscar, Max];
 
     const [loginUser, setLoginUser] = useState(null);
@@ -33,6 +37,7 @@ const App = () => {
 
 
     useEffect(() => {
+
     }, []);
 
     return (

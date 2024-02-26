@@ -20,8 +20,10 @@ function QuestionRowIndividual() {
     };
 
     useEffect(() => {
-        getQuestionList();
-    }, []);
+        if (loginUser) {
+            getQuestionList();
+        }
+    }, [loginUser]);
 
     return (
         <>

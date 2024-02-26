@@ -1,18 +1,34 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Navbar} from 'react-bootstrap';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
 import {LoginUserContext, TeamContext} from './App';
+import {getGroupUsers} from "../api/GroupApi";
 
 export default function TopNavBarTeam() {
     const loginUser = useContext(LoginUserContext);
-    const team = useContext(TeamContext);
+    // const [team, setTeam] = useState();
+   const team = useContext(TeamContext);
     const teamColors = {};
     const colorArray = ['red', 'blue', 'green', 'purple', 'orange', 'pink'];
 
     team.forEach((member, index) => {
         teamColors[member.name] = colorArray[index % colorArray.length];
     });
+
+    // const getGroupByUser = async () => {
+    //     try {
+    //         const response = await getGroupUsers(loginUser.accessToken);
+    //         console.log(response.data)
+    //     } catch (error) {
+    //         console.error('Failed to get group:', error);
+    //     }
+    // };
+
+
+    useEffect(() => {
+        // getGroupByUser()
+    }, []);
 
     return (
         <>

@@ -9,6 +9,7 @@ function QuestionRowTeam() {
     const loginUser = useContext(LoginUserContext);
     const team = useContext(TeamContext);
 
+
     const teamColors = {};
     const colorArray = ['red', 'blue', 'green', 'purple', 'orange', 'pink'];
 
