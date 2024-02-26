@@ -6,9 +6,6 @@ import GameModePage from './GameModePage';
 import QuestionRowTeam from './QuestionRowTeam';
 import Ranking from './Ranking';
 import SignupPage from "./SignUpPage";
-import {getQuestions} from "../api/QuestionApi";
-import {getGroupUsers} from "../api/GroupApi";
-
 
 export const LoginUserContext = createContext(null);
 export const TeamContext = createContext(null);

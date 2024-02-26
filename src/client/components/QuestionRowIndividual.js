@@ -6,7 +6,8 @@ import {getQuestions} from "../api/QuestionApi";
 import {LoginUserContext} from "./App";
 
 function QuestionRowIndividual() {
-    const loginUser = useContext(LoginUserContext);
+    const storedUser = JSON.parse(localStorage.getItem('loginUser'));
+    const loginUser = storedUser || null;
     const [questionList, setQuestionList] = useState([]);
 
     const getQuestionList = async () => {

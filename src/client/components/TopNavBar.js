@@ -5,7 +5,8 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import {LoginUserContext} from './App';
 
 export default function TopNavBar() {
-    const loginUser = useContext(LoginUserContext);
+    const storedUser = JSON.parse(localStorage.getItem('loginUser'));
+    const loginUser = storedUser || null;
 
     useEffect(() => {
 
