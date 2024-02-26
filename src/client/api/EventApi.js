@@ -1,13 +1,14 @@
 import axios from "axios";
 
-export const getQuestions = async (accessToken)=> {
+export const getEvents = async (accessToken) => {
     try {
         const response = await axios.get(
-            `http://localhost:8081/api/questions`,
+            `http://localhost:8081/api/events`,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;
-    } catch (error) {
+    } catch
+        (error) {
         console.error(error);
         throw error;
     }

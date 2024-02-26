@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const getQuestions = async (accessToken)=> {
+export const getEventQuestions = async (accessToken)=> {
     try {
         const response = await axios.get(
-            `http://localhost:8081/api/questions`,
+            `http://localhost:8081/api/eventquestions`,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;

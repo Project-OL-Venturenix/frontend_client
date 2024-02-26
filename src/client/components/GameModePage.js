@@ -1,16 +1,49 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUser, faUsers} from '@fortawesome/free-solid-svg-icons';
 import {getGroupUsers} from "../api/GroupApi";
+import {getQuestions} from "../api/QuestionApi";
+import {getEvents} from "../api/EventApi";
 
 const GameModePage = () => {
+    const storedUser = JSON.parse(localStorage.getItem('loginUser'));
+    const loginUser = storedUser || null;
+
     const [selection, setSelection] = useState(null);
+    const [eventList, setEventList] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState('');
+
 
     const handleSelection = (value) => {
         setSelection(value);
     };
 
+    const handleConfirmButton = () => {
+        // Set the selected event ID in the session storage
+        sessionStorage.setItem('selectedEventId', selectedEvent);
+
+        // Redirect to the appropriate page based on the selection
+        if (selection === 'team') {
+            window.location.href = '/team';
+        } else {
+            window.location.href = '/contest';
+        }
+    };
+
+
+    const getEventList = async () => {
+        try {
+            const response = await getEvents(loginUser.accessToken);
+            setEventList(response.data);
+        } catch (error) {
+            console.error('Failed to get events:', error);
+        }
+    };
+
+    useEffect(() => {
+        getEventList()
+    }, []);
 
 
     return (
@@ -25,12 +58,25 @@ const GameModePage = () => {
                 backgroundColor: '#F1FEC9'
             }}
         >
-            <h1 style={{marginTop: '20px'}}>Event Number</h1>
 
-            <div className="input-group input-group-sm mb-3" style={{width: '100px'}}>
-                <span className="input-group-text" id="inputGroup-sizing-sm">No</span>
-                <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm"/>
+            <h1 style={{marginTop: '20px'}}>Event</h1>
+
+            <div style={{width: '150px'}}>
+                <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    onChange={(e) => setSelectedEvent(e.target.value)}
+                    value={selectedEvent}
+                >
+                    <option value="" disabled>Select an event</option>
+                    {eventList.map((event) => (
+                        <option key={event.id} value={event.id}>
+                            {event.name}
+                        </option>
+                    ))}
+                </select>
             </div>
+
 
             <h1 style={{marginTop: '20px'}}>Mode</h1>
 
@@ -72,19 +118,19 @@ const GameModePage = () => {
             <div>
                 <h1>You choose {selection === 'team' ? 'Team' : 'Individual'}</h1>
             </div>
-
-
             {(
-                <Link to={selection === 'team' ? '/team' : '/contest'}>
-                    <button
-                        style={{
+                <button
+                    style={{
                         margin: '30px',
-                            width: '200px',
-                            height: '50px',
-                            fontSize: 14
+                        width: '200px',
+                        height: '50px',
+                        fontSize: 14
                     }}
-                        type="button" className="btn btn-primary">Confirm</button>
-                </Link>
+                    type="button" className="btn btn-primary"
+                    onClick={handleConfirmButton}
+                >
+                    Confirm
+                </button>
             )}
 
 

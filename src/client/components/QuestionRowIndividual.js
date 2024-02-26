@@ -3,17 +3,28 @@ import QuestionAreaIndividual from './QuestionAreaIndividual';
 import Editor from './Editor';
 import TopNavBar from './TopNavBar';
 import {getQuestions} from "../api/QuestionApi";
+import {getEventQuestions} from "../api/EventQuestionApi";
 
 function QuestionRowIndividual() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
     const loginUser = storedUser || null;
-    const [questionList, setQuestionList] = useState([]);
+    const [eventQuestionList, setEventQuestionList] = useState([]);
+    const selectedEventId = sessionStorage.getItem('selectedEventId');
 
-    const getQuestionList = async () => {
+    const getEventQuestionList = async () => {
         try {
-            const response = await getQuestions(loginUser.accessToken);
-            // Assuming the data is an array inside the response
-            setQuestionList(response.data);
+            const response = await getEventQuestions(loginUser.accessToken);
+            const eventQuestions = response.data;
+            const selectedEventQuestions = eventQuestions.filter(question => question.eventid === parseInt(selectedEventId, 10));
+            console.log(selectedEventQuestions)
+            const questionIds = selectedEventQuestions.map((question) => question.questionid);
+            const questionData = await getQuestions(loginUser.accessToken);
+            const questionList = questionData.data;
+            console.log("questionList:", questionList);
+            console.log("questionIds:", questionIds);
+            const filteredQuestions = questionList.filter((question) => questionIds.includes(question.id));
+            console.log("filteredQuestions:", filteredQuestions);
+            setEventQuestionList(filteredQuestions);
         } catch (error) {
             console.error('Failed to get questions:', error);
         }
@@ -21,14 +32,14 @@ function QuestionRowIndividual() {
 
     useEffect(() => {
         if (loginUser) {
-            getQuestionList();
+            getEventQuestionList();
         }
     }, []);
 
     return (
         <>
             <TopNavBar/>
-            {Array.isArray(questionList) && questionList.map((question, index) => (
+            {Array.isArray(eventQuestionList) && eventQuestionList.map((question, index) => (
                 <div
                     key={question.id}
                     style={{
