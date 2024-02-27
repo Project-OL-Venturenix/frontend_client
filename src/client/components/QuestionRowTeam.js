@@ -259,7 +259,7 @@ function QuestionRowTeam() {
                         {questionIdMap && questionIdMap[question.id] ? (
                             <QuestionAreaTeam
                                 question={question}
-                                borderColor={focusedIndex === index ? teamColors[loginUser.id] : teamColors[questionIdMap[question.id]]}
+                                borderColor={focusedIndex === index ? teamColors[questionIdMap[question.id]] : teamColors[questionIdMap[question.id]]}
                             />
                         ) : (
                             <QuestionAreaTeam
