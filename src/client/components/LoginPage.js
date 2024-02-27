@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './LoginPage.css';
 import {Link, Redirect} from 'react-router-dom';
 import {signInUser} from "../api/AuthApi";
-import {getGroupUsers} from "../api/GroupApi";
+import {getGroupUsers} from "../api/GroupUserApi";
 
 
 const LoginPage = ({setLoginUser}) => {

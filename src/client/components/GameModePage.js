@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faUser, faUsers} from '@fortawesome/free-solid-svg-icons';
-import {getGroupUsers} from "../api/GroupApi";
+import {getGroupUsers} from "../api/GroupUserApi";
 import {getQuestions} from "../api/QuestionApi";
 import {getEvents} from "../api/EventApi";
 
