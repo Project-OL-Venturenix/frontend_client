@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const getUsers = async (accessToken)=> {
+export const getEventUsers = async (accessToken)=> {
     try {
         const response = await axios.get(
-            `http://localhost:8081/api/users`,
+            `http://localhost:8081/api/eventusers`,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;

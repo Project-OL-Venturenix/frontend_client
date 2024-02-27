@@ -1,15 +1,42 @@
-import React, {useContext, useEffect} from 'react';
-import { Navbar} from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
+import React, {useContext, useEffect, useState} from 'react';
+import {Navbar} from 'react-bootstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
+import {getEventQuestions} from "../api/EventQuestionApi";
+import {getQuestions} from "../api/QuestionApi";
+import {getEventUsers} from "../api/EventUserApi";
+import {getUsers} from "../api/UserApi";
 
 export default function TopNavBar() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
     const loginUser = storedUser || null;
+    const [eventUserList, setEventUserList] = useState([]);
+    const selectedEventId = sessionStorage.getItem('selectedEventId');
+
+    const getEventUserList = async () => {
+        try {
+            const response = await getEventUsers(loginUser.accessToken);
+            const eventUsers = response.data;
+            console.log(eventUsers)
+            const selectedEventUsers = eventUsers.filter(user => user.eventid === parseInt(selectedEventId, 10));
+            console.log("Selected Event ID:", parseInt(selectedEventId, 10));
+            console.log("Filtered Users:", selectedEventUsers);
+            const userIds = selectedEventUsers.map((user) => user.userid);
+            const UserData = await getUsers(loginUser.accessToken);
+            const userList = UserData.data;
+            console.log("UserList:", userList);
+            console.log("UserIds:", userIds);
+            const filteredUser = userList.filter((user) => userIds.includes(user.id));
+            console.log("filteredUser:", filteredUser);
+            setEventUserList(filteredUser);
+        } catch (error) {
+            console.error('Failed to get questions:', error);
+        }
+    };
 
     useEffect(() => {
-
-    }, [loginUser]);
+        getEventUserList()
+    }, []);
 
     return (
         <>
@@ -27,9 +54,9 @@ export default function TopNavBar() {
             >
                 <div>
 
-                    <div />
+                    <div/>
 
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
                         <FontAwesomeIcon
                             icon={faCircleUser}
                             style={{
@@ -39,7 +66,19 @@ export default function TopNavBar() {
                             size="4x"
                         />
                         {loginUser && (
-                            <span style={{ fontSize: '2em' }}>{loginUser.firstname}</span>
+                            <div>
+                                {eventUserList.length > 0 ? (
+                                    eventUserList.map((user, index) => (
+                                        <span key={index} style={{fontSize: '2em'}}>
+                                        {user.firstname}
+                                         </span>
+                                    ))
+                                ) : (
+                                    <span style={{fontSize: '1.5em'}}>
+                                    You are not in this contest.
+                                    </span>
+                                )}
+                            </div>
                         )}
                     </div>
 

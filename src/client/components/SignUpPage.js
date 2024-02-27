@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {signUpUser} from "../api/UserApi";
+import {signUpUser} from "../api/AuthApi";
 
 const SignupPage = () => {
     const [userData, setUserData] = useState({
