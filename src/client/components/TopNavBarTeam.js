@@ -17,7 +17,7 @@ export default function TopNavBarTeam() {
     const colorArray = ['red', 'blue', 'green', 'purple', 'orange', 'pink'];
 
     team.forEach((member, index) => {
-        teamColors[member.firstname] = colorArray[index % colorArray.length];
+        teamColors[member.id] = colorArray[index % colorArray.length];
     });
 
     // const [eventUserList, setEventUserList] = useState([]);
@@ -109,18 +109,18 @@ export default function TopNavBarTeam() {
                             <FontAwesomeIcon
                                 icon={faCircleUser}
                                 style={{
-                                    color: teamColors[team[index].firstname],
+                                    color: teamColors[team[index].id],
                                     marginRight: '10px',
                                 }}
                                 size="4x"
                             />
                             <span style={{
                                 fontSize: '2em',
-                                fontWeight: team[index].firstname === loginUser.firstname ?
+                                fontWeight: team[index].id === loginUser.id ?
                                     'bold'
                                     : 'normal',
-                                color: team[index].firstname === loginUser.firstname ?
-                                    teamColors[team[index].firstname]
+                                color: team[index].id === loginUser.id ?
+                                    teamColors[team[index].id]
                                     : 'black'
                             }}>
                             {team[index].firstname}

@@ -27,7 +27,7 @@ function QuestionRowTeam() {
     const colorArray = ['red', 'blue', 'green', 'purple', 'orange', 'pink'];
 
     team.forEach((member, index) => {
-        teamColors[member.firstname] = colorArray[index % colorArray.length];
+        teamColors[member.id] = colorArray[index % colorArray.length];
     });
 
     const [focusedIndex, setFocusedIndex] = useState(null);
@@ -110,10 +110,21 @@ function QuestionRowTeam() {
         }
     };
 
+    const getEventGroupUserQuestionHandleList = async () => {
+        try {
+            const response = await getEventGroupUserQuestionHandle(loginUser.accessToken);
+            console.log(response.data)
+        } catch (error) {
+            console.error('Failed to save response:', error);
+        }
+    };
+
+
     useEffect(() => {
         if (loginUser) {
             getEventGroupUserList();
             getEventQuestionList();
+            getEventGroupUserQuestionHandleList();
         }
     }, []);
 
@@ -155,7 +166,6 @@ function QuestionRowTeam() {
         try {
             const response = await getEventGroupUserQuestionHandle(loginUser.accessToken);
             const questionHandles = response.data;
-
             return questionHandles.find(handle =>
                 handle.eventid === parseInt(selectedEventId, 10) &&
                 handle.questionid === questionId &&
@@ -221,7 +231,7 @@ function QuestionRowTeam() {
                             marginLeft: '20px'
                         }}>
                         <QuestionAreaTeam question={question}
-                                          borderColor={focusedIndex === index ? teamColors[loginUser.firstname] : 'transparent'}/>
+                                          borderColor={focusedIndex === index ? teamColors[loginUser.id] : 'transparent'}/>
                     </div>
                     <div>
                         <Editor
