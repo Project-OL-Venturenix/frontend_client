@@ -9,6 +9,7 @@ import {getQuestions} from "../api/QuestionApi";
 import {getEventGroups} from "../api/EventGroupApi";
 import {getGroupUsers} from "../api/GroupUserApi";
 import {getUserById} from "../api/UserApi";
+import {addEventGroupUserQuestionHandle} from "../api/GroupQuestionHandleApi";
 
 function QuestionRowTeam() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
@@ -26,6 +27,9 @@ function QuestionRowTeam() {
     });
 
     const [focusedIndex, setFocusedIndex] = useState(null);
+    const [userGroupIds, setUserGroupIds] = useState([]);
+
+
 
     const getEventGroupUserList = async () => {
         try {
@@ -46,6 +50,8 @@ function QuestionRowTeam() {
                 .filter(user => user.userid === loginUser.id)
                 .map(user => user.groupid);
             console.log("userGroupIds:", userGroupIds);
+
+            setUserGroupIds(userGroupIds);
 
             // Filter selectedEventGroups based on the user's group membership
             const userEventGroups = selectedEventGroups.filter(group => userGroupIds.includes(group.groupid));
@@ -108,8 +114,36 @@ function QuestionRowTeam() {
     }, []);
 
 
-    const handleColorChange = (index) => {
+    const handleColorChange = async (index) => {
         setFocusedIndex(index);
+
+        if (team.length > 0) {
+            // Assuming 'eventQuestionList' and 'team' have the same length
+            const question = eventQuestionList[index];
+            const user = team[index];
+
+            // Save the user's response to the question
+            await handleSaveResponse(question, user);
+        }
+    };
+
+    const handleSaveResponse = async (question, user) => {
+        try {
+            // Prepare the questionData object with necessary information
+            const questionData = {
+                eventid: parseInt(selectedEventId, 10),
+                questionid: question.id,
+                groupid: userGroupIds[0],
+                userlist: user.id,  // Assuming your user object has an 'id' property
+                response: question.response,  // Adjust this based on how you store the user's response
+            };
+
+            // Call the API to save the response
+            const response = await addEventGroupUserQuestionHandle(loginUser.accessToken, questionData);
+            console.log('Response saved:', response.data);
+        } catch (error) {
+            console.error('Failed to save response:', error);
+        }
     };
 
     return (
