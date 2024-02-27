@@ -4,7 +4,7 @@ import questionText from './QuestionText';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 
-function QuestionAreaTeam({ borderColor }) {
+function QuestionAreaTeam({ borderColor, question }) {
     return (
         <>
             <div
@@ -18,7 +18,7 @@ function QuestionAreaTeam({ borderColor }) {
                     fontSize: 14
                 }}
             >
-                <ReactMarkdown rehypePlugins={[rehypeRaw]} children={questionText}/>
+                <ReactMarkdown rehypePlugins={[rehypeRaw]} children={question.questiontext}/>
             </div>
 
         </>
