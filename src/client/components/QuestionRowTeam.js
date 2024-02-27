@@ -9,7 +9,11 @@ import {getQuestions} from "../api/QuestionApi";
 import {getEventGroups} from "../api/EventGroupApi";
 import {getGroupUsers} from "../api/GroupUserApi";
 import {getUserById} from "../api/UserApi";
-import {addEventGroupUserQuestionHandle} from "../api/GroupQuestionHandleApi";
+import {
+    addEventGroupUserQuestionHandle,
+    getEventGroupUserQuestionHandle,
+    putEventGroupUserQuestionHandle
+} from "../api/GroupQuestionHandleApi";
 
 function QuestionRowTeam() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
@@ -120,29 +124,84 @@ function QuestionRowTeam() {
         if (team.length > 0) {
             // Assuming 'eventQuestionList' and 'team' have the same length
             const question = eventQuestionList[index];
-            const user = team[index];
+
 
             // Save the user's response to the question
-            await handleSaveResponse(question, user);
+            await handleSaveResponse(question);
         }
     };
 
-    const handleSaveResponse = async (question, user) => {
+    const handleSaveResponse = async (question) => {
+        try {
+            // await createEventGroupUserQuestionHandle(question, user);
+            // Check if there is an existing record with the same eventid, questionid, and groupid
+            const existingRecord = await checkExistingRecord(question.id, userGroupIds[0]);
+
+            if (existingRecord) {
+                // If exists, update user.id for the existing record
+                await updateEventGroupUserQuestionHandle(existingRecord.id, question);
+            } else {
+                // If not exists, create a new record
+                await createEventGroupUserQuestionHandle(question);
+            }
+
+            console.log('Response saved successfully');
+        } catch (error) {
+            console.error('Failed to save response:', error);
+        }
+    };
+
+    const checkExistingRecord = async (questionId, groupId) => {
+        try {
+            const response = await getEventGroupUserQuestionHandle(loginUser.accessToken);
+            const questionHandles = response.data;
+
+            return questionHandles.find(handle =>
+                handle.eventid === parseInt(selectedEventId, 10) &&
+                handle.questionid === questionId &&
+                handle.groupid === groupId
+            );
+        } catch (error) {
+            console.error('Failed to check existing record:', error);
+            throw error;
+        }
+    };
+
+    const updateEventGroupUserQuestionHandle = async (recordId,question) => {
+        try {
+            // Call the API to update the existing record with the new user.id
+            const questionData = {
+                eventid: parseInt(selectedEventId, 10),
+                questionid: question.id,
+                groupid: userGroupIds[0],
+                userlist: loginUser.id,
+                response: question.response,
+            };
+            const updatedResponse = await putEventGroupUserQuestionHandle(loginUser.accessToken, recordId, questionData);
+            console.log('Record updated:', updatedResponse.data);
+        } catch (error) {
+            console.error('Failed to update record:', error);
+            throw error;
+        }
+    };
+
+    const createEventGroupUserQuestionHandle = async (question) => {
         try {
             // Prepare the questionData object with necessary information
             const questionData = {
                 eventid: parseInt(selectedEventId, 10),
                 questionid: question.id,
                 groupid: userGroupIds[0],
-                userlist: user.id,  // Assuming your user object has an 'id' property
-                response: question.response,  // Adjust this based on how you store the user's response
+                userlist: loginUser.id,
+                response: question.response,
             };
 
-            // Call the API to save the response
+            // Call the API to create a new record
             const response = await addEventGroupUserQuestionHandle(loginUser.accessToken, questionData);
-            console.log('Response saved:', response.data);
+            console.log('New record created:', response.data);
         } catch (error) {
-            console.error('Failed to save response:', error);
+            console.error('Failed to create new record:', error);
+            throw error;
         }
     };
 

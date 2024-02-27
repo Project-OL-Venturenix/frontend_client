@@ -27,3 +27,17 @@ export const getEventGroupUserQuestionHandle = async (accessToken)=> {
         throw error;
     }
 };
+
+export const putEventGroupUserQuestionHandle = async (accessToken, id, questionData) => {
+    try {
+        const updatedResponse = await axios.put(
+            `http://localhost:8081/api/groupuserquestionhandle/${id}`,
+            questionData,
+            { headers: { Authorization: `Bearer ${accessToken}` } }
+        );
+        return updatedResponse;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
