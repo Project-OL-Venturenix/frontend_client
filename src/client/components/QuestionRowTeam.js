@@ -20,6 +20,8 @@ function QuestionRowTeam() {
     const loginUser = storedUser || null;
     const [eventQuestionList, setEventQuestionList] = useState([]);
     const selectedEventId = sessionStorage.getItem('selectedEventId');
+    const questionIdMapString = sessionStorage.getItem('color');
+    const questionIdMap = JSON.parse(questionIdMapString);
 
     const [team, setTeam] = useState([])
 
@@ -113,7 +115,20 @@ function QuestionRowTeam() {
     const getEventGroupUserQuestionHandleList = async () => {
         try {
             const response = await getEventGroupUserQuestionHandle(loginUser.accessToken);
-            console.log(response.data)
+            const data = response.data;
+
+            // 将数据处理为以questionid为键的对象，值为userlist.id
+            const questionIdMap = {};
+            data.forEach(item => {
+                const questionId = item.questionid;
+                const userlistId = item.userlist;
+                questionIdMap[questionId] = userlistId;
+            });
+
+            // 保存映射到sessionStorage
+            sessionStorage.setItem('color', JSON.stringify(questionIdMap));
+            console.log(questionIdMap);
+            // 在这里处理数据，可能设置到 state 中，方便后续渲染时使用
         } catch (error) {
             console.error('Failed to save response:', error);
         }
@@ -126,6 +141,15 @@ function QuestionRowTeam() {
             getEventQuestionList();
             getEventGroupUserQuestionHandleList();
         }
+
+        const intervalId = setInterval(() => {
+            getEventGroupUserList();
+            getEventQuestionList();
+            getEventGroupUserQuestionHandleList();
+        }, 2000);
+
+        // 在组件卸载时清除定时器，防止内存泄漏
+        return () => clearInterval(intervalId);
     }, []);
 
 
@@ -139,6 +163,8 @@ function QuestionRowTeam() {
 
             // Save the user's response to the question
             await handleSaveResponse(question);
+
+
         }
     };
 
@@ -230,8 +256,17 @@ function QuestionRowTeam() {
                         style={{
                             marginLeft: '20px'
                         }}>
-                        <QuestionAreaTeam question={question}
-                                          borderColor={focusedIndex === index ? teamColors[loginUser.id] : 'transparent'}/>
+                        {questionIdMap && questionIdMap[question.id] ? (
+                            <QuestionAreaTeam
+                                question={question}
+                                borderColor={focusedIndex === index ? teamColors[loginUser.id] : teamColors[questionIdMap[question.id]]}
+                            />
+                        ) : (
+                            <QuestionAreaTeam
+                                question={question}
+                                borderColor={focusedIndex === index ? teamColors[loginUser.id] : 'transparent'}
+                            />
+                        )}
                     </div>
                     <div>
                         <Editor
