@@ -202,9 +202,27 @@ function QuestionRowTeam() {
         }
     };
 
-    const updateEventGroupUserQuestionHandle = async (recordId,question) => {
+    const updateEventGroupUserQuestionHandle = async (recordId, question) => {
         try {
-            // Call the API to update the existing record with the new user.id
+            // Call the API to fetch the existing record
+            const existingRecordResponse = await getEventGroupUserQuestionHandle(loginUser.accessToken);
+
+            // Check if there is an existing record with the same userlist
+            const recordWithSameUserlist = existingRecordResponse.data.find(data =>
+                data.userlist == loginUser.id && data.id !== recordId
+            );
+
+            console.log(recordWithSameUserlist)
+
+            // If exists, update the existing record with userlist as 0
+            if (recordWithSameUserlist) {
+                await putEventGroupUserQuestionHandle(loginUser.accessToken, recordWithSameUserlist.id, {
+                    ...recordWithSameUserlist,
+                    userlist: 0,
+                });
+            }
+
+            // Update the current record with the new user.id
             const questionData = {
                 eventid: parseInt(selectedEventId, 10),
                 questionid: question.id,
