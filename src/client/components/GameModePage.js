@@ -59,7 +59,7 @@ const GameModePage = () => {
             }}
         >
 
-            <h1 style={{marginTop: '20px'}}>Event</h1>
+            <h1 style={{marginTop: '10px'}}>Event</h1>
 
             <div style={{width: '150px'}}>
                 <select
@@ -78,7 +78,7 @@ const GameModePage = () => {
             </div>
 
 
-            <h1 style={{marginTop: '20px'}}>Mode</h1>
+            <h1 style={{marginTop: '10px'}}>Mode</h1>
 
             <div style={{
                 display: 'flex',
@@ -91,8 +91,7 @@ const GameModePage = () => {
                                      display: 'flex',
                                      justifyContent: 'center',
                                      alignItems: 'center',
-                                     margin: '100px',
-
+                                     margin: '50px',
                                  }}
                                  onClick={() => handleSelection('team')}
                 >
@@ -106,7 +105,7 @@ const GameModePage = () => {
                                      display: 'flex',
                                      justifyContent: 'center',
                                      alignItems: 'center',
-                                     margin: '100px',
+                                     margin: '50px',
                                  }}
                                  onClick={() => handleSelection('individual')}
                 >

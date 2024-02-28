@@ -34,12 +34,12 @@ const LoginPage = ({setLoginUser}) => {
                  justifyContent: 'center'
              }}
         >
-            <section className="vh-100">
+            <section className="vh-100 vw-100">
                 <div className="container-fluid h-custom">
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-md-9 col-lg-6 col-xl-5">
                             <img
-                                src="https://scontent-lhr6-1.xx.fbcdn.net/v/t39.30808-6/292037637_1989864014557999_7909280466945465412_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=4m44MxwDT8MAX-BSu4s&_nc_ht=scontent-lhr6-1.xx&oh=00_AfDbm59HDHiXdQK4kErekoCpDZoRKbqyAezQaw7H-h7yMA&oe=65CE8C1C"
+                                src="https://scontent-hkg1-1.xx.fbcdn.net/v/t39.30808-6/292037637_1989864014557999_7909280466945465412_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=y42qL3eD5UgAX9mIoOR&_nc_ht=scontent-hkg1-1.xx&oh=00_AfDqKRjIFSDip_dvmRA7ntkJEN3rDyFGPrah-UXIlprhOQ&oe=65E44CDC"
                                 className="img-fluid"
                                 alt="Sample image"
                             />

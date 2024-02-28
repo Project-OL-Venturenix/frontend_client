@@ -145,7 +145,7 @@ function QuestionRowTeam() {
         const intervalId = setInterval(() => {
             getEventQuestionList();
             getEventGroupUserQuestionHandleList();
-        }, 1000);
+        }, 2000);
 
         // 在组件卸载时清除定时器，防止内存泄漏
         return () => clearInterval(intervalId);
