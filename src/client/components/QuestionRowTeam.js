@@ -143,7 +143,6 @@ function QuestionRowTeam() {
         }
 
         const intervalId = setInterval(() => {
-            getEventGroupUserList();
             getEventQuestionList();
             getEventGroupUserQuestionHandleList();
         }, 2000);
