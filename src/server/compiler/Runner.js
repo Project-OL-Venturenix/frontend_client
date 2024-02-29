@@ -1,18 +1,28 @@
-class Runner {
-  constructor() {}
+const { exec } = require('child_process');
 
-  /*
-  set(file, directory, filename, extension, callback) {
-    this.file = file;
-    this.directory = directory;
-    this.filename = filename;
-    this.extension = extension;
-    this.callback = callback;
-  } */
-
-  run(file, directory, filename, extension, callback) {
-    console.log(this.file);
+module.exports = class JavaRunner {
+  run(file, directory, callback) {
+    exec(`javac ${file}`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Compilation failed: ${stderr}`);
+        callback('error', 'Compilation failed');
+      } else {
+        const className = file.split('/').pop().split('.').shift();
+        exec(`java -classpath ${directory} ${className}`, (error, stdout, stderr) => {
+          if (error) {
+            console.error(`Execution failed: ${stderr}`);
+            callback('error', 'Execution failed');
+          } else {
+            console.log('Execution successful');
+            console.log(`Output: ${stdout}`);
+            callback('success', 'Execution successful');
+          }
+        });
+      }
+    });
   }
-}
 
-module.exports = Runner;
+  defaultFile() {
+    return 'Question3.java';
+  }
+};

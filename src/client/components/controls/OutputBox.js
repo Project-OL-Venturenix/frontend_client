@@ -11,26 +11,27 @@ class OutputBox extends React.Component {
   render() {
     if (this.props.show) {
       return (
-        <FormControl
-          name="code"
-          type="textarea"
-          componentClass="textarea"
-          rows="8"
-          readOnly
-          value={this.props.message}
-        />
+          <FormControl
+              name="code"
+              type="textarea"
+              componentClass="textarea"
+              rows="8"
+              readOnly
+              value={this.props.message}
+              style={{ fontSize: '20px' }}
+          />
       );
     }
 
     return (
-      <FormControl
-        name="code"
-        type="textarea"
-        componentClass="textarea"
-        rows="8"
-        readOnly
-        value=""
-      />
+        <FormControl
+            name="code"
+            type="textarea"
+            componentClass="textarea"
+            rows="8"
+            readOnly
+            value=""
+        />
     );
   }
 }

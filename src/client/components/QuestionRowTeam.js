@@ -285,7 +285,7 @@ function QuestionRowTeam() {
                             />
                         )}
                     </div>
-                    <div>
+                    <div style={{width: "1000px"}}>
                         <Editor
                             checked={focusedIndex === index}
                             handleColorChange={() => handleColorChange(index)}

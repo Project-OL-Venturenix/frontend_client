@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, FormGroup, Col, Button, Row} from 'react-bootstrap';
+import {Form, FormGroup, Col, Button, Grid} from 'react-bootstrap';
 import LangSelector from './controls/LangSelector';
 import CodeEditor from './controls/CodeEditor';
 import AlertDismissable from './controls/AlertDismissable';
@@ -7,7 +7,7 @@ import OutputBox from './controls/OutputBox';
 import StatusImage from './controls/StatusImage';
 import CompilerApi from '../api/CompilerApi';
 
-let languages = ['JavaScript', 'Python', 'Java', 'C', 'C++'];
+let languages = ['Java', 'Python', 'JavaScript', 'C', 'C++'];
 const languagesProd = ['JavaScript', 'Python'];
 
 class Editor extends React.Component {
@@ -22,7 +22,7 @@ class Editor extends React.Component {
         this.state = {
             selectedLang: 0, // JavaScript
             task: {
-                lang: 'javascript',
+                lang: 'Java',
                 code: '',
             },
             response: {
@@ -30,6 +30,7 @@ class Editor extends React.Component {
                 message: '',
             },
             executionTime: 0,
+            output: '',
         };
 
         this.handleRun = this.handleRun.bind(this);
@@ -39,8 +40,8 @@ class Editor extends React.Component {
     }
 
     componentDidMount() {
-        CompilerApi.getTask('javascript')
-            // .then(res => res.json())
+        CompilerApi.getTask('java') //default load java file
+            //  .then(res => res.json())
             .then((task) => {
                 console.log(task);
                 this.setState({task});
@@ -58,16 +59,20 @@ class Editor extends React.Component {
         event.preventDefault();
         const {task} = this.state;
         const startTime = new Date().getTime();
-        console.log(task);
+        console.log('handleRun : ' + task.code);
+        console.log('handleRun : ' + task.lang);
+        console.log('handleRun : ' + this.state.output);
+
         CompilerApi.run(task)
             .then((res) => {
+                // Append the new test case result to the existing message
                 const endTime = new Date().getTime();
                 const executionTime = endTime - startTime;
-                this.setState({ response: res, executionTime });
+                this.setState({response: res, executionTime});
+                this.setState({response: res});
             })
             .catch((error) => {
                 console.log(error);
-                // this.handleError(error);
             });
     }
 
@@ -93,64 +98,71 @@ class Editor extends React.Component {
 
     render() {
         return (
-                <div
-                    style={{
-                    marginLeft: '50px'
-                }}>
-                    <Form horizontal>
-                        <FormGroup controlId="code">
-                            <Col>
-                                <LangSelector
-                                    langs={languages}
-                                    selectedIndex={this.state.selectedLang}
-                                    onChange={this.handleLangChange}
-                                />
-                            </Col>
-                        </FormGroup>
-                        <FormGroup controlId="code">
-                            <Col>
-                                <CodeEditor
-                                    onChange={(code) => {
-                                        this.handleCodeChange(code);
-                                    }}
-                                    onFocus={this.props.handleColorChange}
-                                    code={this.state.task.code}
-                                />
-                            </Col>
-                        </FormGroup>
-                        <FormGroup>
-                            <Col>
-                                <Button bsStyle="primary" type="button" onClick={this.handleRun}>
-                                    Run
+            <div className="container">
+                <Form horizontal>
+                    <FormGroup controlId="code">
+                        <Col sm={12}>
+                            <LangSelector
+                                langs={languages}
+                                selectedIndex={this.state.selectedLang}
+                                onChange={this.handleLangChange}
+                            />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup controlId="code">
+                        <Col sm={12}>
+                            <CodeEditor
+                                onChange={(code) => {
+                                this.handleCodeChange(code);
+                            }}
+                            onFocus={this.props.handleColorChange}
+                            code={this.state.task.code}
+                            />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup>
+                        <Col sm={5}>
+                            <Grid className="col-md-6">
+                                <Button bsStyle="primary" type="button" style={{fontSize: '15px'}}
+                                        onClick={this.handleRun}>
+                                    Run Code
                                 </Button>
-
+                            </Grid>
+                            <Grid className="col-md-6">
+                                <Button bsStyle="success" type="button" style={{fontSize: '15px'}}
+                                        onClick={this.handleRun}>
+                                    Submit Code
+                                </Button>
+                            </Grid>
+                            <Grid className="col-md-6">
                                 <StatusImage
                                     hasError={this.state.response.status !== '0'}
                                     message={this.state.response.message}
                                 />
-
                                 <div>Run Time: {this.state.executionTime}</div>
-                            </Col>
-                            <Col/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Col>
-                                <AlertDismissable
-                                    show={this.state.response.status !== '0'}
-                                    message={this.state.response.message}
-                                />
-                            </Col>
-                        </FormGroup>
-                        <FormGroup>
-                            <Col>
-                                <OutputBox
-                                    show={this.state.response.status === '0'}
-                                    message={this.state.response.message}
-                                />
-                            </Col>
-                        </FormGroup>
-                    </Form>
-                </div>
+                            </Grid>
+                        </Col>
+                        <Col sm={10}/>
+                    </FormGroup>
+                    <FormGroup>
+                        <Col sm={12}>
+                            <AlertDismissable
+                                show={this.state.response.status !== '0'}
+                                message={this.state.response.message}
+                            />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup>
+                        <Col sm={12}>
+                            <OutputBox
+                                show={this.state.response.status === '0'}
+                                message={this.state.response.message}
+                            />
+                            {/* <OutputBox show={true} message={this.state.output} /> */}
+                        </Col>
+                    </FormGroup>
+                </Form>
+            </div>
         );
     }
 }

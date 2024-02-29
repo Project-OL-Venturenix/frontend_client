@@ -1,9 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// Import Brace and the AceEditor Component
 import AceEditor from 'react-ace';
 
 const editorStyle = {
     border: '1px solid lightgray',
+    borderRadius: '5px', // Add border radius
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Add box shadow
 };
 
 class CodeEditor extends React.Component {
@@ -12,7 +16,8 @@ class CodeEditor extends React.Component {
         this.state = {};
 
         this.onChange = this.onChange.bind(this);
-        this.onFocus = this.onFocus.bind(this);
+        this.onFocus = this.onFocus.bind(this); //
+        this.preventCopyPaste = this.preventCopyPaste.bind(this);
         this.onLoad = this.onLoad.bind(this);
     }
 
@@ -20,10 +25,15 @@ class CodeEditor extends React.Component {
         this.props.onChange(newValue);
     }
 
-    onFocus(event) {
+    onFocus(event) { //
         if (this.props.onFocus) {
             this.props.onFocus(event);
         }
+    }
+
+    preventCopyPaste(editor, event) {
+        console.log('Copying and pasting is not allowed!');
+        event.preventDefault();
     }
 
     onLoad(editor) {
@@ -32,7 +42,7 @@ class CodeEditor extends React.Component {
             alert('Copy and paste is not allowed!');
             return false;
         }, false);
-        
+
         // 添加阻止复制、剪切和粘贴的命令
         editor.commands.addCommand({
             name: 'breakTheEditor',
@@ -57,18 +67,20 @@ class CodeEditor extends React.Component {
 
     render() {
         return (
+            //https://ace.c9.io/build/kitchen-sink.html
             <AceEditor
                 style={editorStyle}
-                readOnly={false}
+                //readOnly={false}
                 onChange={this.onChange}
                 onFocus={this.onFocus}
                 onLoad={this.onLoad}
-                width="45vw"
-                height="200px"
-                mode="java"
-                theme="github"
+                width="100%"
+                height="400px"
+                mode="Java"
+                theme="dreamweaver"
                 name="aceCodeEditor"
-                fontSize={14}
+                // onLoad={this.onLoad}
+                fontSize={16}
                 showPrintMargin
                 showGutter
                 highlightActiveLine
@@ -91,7 +103,7 @@ class CodeEditor extends React.Component {
 CodeEditor.propTypes = {
     code: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func,
+    onFocus: PropTypes.func, //
 };
 
 export default CodeEditor;

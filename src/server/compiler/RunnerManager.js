@@ -32,21 +32,25 @@ module.exports = {
     const runner = factory.createRunner(lang.toLowerCase());
 
     const directory = path.join(__dirname, 'temp');
-    const file = path.join(directory, runner.defaultFile());
-    console.log(`file: ${file}`);
+    const file = path.join(directory, runner.defaultFile());//question file
+
     const filename = path.parse(file).name; // main
     const extension = path.parse(file).ext; // .java
-    console.log(`filename: ${filename}`);
-    console.log(`extension: ${extension}`);
+    console.log(`frontend_Lucas_filename: ${filename}`);
+    console.log(`frontend_Lucas_extension: ${extension}`);
 
+    console.log('before saveFile');
     FileApi.saveFile(file, code, () => {
       runner.run(file, directory, filename, extension, (status, message) => {
         const result = {
           status,
           message,
         };
+        // console.log('before res.end(JSON.stringify(result))')
         res.end(JSON.stringify(result));
       });
     });
+    console.log('after saveFile');
+
   },
 };

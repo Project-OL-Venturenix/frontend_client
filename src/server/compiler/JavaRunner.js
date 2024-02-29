@@ -2,13 +2,13 @@ const { spawn } = require('child_process');
 const Runner = require('./Runner');
 
 class JavaRunner extends Runner {
-  defaultFile() {
-    return this.defaultfile;
-  }
-
   constructor() {
     super();
-    this.defaultfile = 'Hello.java';
+    this.defaultfile = 'Question1.java'; //need to call API to get Question file
+  }
+
+  defaultFile() {
+    return this.defaultfile;
   }
 
   run(file, directory, filename, extension, callback) {
@@ -22,15 +22,13 @@ class JavaRunner extends Runner {
   compile(file, directory, filename, callback) {
     // set working directory for child_process
     const options = { cwd: directory };
-    // var compiler = spawn('javac', ['CodeJava.java']);
-    const argsCompile = [];
-    argsCompile[0] = file;
+    const argsCompile = [file];
     const compiler = spawn('javac', argsCompile);
     compiler.stdout.on('data', (data) => {
       console.log(`stdout: ${data}`);
     });
     compiler.stderr.on('data', (data) => {
-      console.log(`compile-stderr: ${String(data)}`);
+      console.log(`JavaRunner 36 stderr: ${String(data)}`);
       callback('1', String(data)); // 1, compile error
     });
     compiler.on('close', (data) => {
@@ -42,19 +40,20 @@ class JavaRunner extends Runner {
 
   // execute the compiled class file
   execute(filename, options, callback) {
-    const argsRun = [];
-    argsRun[0] = filename;
+    const argsRun = [filename];
     const executor = spawn('java', argsRun, options);
     executor.stdout.on('data', (output) => {
       console.log(String(output));
       callback('0', String(output)); // 0, no error
     });
     executor.stderr.on('data', (output) => {
-      console.log(`stderr: ${String(output)}`);
+      console.log(`JavaRunner 55 stderr: ${String(output)}`);
       callback('2', String(output)); // 2, execution failure
     });
     executor.on('close', (output) => {
       this.log(`stdout: ${output}`);
+
+   
     });
   }
 
