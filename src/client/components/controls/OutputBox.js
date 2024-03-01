@@ -9,7 +9,18 @@ class OutputBox extends React.Component {
   }
 
   render() {
-    if (this.props.show) {
+    // if (this.props.show) {
+    const { show, message } = this.props;
+
+    // Regular expression to extract the counter value
+    const regex = /Test Case Result: (\d+) \/ 10/;
+    const match = message.match(regex);
+    const counter = match ? match[1] : 'N/A'; // Default to 'N/A' if counter not found
+    console.log('counter:', typeof (counter));
+    console.log('counter:', counter);
+
+    localStorage.setItem('counter', counter);
+    if (show) {
       return (
           <FormControl
               name="code"
@@ -17,7 +28,9 @@ class OutputBox extends React.Component {
               componentClass="textarea"
               rows="8"
               readOnly
-              value={this.props.message}
+              // value={this.props.message}
+
+              value={counter}
               style={{ fontSize: '20px' }}
           />
       );

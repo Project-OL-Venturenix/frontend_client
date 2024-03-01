@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, FormGroup, Col, Button, Grid} from 'react-bootstrap';
+import { Form, FormGroup, Col, Button, Grid } from 'react-bootstrap';
 import LangSelector from './controls/LangSelector';
 import CodeEditor from './controls/CodeEditor';
 import AlertDismissable from './controls/AlertDismissable';
@@ -57,11 +57,11 @@ class Editor extends React.Component {
 
     handleRun(event) {
         event.preventDefault();
-        const {task} = this.state;
+        const { task } = this.state;
         const startTime = new Date().getTime();
-        console.log('handleRun : ' + task.code);
-        console.log('handleRun : ' + task.lang);
-        console.log('handleRun : ' + this.state.output);
+        console.log('handleRun code: ' + task.code);
+        console.log('handleRun lang: ' + task.lang);
+        console.log('handleRun this.state.output: ' + this.state.output);
 
         CompilerApi.run(task)
             .then((res) => {
@@ -69,7 +69,7 @@ class Editor extends React.Component {
                 const endTime = new Date().getTime();
                 const executionTime = endTime - startTime;
                 this.setState({response: res, executionTime});
-                this.setState({response: res});
+
             })
             .catch((error) => {
                 console.log(error);

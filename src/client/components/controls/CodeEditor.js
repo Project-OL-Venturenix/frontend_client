@@ -37,32 +37,32 @@ class CodeEditor extends React.Component {
     }
 
     onLoad(editor) {
-        editor.container.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            alert('Copy and paste is not allowed!');
-            return false;
-        }, false);
-
-        // 添加阻止复制、剪切和粘贴的命令
-        editor.commands.addCommand({
-            name: 'breakTheEditor',
-            bindKey: {
-                win: 'Ctrl-C|Ctrl-V|Ctrl-X|Ctrl-Shift-V|Shift-Del',
-                mac: 'Cmd-C|Cmd-V|Cmd-X',
-            },
-            exec: function () {
-                // 阻止复制、剪切和粘贴
-            },
-        });
-
-        ![
-            'dragenter', 'dragover', 'dragend', 'dragstart', 'dragleave', 'drop'
-        ].forEach(function(eventName) {
-            editor.container.addEventListener(eventName, function(e) {
-                e.stopPropagation();
-            }, true);
-        });
-        editor.setOption('dragEnabled', false);
+        // editor.container.addEventListener('contextmenu', function(e) {
+        //     e.preventDefault();
+        //     alert('Copy and paste is not allowed!');
+        //     return false;
+        // }, false);
+        //
+        // // 添加阻止复制、剪切和粘贴的命令
+        // editor.commands.addCommand({
+        //     name: 'breakTheEditor',
+        //     bindKey: {
+        //         win: 'Ctrl-C|Ctrl-V|Ctrl-X|Ctrl-Shift-V|Shift-Del',
+        //         mac: 'Cmd-C|Cmd-V|Cmd-X',
+        //     },
+        //     exec: function () {
+        //         // 阻止复制、剪切和粘贴
+        //     },
+        // });
+        //
+        // ![
+        //     'dragenter', 'dragover', 'dragend', 'dragstart', 'dragleave', 'drop'
+        // ].forEach(function(eventName) {
+        //     editor.container.addEventListener(eventName, function(e) {
+        //         e.stopPropagation();
+        //     }, true);
+        // });
+        // editor.setOption('dragEnabled', false);
     }
 
     render() {
