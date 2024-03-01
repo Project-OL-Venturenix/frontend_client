@@ -14,6 +14,7 @@ import {
     getEventGroupUserQuestionHandle,
     putEventGroupUserQuestionHandle
 } from "../api/GroupQuestionHandleApi";
+import {getEventByid} from "../api/EventApi";
 
 function QuestionRowTeam() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
@@ -34,11 +35,13 @@ function QuestionRowTeam() {
 
     const [focusedIndex, setFocusedIndex] = useState(null);
     const [userGroupIds, setUserGroupIds] = useState([]);
+    const [savingResponse, setSavingResponse] = useState(false);
 
 
 
     const getEventGroupUserList = async () => {
         try {
+            await getEventById(selectedEventId);
             const response = await getEventGroups(loginUser.accessToken);
             const eventGroups = response.data;
             console.log(eventGroups);
@@ -53,11 +56,10 @@ function QuestionRowTeam() {
 
             // Find the group IDs where loginUser is a member
             const userGroupIds = groupUsers
-                .filter(user => user.userid === loginUser.id)
-                .map(user => user.groupid);
+                .filter(user => user.userId === loginUser.id)
+                .map(user => user.groupId);
             console.log("userGroupIds:", userGroupIds);
-
-            setUserGroupIds(userGroupIds);
+            setUserGroupIds(userGroupIds)
 
             // Filter selectedEventGroups based on the user's group membership
             const userEventGroups = selectedEventGroups.filter(group => userGroupIds.includes(group.groupid));
@@ -66,9 +68,9 @@ function QuestionRowTeam() {
 
             // Get all users in the userEventGroups
             const userEventGroupUsers = groupUsers
-                .filter(user => userEventGroups.some(group => group.groupid === user.groupid))
+                .filter(user => userEventGroups.some(group => group.groupId === user.groupid))
                 .map(user => ({
-                    userid: user.userid,
+                    userid: user.userId,
                 }));
 
             console.log("Users in user's groups:", userEventGroupUsers);
@@ -90,6 +92,15 @@ function QuestionRowTeam() {
 
         } catch (error) {
             console.error('Failed to get event group users:', error);
+        }
+    };
+
+    const getEventById = async (id) => {
+        try {
+            const response = await getEventByid(loginUser.accessToken, id);
+            setEventName(response.data.name)
+        } catch (error) {
+            console.error('Failed to get events:', error);
         }
     };
 
@@ -154,14 +165,14 @@ function QuestionRowTeam() {
 
     const handleColorChange = async (index) => {
         setFocusedIndex(index);
-
+        console.log(index)
         if (team.length > 0) {
             // Assuming 'eventQuestionList' and 'team' have the same length
             const question = eventQuestionList[index];
 
-
             // Save the user's response to the question
             await handleSaveResponse(question);
+            console.log(question.id);
 
 
         }
@@ -171,15 +182,15 @@ function QuestionRowTeam() {
         try {
             // await createEventGroupUserQuestionHandle(question, user);
             // Check if there is an existing record with the same eventid, questionid, and groupid
-            const existingRecord = await checkExistingRecord(question.id, userGroupIds[0]);
-
-            if (existingRecord) {
-                // If exists, update user.id for the existing record
-                await updateEventGroupUserQuestionHandle(existingRecord.id, question);
-            } else {
-                // If not exists, create a new record
-                await createEventGroupUserQuestionHandle(question);
-            }
+             const existingRecord = await checkExistingRecord(question.id, userGroupIds);
+             console.log(existingRecord);
+             if (existingRecord) {
+                 // If exists, update user.id for the existing record
+                 await updateEventGroupUserQuestionHandle(existingRecord.id, question);
+             } else {
+                 // If not exists, create a new record
+                 await createEventGroupUserQuestionHandle(question);
+             }
 
             console.log('Response saved successfully');
         } catch (error) {
@@ -191,11 +202,15 @@ function QuestionRowTeam() {
         try {
             const response = await getEventGroupUserQuestionHandle(loginUser.accessToken);
             const questionHandles = response.data;
+            console.log(questionHandles)
             return questionHandles.find(handle =>
                 handle.eventid === parseInt(selectedEventId, 10) &&
                 handle.questionid === questionId &&
-                handle.groupid === groupId
+                handle.groupid == groupId
+
             );
+
+
         } catch (error) {
             console.error('Failed to check existing record:', error);
             throw error;
@@ -209,18 +224,19 @@ function QuestionRowTeam() {
 
             // Check if there is an existing record with the same userlist
             const recordWithSameUserlist = existingRecordResponse.data.find(data =>
-                data.userlist == loginUser.id && data.id !== recordId
+                data.userlist == loginUser.id && data.id != recordId
             );
 
-            console.log(recordWithSameUserlist)
+            console.log(existingRecordResponse)
 
             // If exists, update the existing record with userlist as 0
-            if (recordWithSameUserlist) {
-                await putEventGroupUserQuestionHandle(loginUser.accessToken, recordWithSameUserlist.id, {
-                    ...recordWithSameUserlist,
-                    userlist: 0,
-                });
-            }
+             if (recordWithSameUserlist) {
+                 await putEventGroupUserQuestionHandle(loginUser.accessToken, recordWithSameUserlist.id, {
+                     ...recordWithSameUserlist,
+                     userlist: 0,
+                 });
+             }
+
 
             // Update the current record with the new user.id
             const questionData = {
@@ -241,6 +257,7 @@ function QuestionRowTeam() {
     const createEventGroupUserQuestionHandle = async (question) => {
         try {
             // Prepare the questionData object with necessary information
+            console.log(userGroupIds)
             const questionData = {
                 eventid: parseInt(selectedEventId, 10),
                 questionid: question.id,
@@ -285,7 +302,7 @@ function QuestionRowTeam() {
                             />
                         )}
                     </div>
-                    <div style={{width: "1000px"}}>
+                    <div style={{width: "100vw"}}>
                         <Editor
                             checked={focusedIndex === index}
                             handleColorChange={() => handleColorChange(index)}

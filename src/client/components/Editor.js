@@ -113,10 +113,10 @@ class Editor extends React.Component {
                         <Col sm={12}>
                             <CodeEditor
                                 onChange={(code) => {
-                                this.handleCodeChange(code);
-                            }}
-                            onFocus={this.props.handleColorChange}
-                            code={this.state.task.code}
+                                    this.handleCodeChange(code);
+                                }}
+                                onFocus={this.props.handleColorChange}
+                                code={this.state.task.code}
                             />
                         </Col>
                     </FormGroup>

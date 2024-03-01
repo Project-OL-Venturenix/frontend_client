@@ -17,7 +17,7 @@ function QuestionAreaIndividual({question}) {
                     fontSize: 14
                 }}
             >
-                <ReactMarkdown rehypePlugins={[rehypeRaw]} children={question.questiontext}/>
+                <ReactMarkdown rehypePlugins={[rehypeRaw]} children={question.question}/>
             </div>
 
         </>

@@ -7,6 +7,7 @@ import {getEventUsers} from "../api/EventUserApi";
 import {getUserById, getUsers} from "../api/UserApi";
 import {getEventGroups} from "../api/EventGroupApi";
 import {getGroupUsers} from "../api/GroupUserApi";
+import {getEventByid} from "../api/EventApi";
 
 export default function TopNavBarTeam() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
@@ -22,9 +23,11 @@ export default function TopNavBarTeam() {
 
     // const [eventUserList, setEventUserList] = useState([]);
     const selectedEventId = sessionStorage.getItem('selectedEventId');
+    const [eventName, setEventName] = useState("");
 
     const getEventGroupUserList = async () => {
         try {
+            await getEventById(selectedEventId);
             const response = await getEventGroups(loginUser.accessToken);
             const eventGroups = response.data;
             console.log(eventGroups);
@@ -39,8 +42,8 @@ export default function TopNavBarTeam() {
 
             // Find the group IDs where loginUser is a member
             const userGroupIds = groupUsers
-                .filter(user => user.userid === loginUser.id)
-                .map(user => user.groupid);
+                .filter(user => user.userId === loginUser.id)
+                .map(user => user.groupId);
             console.log("userGroupIds:", userGroupIds);
 
             // Filter selectedEventGroups based on the user's group membership
@@ -50,9 +53,9 @@ export default function TopNavBarTeam() {
 
             // Get all users in the userEventGroups
             const userEventGroupUsers = groupUsers
-                .filter(user => userEventGroups.some(group => group.groupid === user.groupid))
+                .filter(user => userEventGroups.some(group => group.groupId === user.groupid))
                 .map(user => ({
-                    userid: user.userid,
+                    userid: user.userId,
                 }));
 
             console.log("Users in user's groups:", userEventGroupUsers);
@@ -77,6 +80,15 @@ export default function TopNavBarTeam() {
         }
     };
 
+    const getEventById = async (id) => {
+        try {
+            const response = await getEventByid(loginUser.accessToken, id);
+            setEventName(response.data.name)
+        } catch (error) {
+            console.error('Failed to get events:', error);
+        }
+    };
+
 
     useEffect(() => {
         getEventGroupUserList()
@@ -98,6 +110,9 @@ export default function TopNavBarTeam() {
                     justifyContent: 'space-between',
                 }}
             >
+
+                <div style={{display: 'flex', fontSize: "30px"}}>{eventName}</div>
+
                 <div style={{display: 'flex'}}>
                     {team.map((_, index) => (
                         <div
@@ -128,6 +143,8 @@ export default function TopNavBarTeam() {
                         </div>
                     ))}
                 </div>
+
+                <div/>
             </Navbar>
         </>
     );

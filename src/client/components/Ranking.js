@@ -78,8 +78,8 @@ const Ranking = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '100vw',
-                height: '100vh',
+                width: '100%',
+                height: '100%',
                 backgroundColor: '#F1FEC9'
             }}
         >

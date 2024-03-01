@@ -6,15 +6,18 @@ import {getEventQuestions} from "../api/EventQuestionApi";
 import {getQuestions} from "../api/QuestionApi";
 import {getEventUsers} from "../api/EventUserApi";
 import {getUsers} from "../api/UserApi";
+import {getEventByid, getEvents} from "../api/EventApi";
 
 export default function TopNavBar() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
     const loginUser = storedUser || null;
     const [eventUserList, setEventUserList] = useState([]);
     const selectedEventId = sessionStorage.getItem('selectedEventId');
+    const [eventName, setEventName] = useState("");
 
     const getEventUserList = async () => {
         try {
+            await getEventById(selectedEventId);
             const response = await getEventUsers(loginUser.accessToken);
             const eventUsers = response.data;
             console.log(eventUsers)
@@ -29,8 +32,18 @@ export default function TopNavBar() {
             const filteredUser = userList.filter((user) => userIds.includes(user.id));
             console.log("filteredUser:", filteredUser);
             setEventUserList(filteredUser);
+
         } catch (error) {
             console.error('Failed to get questions:', error);
+        }
+    };
+
+    const getEventById = async (id) => {
+        try {
+            const response = await getEventByid(loginUser.accessToken, id);
+            setEventName(response.data.name)
+        } catch (error) {
+            console.error('Failed to get events:', error);
         }
     };
 
@@ -52,10 +65,11 @@ export default function TopNavBar() {
                     justifyContent: 'space-between',
                 }}
             >
+
+                <div style={{display: 'flex', fontSize: "30px"}}>{eventName}</div>
+
+                <div/>
                 <div>
-
-                    <div/>
-
                     <div style={{display: 'flex', alignItems: 'center'}}>
                         <FontAwesomeIcon
                             icon={faCircleUser}
@@ -81,11 +95,11 @@ export default function TopNavBar() {
                             </div>
                         )}
                     </div>
-
-                    <div/>
-
                 </div>
+                <div/>
+                <div/>
             </Navbar>
         </>
-    );
+    )
+        ;
 }
