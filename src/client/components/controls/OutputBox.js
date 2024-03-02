@@ -16,6 +16,7 @@ class OutputBox extends React.Component {
     const regex = /Test Case Result: (\d+) \/ 10/;
     const match = message.match(regex);
     const counter = match ? match[1] : 'N/A'; // Default to 'N/A' if counter not found
+    console.log(message);
     console.log('counter:', typeof (counter));
     console.log('counter:', counter);
 
