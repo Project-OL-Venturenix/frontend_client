@@ -55,7 +55,7 @@ function QuestionRowIndividual() {
                     >
                         <QuestionAreaIndividual question={question}/>
                     </div>
-                    <Editor/>
+                    <Editor question={question}/>
                 </div>
             ))}
         </>

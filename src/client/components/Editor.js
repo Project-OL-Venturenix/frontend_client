@@ -1,18 +1,24 @@
 import React from 'react';
-import { Form, FormGroup, Col, Button, Grid } from 'react-bootstrap';
+import {Form, FormGroup, Col, Button, Grid} from 'react-bootstrap';
 import LangSelector from './controls/LangSelector';
 import CodeEditor from './controls/CodeEditor';
 import AlertDismissable from './controls/AlertDismissable';
 import OutputBox from './controls/OutputBox';
 import StatusImage from './controls/StatusImage';
 import CompilerApi from '../api/CompilerApi';
+import {putUserTestCase} from "../api/UserTestCaseApi";
 
 let languages = ['Java', 'Python', 'JavaScript', 'C', 'C++'];
 const languagesProd = ['JavaScript', 'Python'];
+const storedUser = JSON.parse(localStorage.getItem('loginUser'));
+const loginUser = storedUser || null;
+const selectedEventId = sessionStorage.getItem('selectedEventId');
+
 
 class Editor extends React.Component {
     constructor(props) {
         super(props);
+        const { question } = this.props;
 
         console.log(`env: ${process.env.NODE_ENV}`);
         if (process.env.NODE_ENV === 'production') {
@@ -57,7 +63,7 @@ class Editor extends React.Component {
 
     handleRun(event) {
         event.preventDefault();
-        const { task } = this.state;
+        const {task} = this.state;
         const startTime = new Date().getTime();
         console.log('handleRun code: ' + task.code);
         console.log('handleRun lang: ' + task.lang);
@@ -75,6 +81,45 @@ class Editor extends React.Component {
                 console.log(error);
             });
     }
+
+    handleSubmit = async (event) => {
+        event.preventDefault();
+        const { task } = this.state;
+        const startTime = new Date().getTime();
+        console.log('handleRun code: ' + task.code);
+        console.log('handleRun lang: ' + task.lang);
+        console.log('handleRun this.state.output: ' + this.state.output);
+
+        try {
+            const res = await new Promise((resolve, reject) => {
+                CompilerApi.run(task)
+                    .then(resolve)
+                    .catch(reject);
+            });
+
+            // Append the new test case result to the existing message
+            const endTime = new Date().getTime();
+            const executionTime = endTime - startTime;
+            this.setState({ response: res, executionTime });
+
+            const userTestCaseData = {
+                eventid: selectedEventId,
+                userid: loginUser.id,
+                questionid: this.props.question.id,
+                testcasepassstatus: localStorage.getItem('counter'),
+            };
+
+            // Call the external putUserTestCase function
+            await putUserTestCase(loginUser.accessToken, userTestCaseData);
+
+            // Continue with any other logic you want to execute after submitting the test case
+        } catch (error) {
+            console.error('Failed to submit test case:', error);
+        }
+    };
+
+
+
 
     updateSolution(event) {
         // event.preventDefault();
@@ -130,7 +175,7 @@ class Editor extends React.Component {
                             </Grid>
                             <Grid className="col-md-6">
                                 <Button bsStyle="success" type="button" style={{fontSize: '15px'}}
-                                        onClick={this.handleRun}>
+                                        onClick={this.handleSubmit}>
                                     Submit Code
                                 </Button>
                             </Grid>

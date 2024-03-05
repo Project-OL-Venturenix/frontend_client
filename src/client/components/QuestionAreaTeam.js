@@ -1,6 +1,5 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // 引入 Bootstrap 样式
-import questionText from './QuestionText';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 
