@@ -107,7 +107,7 @@ class Editor extends React.Component {
                 userid: loginUser.id,
                 questionid: this.props.question.id,
                 testcasepassstatus: localStorage.getItem('counter'),
-                runtimeeuct: executionTime
+                runtimeutc: executionTime
             };
 
             // Call the external putUserTestCase function
