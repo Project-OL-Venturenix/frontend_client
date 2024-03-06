@@ -48,7 +48,9 @@ export default function TopNavBar() {
     };
 
     useEffect(() => {
-        getEventUserList()
+        if (loginUser) {
+            getEventUserList()
+        }
     }, []);
 
     return (
@@ -83,12 +85,12 @@ export default function TopNavBar() {
                             <div>
                                 {eventUserList.length > 0 ? (
                                     eventUserList.map((user, index) => (
-                                        <span key={index} style={{fontSize: '2em'}}>
-                                        {user.firstname}
+                                        <span key={index} style={{fontSize: '3em'}}>
+                                        {user.id === loginUser.id ? loginUser.firstname : "You are not in this contest"}
                                          </span>
                                     ))
                                 ) : (
-                                    <span style={{fontSize: '1.5em'}}>
+                                    <span style={{fontSize: '3em'}}>
                                     You are not in this contest.
                                     </span>
                                 )}

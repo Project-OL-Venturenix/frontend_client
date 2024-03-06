@@ -132,7 +132,7 @@ function QuestionRowTeam() {
             const questionIdMap = {};
             data.forEach(item => {
                 const questionId = item.questionid;
-                const userlistId = item.userlist;
+                const userlistId = item.userid;
                 questionIdMap[questionId] = userlistId;
             });
 
@@ -180,7 +180,11 @@ function QuestionRowTeam() {
 
     const handleSaveResponse = async (question) => {
         try {
-            // await createEventGroupUserQuestionHandle(question, user);
+            const response = await getEventGroupUserQuestionHandle(loginUser.accessToken);
+            if (response.status == 204){
+                await createEventGroupUserQuestionHandle(question);
+            }
+
             // Check if there is an existing record with the same eventid, questionid, and groupid
              const existingRecord = await checkExistingRecord(question.id, userGroupIds);
              console.log(existingRecord);
@@ -207,8 +211,8 @@ function QuestionRowTeam() {
                 handle.eventid === parseInt(selectedEventId, 10) &&
                 handle.questionid === questionId &&
                 handle.groupid == groupId
-
             );
+
 
 
         } catch (error) {
@@ -224,16 +228,15 @@ function QuestionRowTeam() {
 
             // Check if there is an existing record with the same userlist
             const recordWithSameUserlist = existingRecordResponse.data.find(data =>
-                data.userlist == loginUser.id && data.id != recordId
+                data.userid == loginUser.id && data.id != recordId
             );
 
-            console.log(existingRecordResponse)
 
             // If exists, update the existing record with userlist as 0
              if (recordWithSameUserlist) {
                  await putEventGroupUserQuestionHandle(loginUser.accessToken, recordWithSameUserlist.id, {
                      ...recordWithSameUserlist,
-                     userlist: 0,
+                     userid: 0,
                  });
              }
 
@@ -243,7 +246,7 @@ function QuestionRowTeam() {
                 eventid: parseInt(selectedEventId, 10),
                 questionid: question.id,
                 groupid: userGroupIds[0],
-                userlist: loginUser.id,
+                userid: loginUser.id,
                 response: question.response,
             };
             const updatedResponse = await putEventGroupUserQuestionHandle(loginUser.accessToken, recordId, questionData);
@@ -262,7 +265,7 @@ function QuestionRowTeam() {
                 eventid: parseInt(selectedEventId, 10),
                 questionid: question.id,
                 groupid: userGroupIds[0],
-                userlist: loginUser.id,
+                userid: loginUser.id,
                 response: question.response,
             };
 

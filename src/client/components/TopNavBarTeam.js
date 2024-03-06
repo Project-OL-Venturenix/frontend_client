@@ -96,8 +96,7 @@ export default function TopNavBarTeam() {
     }, []);
 
 
-    return (
-        <>
+    return (<>
             <Navbar
                 sticky="top"
                 style={{
@@ -111,41 +110,43 @@ export default function TopNavBarTeam() {
                 }}
             >
 
-                <div style={{display: 'flex', fontSize: "30px"}}>{eventName}</div>
+                <div style={{display: 'flex', fontSize: "30px"}}>
+                    {eventName}
+                </div>
 
                 <div style={{display: 'flex'}}>
-                    {team.map((_, index) => (
-                        <div
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                margin: '10px',
-                            }}>
-                            <FontAwesomeIcon
-                                icon={faCircleUser}
-                                style={{
-                                    color: teamColors[team[index].id],
-                                    marginRight: '10px',
-                                }}
-                                size="4x"
-                            />
-                            <span style={{
-                                fontSize: '2em',
-                                fontWeight: team[index].id === loginUser.id ?
-                                    'bold'
-                                    : 'normal',
-                                color: team[index].id === loginUser.id ?
-                                    teamColors[team[index].id]
-                                    : 'black'
-                            }}>
-                            {team[index].firstname}
-                            </span>
-                        </div>
-                    ))}
+                    {team.length > 0 ?
+                        (team.map((_, index) => (
+                            <div
+                                    style={{
+                                        display: 'flex', alignItems: 'center', margin: '10px',
+                                    }}
+                                    key={index}>
+                                    <FontAwesomeIcon
+                                        icon={faCircleUser}
+                                        style={{
+                                            color: teamColors[team[index].id], marginRight: '10px',
+                                        }}
+                                        size="4x"
+                                    />
+
+                                    <span
+                                        style={{
+                                            fontSize: '3em',
+                                            fontWeight: team[index].id === loginUser.id ? 'bold' : 'normal',
+                                            color: team[index].id === loginUser.id ? teamColors[team[index].id] : 'black',
+                                        }}>
+                                        {team[index].firstname}
+                                    </span>
+
+                            </div>
+                    ))) : (
+                        <span style={{fontSize: '3em'}}>
+                            You are not in this contest.
+                        </span>)}
                 </div>
 
                 <div/>
             </Navbar>
-        </>
-    );
+        </>);
 }

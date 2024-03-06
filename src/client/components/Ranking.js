@@ -1,14 +1,47 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Rectangle} from 'recharts';
 import {Col} from 'react-bootstrap';
 import {faCircleCheck, faCircleXmark} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {getUserTestCase} from "../api/UserTestCaseApi";
+
+const Ranking = () => {
+
+const storedUser = JSON.parse(localStorage.getItem('loginUser'));
+const loginUser = storedUser || null;
+let userTestCaseDataList;
+
+const getUserTestCaseList = async () => {
+    try {
+        const response = await getUserTestCase(loginUser.accessToken);
+        userTestCaseDataList = response.data
+    } catch (error) {
+        console.error('Failed to get events:', error);
+    }
+}
+
+useEffect(() => {
+    getUserTestCaseList();
+}, []);
 
 const data = [
     { name: 'A', Q1: 10, Q2: 50, Q3: 30 },
     { name: 'B', Q1: 15, Q2: 25, Q3: 35 },
     { name: 'C', Q1: 20, Q2: 30, Q3: 40 },
 ];
+
+    // for (const userTestData of userTestCaseDataList) {
+        const newDataEntry = {
+            name: "1",
+            Q1:  1,
+            Q2: 1,
+            Q3: 1,
+
+        };
+
+        data.push(newDataEntry);
+
+    // }
 
 const sortedData = data.slice().sort((a, b) => {
     const totalScoreA = a.Q1 + a.Q2 + a.Q3;
@@ -71,15 +104,15 @@ const CustomBar = (props) => {
 };
 
 
-const Ranking = () => {
+
     return (
         <div
             style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '100%',
-                height: '100%',
+                width: '100vw',
+                height: '100vh',
                 backgroundColor: '#F1FEC9'
             }}
         >
