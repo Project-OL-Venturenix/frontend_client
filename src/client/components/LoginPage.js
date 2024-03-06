@@ -105,7 +105,7 @@ const LoginPage = ({setLoginUser}) => {
                                     <button
                                         type="button"
                                         className="btn btn-primary btn-lg"
-                                        style={{paddingLeft: '2.5rem', paddingRight: '2.5rem'}}
+                                        style={{paddingLeft: '2.5rem', paddingRight: '2.5rem', backgroundColor:'#198754'}}
                                         onClick={handleLogin}
                                     >
                                         Login
@@ -117,7 +117,8 @@ const LoginPage = ({setLoginUser}) => {
                                             style={{
                                                 paddingLeft: '2.5rem',
                                                 paddingRight: '2.5rem',
-                                                margin: '10px'
+                                                margin: '10px',
+                                                backgroundColor:'#198754'
                                             }}
                                         >
                                             Admin Login

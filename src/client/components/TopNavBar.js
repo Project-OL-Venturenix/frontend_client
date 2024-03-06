@@ -132,24 +132,28 @@ export default function TopNavBar() {
                 </div>
                 <div/>
 
-                <button
-                    type="button"
-                    className="btn btn-primary btn-lg"
-                    onClick={handleDashboard}
-                >
-                    Dashboard
-                </button>
+                <div>
+                    <button
+                        style={{backgroundColor: '#198754'}}
+                        type="button"
+                        className="btn btn-primary btn-lg"
+                        onClick={handleDashboard}
+                    >
+                        Dashboard
+                    </button>
 
-                <button
-                    style={{
-                        marginLeft: '2px'
-                    }}
-                    type="button"
-                    className="btn btn-primary btn-lg"
-                    onClick={handleLogout}
-                >
-                    Logout
-                </button>
+                    <button
+                        style={{
+                            marginLeft: '2px',
+                            backgroundColor: '#198754'
+                        }}
+                        type="button"
+                        className="btn btn-primary btn-lg"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </button>
+                </div>
             </Navbar>
         </>
     )

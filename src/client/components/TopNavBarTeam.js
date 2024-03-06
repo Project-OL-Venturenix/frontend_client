@@ -124,57 +124,58 @@ export default function TopNavBarTeam() {
     }
 
     return (<>
-            <Navbar
-                sticky="top"
-                style={{
-                    backgroundColor: '#8AC453',
-                    width: '100vw',
-                    height: '80px',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                }}
-            >
+        <Navbar
+            sticky="top"
+            style={{
+                backgroundColor: '#8AC453',
+                width: '100vw',
+                height: '80px',
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}
+        >
 
-                <div style={{display: 'flex', fontSize: "30px"}}>
-                    {eventName}
-                </div>
+            <div style={{display: 'flex', fontSize: "30px"}}>
+                {eventName}
+            </div>
 
-                <div style={{display: 'flex'}}>
-                    {team.length > 0 ?
-                        (team.map((_, index) => (
-                            <div
-                                    style={{
-                                        display: 'flex', alignItems: 'center', margin: '10px',
-                                    }}
-                                    key={index}>
-                                    <FontAwesomeIcon
-                                        icon={faCircleUser}
-                                        style={{
-                                            color: teamColors[team[index].id], marginRight: '10px',
-                                        }}
-                                        size="4x"
-                                    />
+            <div style={{display: 'flex'}}>
+                {team.length > 0 ?
+                    (team.map((_, index) => (
+                        <div
+                            style={{
+                                display: 'flex', alignItems: 'center', margin: '10px',
+                            }}
+                            key={index}>
+                            <FontAwesomeIcon
+                                icon={faCircleUser}
+                                style={{
+                                    color: teamColors[team[index].id], marginRight: '10px',
+                                }}
+                                size="4x"
+                            />
 
-                                    <span
-                                        style={{
-                                            fontSize: '3em',
-                                            fontWeight: team[index].id === loginUser.id ? 'bold' : 'normal',
-                                            color: team[index].id === loginUser.id ? teamColors[team[index].id] : 'black',
-                                        }}>
+                            <span
+                                style={{
+                                    fontSize: '3em',
+                                    fontWeight: team[index].id === loginUser.id ? 'bold' : 'normal',
+                                    color: team[index].id === loginUser.id ? teamColors[team[index].id] : 'black',
+                                }}>
                                         {team[index].firstname}
                                     </span>
 
-                            </div>
+                        </div>
                     ))) : (
                         <span style={{fontSize: '3em'}}>
                             You are not in this contest.
                         </span>)}
-                </div>
+            </div>
 
-                <div>
+            <div>
                 <button
+                    style={{backgroundColor: '#198754'}}
                     type="button"
                     className="btn btn-primary btn-lg"
                     onClick={handleDashboard}
@@ -184,7 +185,8 @@ export default function TopNavBarTeam() {
 
                 <button
                     style={{
-                        marginLeft: '2px'
+                        marginLeft: '2px',
+                        backgroundColor: '#198754'
                     }}
                     type="button"
                     className="btn btn-primary btn-lg"
@@ -192,7 +194,7 @@ export default function TopNavBarTeam() {
                 >
                     Logout
                 </button>
-                </div>
-            </Navbar>
-        </>);
+            </div>
+        </Navbar>
+    </>);
 }

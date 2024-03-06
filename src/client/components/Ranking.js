@@ -120,9 +120,8 @@ const Ranking = () => {
                              }}
                         >
                             <Col>
-                                <h5 style={{marginBottom: '5px'}}>Test Case:</h5>
-                                <h5 style={{marginBottom: '5px'}}>{iconRight}</h5>
-                                <h5>{iconWrong}</h5>
+                                {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
+                                <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
                             </Col>
                         </div>
                     </foreignObject>
@@ -169,9 +168,8 @@ const Ranking = () => {
                              }}
                         >
                             <Col>
-                                <h5 style={{marginBottom: '5px'}}>Test Case:</h5>
-                                <h5 style={{marginBottom: '5px'}}>{iconRight}</h5>
-                                <h5>{iconWrong}</h5>
+                                {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
+                                <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
                             </Col>
                         </div>
                     </foreignObject>
@@ -218,9 +216,8 @@ const Ranking = () => {
                              }}
                         >
                             <Col>
-                                <h5 style={{marginBottom: '5px'}}>Test Case:</h5>
-                                <h5 style={{marginBottom: '5px'}}>{iconRight}</h5>
-                                <h5>{iconWrong}</h5>
+                                {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
+                                <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
                             </Col>
                         </div>
                     </foreignObject>

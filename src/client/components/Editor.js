@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, FormGroup, Col, Button, Grid} from 'react-bootstrap';
 import LangSelector from './controls/LangSelector';
 import CodeEditor from './controls/CodeEditor';
@@ -18,7 +18,7 @@ const selectedEventId = sessionStorage.getItem('selectedEventId');
 class Editor extends React.Component {
     constructor(props) {
         super(props);
-        const { question } = this.props;
+        const {question} = this.props;
 
         console.log(`env: ${process.env.NODE_ENV}`);
         if (process.env.NODE_ENV === 'production') {
@@ -84,7 +84,7 @@ class Editor extends React.Component {
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        const { task } = this.state;
+        const {task} = this.state;
         const startTime = new Date().getTime();
         console.log('handleRun code: ' + task.code);
         console.log('handleRun lang: ' + task.lang);
@@ -100,7 +100,7 @@ class Editor extends React.Component {
             // Append the new test case result to the existing message
             const endTime = new Date().getTime();
             const executionTime = endTime - startTime;
-            this.setState({ response: res, executionTime });
+            this.setState({response: res, executionTime});
 
             const userTestCaseData = {
                 eventid: selectedEventId,
@@ -118,8 +118,6 @@ class Editor extends React.Component {
             console.error('Failed to submit test case:', error);
         }
     };
-
-
 
 
     updateSolution(event) {
@@ -141,6 +139,7 @@ class Editor extends React.Component {
         this.setState({response});
         return this.setState({selectedLang: index});
     }
+
 
     render() {
         return (

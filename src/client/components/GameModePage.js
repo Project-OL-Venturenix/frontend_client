@@ -123,7 +123,8 @@ const GameModePage = () => {
                         margin: '30px',
                         width: '200px',
                         height: '50px',
-                        fontSize: 14
+                        fontSize: 14,
+                        backgroundColor: '#198754'
                     }}
                     type="button" className="btn btn-primary"
                     onClick={handleConfirmButton}
