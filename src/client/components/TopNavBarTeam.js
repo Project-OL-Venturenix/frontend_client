@@ -8,6 +8,7 @@ import {getUserById, getUsers} from "../api/UserApi";
 import {getEventGroups} from "../api/EventGroupApi";
 import {getGroupUsers} from "../api/GroupUserApi";
 import {getEventByid} from "../api/EventApi";
+import {Redirect} from "react-router-dom";
 
 export default function TopNavBarTeam() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
@@ -24,6 +25,8 @@ export default function TopNavBarTeam() {
     // const [eventUserList, setEventUserList] = useState([]);
     const selectedEventId = sessionStorage.getItem('selectedEventId');
     const [eventName, setEventName] = useState("");
+    const [redirectToNext, setRedirectToNext] = useState(false);
+    const [redirectToDash, setRedirectToDash] = useState(false);
 
     const getEventGroupUserList = async () => {
         try {
@@ -95,6 +98,30 @@ export default function TopNavBarTeam() {
         console.log('Team state has been updated:', team);
     }, []);
 
+    const handleLogout = () => {
+        try {
+            localStorage.removeItem('loginUser');
+            setRedirectToNext(true);
+        } catch (error) {
+            console.error('logout error', error);
+        }
+    };
+
+    if (redirectToNext) {
+        return <Redirect to="/login"/>;
+    }
+
+    const handleDashboard = () => {
+        try {
+            setRedirectToDash(true);
+        } catch (error) {
+            console.error('logout error', error);
+        }
+    };
+
+    if (redirectToDash) {
+        return <Redirect to="/ranking"/>;
+    }
 
     return (<>
             <Navbar
@@ -146,7 +173,26 @@ export default function TopNavBarTeam() {
                         </span>)}
                 </div>
 
-                <div/>
+                <div>
+                <button
+                    type="button"
+                    className="btn btn-primary btn-lg"
+                    onClick={handleDashboard}
+                >
+                    Dashboard
+                </button>
+
+                <button
+                    style={{
+                        marginLeft: '2px'
+                    }}
+                    type="button"
+                    className="btn btn-primary btn-lg"
+                    onClick={handleLogout}
+                >
+                    Logout
+                </button>
+                </div>
             </Navbar>
         </>);
 }

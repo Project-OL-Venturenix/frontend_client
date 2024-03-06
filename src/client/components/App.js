@@ -43,6 +43,7 @@ const App = () => {
 
                 <Switch>
                     <Route exact path="/" component={LoginPage} />
+                    <Route path="/login" component={LoginPage} />
                     <Route path="/contest" component={QuestionRowIndividual} />
                     <Route path="/team" component={QuestionRowTeam} />
                     <Route path="/gamemode" component={GameModePage} />
