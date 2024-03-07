@@ -9,15 +9,16 @@ function QuestionAreaTeam({ borderColor, question }) {
             <div
                 style={{
                     width: '45vw',
-                    maxHeight: '65vh',
+                    maxHeight: '75vh',
                     overflow: 'auto',
                     border: `2px solid ${borderColor || 'transparent'}`, // 使用 textColor 或透明色
                     borderRadius: '5px',  // 可選的，添加圓角
                     padding: '20px',  // 可選的，添加內邊距
-                    fontSize: 14
+                    fontSize: 20
                 }}
             >
-                <ReactMarkdown rehypePlugins={[rehypeRaw]} children={question.question}/>
+                {/*<ReactMarkdown rehypePlugins={[rehypeRaw]} children={question.question}/>*/}
+                <ReactMarkdown>{question.question}</ReactMarkdown>
             </div>
 
         </>

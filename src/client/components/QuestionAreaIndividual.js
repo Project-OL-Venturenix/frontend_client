@@ -10,10 +10,10 @@ function QuestionAreaIndividual({question}) {
             <div
                 style={{
                     width: '45vw',
-                    maxHeight: '65vh',
+                    maxHeight: '75vh',
                     overflow: 'auto',
                     color: 'black',
-                    fontSize: 14
+                    fontSize: 20
                 }}
             >
                 {/*<ReactMarkdown rehypePlugins={[rehypeRaw]} children={question.question}/>*/}
