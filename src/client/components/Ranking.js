@@ -136,17 +136,13 @@ const Ranking = () => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
         const borderRadius = 5; // 設定圓角半徑，根據需要調整
 
+        iconRight = Array.from({length: data.Q2}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
+        ));
 
-        for (const data of sortedData) {
-
-            iconRight = Array.from({length: data.Q2}, (_, index) => (
-                <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
-            ));
-
-            iconWrong = Array.from({length: (10 - data.Q2)}, (_, index) => (
-                <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
-            ));
-        }
+        iconWrong = Array.from({length: (10 - data.Q2)}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
+        ));
 
 
         return (
@@ -184,17 +180,13 @@ const Ranking = () => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
         const borderRadius = 5; // 設定圓角半徑，根據需要調整
 
+        iconRight = Array.from({length: data.Q3}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
+        ));
 
-        for (const data of sortedData) {
-
-            iconRight = Array.from({length: data.Q3}, (_, index) => (
-                <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
-            ));
-
-            iconWrong = Array.from({length: (10 - data.Q3)}, (_, index) => (
-                <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
-            ));
-        }
+        iconWrong = Array.from({length: (10 - data.Q3)}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
+        ));
 
 
         return (
