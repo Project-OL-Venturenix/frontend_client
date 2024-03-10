@@ -195,6 +195,8 @@ export default function TopNavBarTeam() {
                     Logout
                 </button>
             </div>
+
+
         </Navbar>
     </>);
 }

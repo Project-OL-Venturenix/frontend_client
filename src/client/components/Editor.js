@@ -7,6 +7,7 @@ import OutputBox from './controls/OutputBox';
 import StatusImage from './controls/StatusImage';
 import CompilerApi from '../api/CompilerApi';
 import {putUserTestCase} from "../api/UserTestCaseApi";
+import {putUserScores} from "../api/UserScoresApi";
 
 let languages = ['Java', 'Python', 'JavaScript', 'C', 'C++'];
 const languagesProd = ['JavaScript', 'Python'];
@@ -102,16 +103,15 @@ class Editor extends React.Component {
             const executionTime = endTime - startTime;
             this.setState({response: res, executionTime});
 
-            const userTestCaseData = {
+            const userScoreData = {
                 eventid: selectedEventId,
                 userid: loginUser.id,
                 questionid: this.props.question.id,
-                testcasepassstatus: localStorage.getItem('counter'),
-                runtimeutc: executionTime
+                testcasePassTotal: localStorage.getItem('counter'),
             };
 
             // Call the external putUserTestCase function
-            await putUserTestCase(loginUser.accessToken, userTestCaseData);
+            await putUserScores(loginUser.accessToken, userScoreData);
 
             // Continue with any other logic you want to execute after submitting the test case
         } catch (error) {

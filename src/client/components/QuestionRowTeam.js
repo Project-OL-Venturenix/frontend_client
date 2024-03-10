@@ -35,9 +35,6 @@ function QuestionRowTeam() {
 
     const [focusedIndex, setFocusedIndex] = useState(null);
     const [userGroupIds, setUserGroupIds] = useState([]);
-    const [savingResponse, setSavingResponse] = useState(false);
-
-
 
     const getEventGroupUserList = async () => {
         try {

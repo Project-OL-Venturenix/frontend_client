@@ -6,6 +6,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {getUserTestCase} from "../api/UserTestCaseApi";
 import {getEventQuestions} from "../api/EventQuestionApi";
 import {getQuestions} from "../api/QuestionApi";
+import {getUserScoresByEventId} from "../api/UserScoresApi";
 
 const Ranking = () => {
 
@@ -36,19 +37,19 @@ const Ranking = () => {
 
     const getUserTestCaseList = async () => {
         try {
-            const response = await getUserTestCase(loginUser.accessToken);
-            const userTestCaseDataList = response.data
-            const selectedUserTestCaseDataList = userTestCaseDataList.filter(userTestCase => userTestCase.eventid === parseInt(selectedEventId, 10));
-            console.log(selectedUserTestCaseDataList)
+            const response = await getUserScoresByEventId(loginUser.accessToken, selectedEventId);
+            const userTestCaseDataList = response.data.result
+            console.log(userTestCaseDataList)
+
 
             const data = [];
 
             for (const userTestData of userTestCaseDataList) {
                 const newDataEntry = {
-                    name: userTestData.userid,
-                    Q1: parseInt(userTestData.testcasepassstatus, 10),
-                    Q2: 5,
-                    Q3: 1,
+                    name: userTestData.name,
+                    Q1: userTestData.score.Q1,
+                    Q2: userTestData.score.Q2,
+                    Q3: userTestData.score.Q3,
                 };
 
                 data.push(newDataEntry);
