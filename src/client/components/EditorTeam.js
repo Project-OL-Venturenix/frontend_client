@@ -111,7 +111,7 @@ class EditorTeam extends React.Component {
                 userid: loginUser.id,
                 questionid: this.props.question.id,
                 groupid: localStorage.getItem("groupId"),
-                testcasePassTotal: localStorage.getItem('counter'),
+                testcasepasstotal: localStorage.getItem('counter'),
             };
 
             const groupQuestionData = {

@@ -30,8 +30,7 @@ class OutputBox extends React.Component {
               rows="8"
               readOnly
               // value={this.props.message}
-
-              value={counter}
+              value={`Test Case Pass: ${counter} / 10`}
               style={{ fontSize: '20px' }}
           />
       );
