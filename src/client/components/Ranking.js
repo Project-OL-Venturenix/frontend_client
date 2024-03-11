@@ -7,6 +7,8 @@ import {getUserTestCase} from "../api/UserTestCaseApi";
 import {getEventQuestions} from "../api/EventQuestionApi";
 import {getQuestions} from "../api/QuestionApi";
 import {getUserScoresByEventId} from "../api/UserScoresApi";
+import {getUserQuestionSubmit} from "../api/UserQuestionSubmit";
+import {getUserById} from "../api/UserApi";
 
 const Ranking = () => {
 
@@ -15,6 +17,18 @@ const Ranking = () => {
     const [sortedData, setSortedData] = useState();
     const [eventQuestionList, setEventQuestionList] = useState([]);
     const selectedEventId = sessionStorage.getItem('selectedEventId');
+    const [userQuestionSubmitList, setUserQuestionSubmitList] = useState();
+
+
+    const getUserQuestionSubmitList = async () => {
+        try {
+            const response = await getUserQuestionSubmit(loginUser.accessToken);
+            setUserQuestionSubmitList(response.data);
+
+        } catch (error) {
+            console.error('Failed to get questions:', error);
+        }
+    }
 
     const getEventQuestionList = async () => {
         try {
@@ -34,6 +48,7 @@ const Ranking = () => {
             console.error('Failed to get questions:', error);
         }
     };
+
 
     const getUserTestCaseList = async () => {
         try {
@@ -74,6 +89,7 @@ const Ranking = () => {
     useEffect(() => {
         getEventQuestionList();
         getUserTestCaseList();
+        getUserQuestionSubmitList();
     }, []);
 
 
@@ -92,13 +108,28 @@ const Ranking = () => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
         const borderRadius = 5; // 設定圓角半徑，根據需要調整
 
-            iconRight = Array.from({length: data.Q1}, (_, index) => (
-                <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
-            ));
+        iconRight = Array.from({length: data.Q1}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
+        ));
 
-            iconWrong = Array.from({length: (10 - data.Q1)}, (_, index) => (
-                <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
-            ));
+        iconWrong = Array.from({length: (10 - data.Q1)}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
+        ));
+
+        console.log(userQuestionSubmitList);
+        let filteredUserQuestionSubmit = null;
+
+        if (Array.isArray(userQuestionSubmitList) && userQuestionSubmitList.length > 0) {
+            filteredUserQuestionSubmit = userQuestionSubmitList.find(
+                item =>
+                    item.eventid == selectedEventId &&
+                    item.questionid == 1
+                    //&& item.userid == data.name
+            );
+        }
+
+
+
 
 
         return (
@@ -123,6 +154,15 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
+                                {data.Q1>0? "Question Pass" : "Question Fail"}
+                                {filteredUserQuestionSubmit && (
+                                    <div>
+                                        Submittime: {filteredUserQuestionSubmit.submittime}
+                                        <br />
+                                        Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms
+                                        <br />
+                                    </div>
+                                )}
                             </Col>
                         </div>
                     </foreignObject>
@@ -144,6 +184,21 @@ const Ranking = () => {
             <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
         ));
 
+        console.log(userQuestionSubmitList);
+        let filteredUserQuestionSubmit = null;
+
+        if (Array.isArray(userQuestionSubmitList) && userQuestionSubmitList.length > 0) {
+            filteredUserQuestionSubmit = userQuestionSubmitList.find(
+                item =>
+                    item.eventid == selectedEventId &&
+                    item.questionid == 2
+                //&& item.userid == data.name
+            );
+        }
+
+
+
+
 
         return (
             <g>
@@ -167,6 +222,15 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
+                                {data.Q2>0? "Question Pass" : "Question Fail"}
+                                {filteredUserQuestionSubmit && (
+                                    <div>
+                                        Submittime: {filteredUserQuestionSubmit.submittime}
+                                        <br />
+                                        Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms
+                                        <br />
+                                    </div>
+                                )}
                             </Col>
                         </div>
                     </foreignObject>
@@ -188,6 +252,21 @@ const Ranking = () => {
             <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
         ));
 
+        console.log(userQuestionSubmitList);
+        let filteredUserQuestionSubmit = null;
+
+        if (Array.isArray(userQuestionSubmitList) && userQuestionSubmitList.length > 0) {
+            filteredUserQuestionSubmit = userQuestionSubmitList.find(
+                item =>
+                    item.eventid == selectedEventId &&
+                    item.questionid == 3
+                //&& item.userid == data.name
+            );
+        }
+
+
+
+
 
         return (
             <g>
@@ -211,6 +290,15 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
+                                {data.Q3>0? "Question Pass" : "Question Fail"}
+                                {filteredUserQuestionSubmit && (
+                                    <div>
+                                        Submittime: {filteredUserQuestionSubmit.submittime}
+                                        <br />
+                                        Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms
+                                        <br />
+                                    </div>
+                                )}
                             </Col>
                         </div>
                     </foreignObject>
@@ -228,13 +316,12 @@ const Ranking = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 width: '100vw',
-                height: '100vh',
+                height: '90vh',
                 backgroundColor: '#F1FEC9'
             }}
         >
             <ResponsiveContainer
-                width={1500}
-                height={500}
+
             >
 
                 <div style={{
@@ -263,19 +350,19 @@ const Ranking = () => {
                         dataKey="Q1"
                         stackId="stack"
                         fill="#8884d8"
-                        shape={(props) => <CustomBar {...props} data={props.payload} />}
+                        shape={(props) => <CustomBar {...props} data={props.payload}/>}
                     />
                     <Bar
                         dataKey="Q2"
                         stackId="stack"
                         fill="#82ca9d"
-                        shape={(props) => <CustomBar2 {...props} data={props.payload} />}
+                        shape={(props) => <CustomBar2 {...props} data={props.payload}/>}
                     />
                     <Bar
                         dataKey="Q3"
                         stackId="stack"
                         fill="#ffc658"
-                        shape={(props) => <CustomBar3 {...props} data={props.payload} />}
+                        shape={(props) => <CustomBar3 {...props} data={props.payload}/>}
                     />
                 </BarChart>
             </ResponsiveContainer>

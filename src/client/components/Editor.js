@@ -8,6 +8,7 @@ import StatusImage from './controls/StatusImage';
 import CompilerApi from '../api/CompilerApi';
 import {putUserTestCase} from "../api/UserTestCaseApi";
 import {putUserScores} from "../api/UserScoresApi";
+import {putUserQuestionSubmit} from "../api/UserQuestionSubmit";
 
 let languages = ['Java', 'Python', 'JavaScript', 'C', 'C++'];
 const languagesProd = ['JavaScript', 'Python'];
@@ -110,8 +111,17 @@ class Editor extends React.Component {
                 testcasePassTotal: localStorage.getItem('counter'),
             };
 
+            const userQuestionData = {
+                eventid: parseInt(selectedEventId),
+                userid: loginUser.id,
+                questionid: this.props.question.id,
+                runtimebymsec: executionTime,
+                submittime: new Date()
+            }
+
             // Call the external putUserTestCase function
             await putUserScores(loginUser.accessToken, userScoreData);
+            await putUserQuestionSubmit(loginUser.accessToken, userQuestionData);
 
             // Continue with any other logic you want to execute after submitting the test case
         } catch (error) {
