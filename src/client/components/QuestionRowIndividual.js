@@ -10,8 +10,6 @@ function QuestionRowIndividual() {
     const loginUser = storedUser || null;
     const [eventQuestionList, setEventQuestionList] = useState([]);
     const selectedEventId = sessionStorage.getItem('selectedEventId');
-    const startedTime = new Date();
-    const formattedTime = startedTime.toLocaleTimeString();
 
     const getEventQuestionList = async () => {
         try {
@@ -41,7 +39,6 @@ function QuestionRowIndividual() {
     return (
         <>
             <TopNavBar/>
-            {formattedTime}
             {Array.isArray(eventQuestionList) && eventQuestionList.map((question, index) => (
                 <div
                     key={question.id}

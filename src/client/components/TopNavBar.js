@@ -9,6 +9,7 @@ import {getUsers} from "../api/UserApi";
 import {getEventByid, getEvents} from "../api/EventApi";
 import {signInUser} from "../api/AuthApi";
 import {Redirect} from "react-router-dom";
+import CountdownTimer from "./Timer";
 
 export default function TopNavBar() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
@@ -88,7 +89,6 @@ export default function TopNavBar() {
     return (
         <>
             <Navbar
-                sticky="top"
                 style={{
                     backgroundColor: '#8AC453',
                     width: '100vw',
@@ -97,6 +97,9 @@ export default function TopNavBar() {
                     flexDirection: 'row',
                     alignItems: 'center',
                     justifyContent: 'space-between',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 999,
                 }}
             >
 
@@ -130,7 +133,7 @@ export default function TopNavBar() {
                         )}
                     </div>
                 </div>
-                <div/>
+                <CountdownTimer hours={1} minutes={0} seconds={0} />
 
                 <div>
                     <button

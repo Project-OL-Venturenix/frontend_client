@@ -9,6 +9,7 @@ import {getEventGroups} from "../api/EventGroupApi";
 import {getGroupUsers} from "../api/GroupUserApi";
 import {getEventByid} from "../api/EventApi";
 import {Redirect} from "react-router-dom";
+import CountdownTimer from "./Timer";
 
 export default function TopNavBarTeam() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
@@ -125,7 +126,6 @@ export default function TopNavBarTeam() {
 
     return (<>
         <Navbar
-            sticky="top"
             style={{
                 backgroundColor: '#8AC453',
                 width: '100vw',
@@ -134,6 +134,9 @@ export default function TopNavBarTeam() {
                 flexDirection: 'row',
                 alignItems: 'center',
                 justifyContent: 'space-between',
+                position: 'sticky',
+                top: 0,
+                zIndex: 999,
             }}
         >
 
@@ -172,6 +175,8 @@ export default function TopNavBarTeam() {
                             You are not in this contest.
                         </span>)}
             </div>
+
+            <CountdownTimer hours={1} minutes={0} seconds={0} />
 
             <div>
                 <button

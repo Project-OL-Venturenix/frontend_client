@@ -316,7 +316,7 @@ const Ranking = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 width: '100vw',
-                height: '90vh',
+                height: '100vh',
                 backgroundColor: '#F1FEC9'
             }}
         >
