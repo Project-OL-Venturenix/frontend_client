@@ -133,7 +133,7 @@ export default function TopNavBar() {
                         )}
                     </div>
                 </div>
-                <CountdownTimer hours={1} minutes={0} seconds={0} />
+                <CountdownTimer/>
 
                 <div>
                     <button

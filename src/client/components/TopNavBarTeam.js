@@ -49,6 +49,7 @@ export default function TopNavBarTeam() {
                 .filter(user => user.userId === loginUser.id)
                 .map(user => user.groupId);
             console.log("userGroupIds:", userGroupIds);
+            localStorage.setItem("groupId",userGroupIds)
 
             // Filter selectedEventGroups based on the user's group membership
             const userEventGroups = selectedEventGroups.filter(group => userGroupIds.includes(group.groupid));
@@ -176,7 +177,7 @@ export default function TopNavBarTeam() {
                         </span>)}
             </div>
 
-            <CountdownTimer hours={1} minutes={0} seconds={0} />
+            <CountdownTimer/>
 
             <div>
                 <button

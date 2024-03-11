@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-const CountdownTimer = ({ hours = 0, minutes = 0, seconds = 0 }) => {
-    const [time, setTime] = useState({ hours, minutes, seconds });
+const CountdownTimer = () => {
+    const storedTime = sessionStorage.getItem('countdownTime');
+    const initialTime = storedTime ? JSON.parse(storedTime) : { hours: 1, minutes: 0, seconds: 0 };
+
+    const [time, setTime] = useState(initialTime);
 
     const tick = () => {
         if (time.hours === 0 && time.minutes === 0 && time.seconds === 0) {
@@ -29,11 +32,15 @@ const CountdownTimer = ({ hours = 0, minutes = 0, seconds = 0 }) => {
 
     const reset = () => {
         setTime({ hours: 0, minutes: 0, seconds: 0 });
+        sessionStorage.removeItem('countdownTime');
         clearInterval(interval);
     };
 
     useEffect(() => {
-        const interval = setInterval(() => tick(), 1000);
+        const interval = setInterval(() => {
+            tick();
+            sessionStorage.setItem('countdownTime', JSON.stringify(time));
+        }, 1000);
 
         return () => clearInterval(interval);
     }, [time]);

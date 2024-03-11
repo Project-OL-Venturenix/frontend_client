@@ -15,6 +15,7 @@ import {
     putEventGroupUserQuestionHandle
 } from "../api/GroupQuestionHandleApi";
 import {getEventByid} from "../api/EventApi";
+import EditorTeam from "./EditorTeam";
 
 function QuestionRowTeam() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
@@ -150,13 +151,13 @@ function QuestionRowTeam() {
             getEventGroupUserQuestionHandleList();
         }
 
-        const intervalId = setInterval(() => {
-            getEventQuestionList();
-            getEventGroupUserQuestionHandleList();
-        }, 1000);
-
-        // 在组件卸载时清除定时器，防止内存泄漏
-        return () => clearInterval(intervalId);
+        // const intervalId = setInterval(() => {
+        //     getEventQuestionList();
+        //     getEventGroupUserQuestionHandleList();
+        // }, 1000);
+        //
+        // // 在组件卸载时清除定时器，防止内存泄漏
+        // return () => clearInterval(intervalId);
     }, []);
 
 
@@ -303,7 +304,8 @@ function QuestionRowTeam() {
                         )}
                     </div>
                     <div style={{width: "100vw"}}>
-                        <Editor
+                        <EditorTeam
+                            question={question}
                             checked={focusedIndex === index}
                             handleColorChange={() => handleColorChange(index)}
                         />
