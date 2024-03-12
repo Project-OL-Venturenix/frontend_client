@@ -39,6 +39,7 @@ class Editor extends React.Component {
             },
             executionTime: 0,
             output: '',
+            submitTime:3,
         };
 
         this.handleRun = this.handleRun.bind(this);
@@ -122,6 +123,9 @@ class Editor extends React.Component {
             // Call the external putUserTestCase function
             await putUserScores(loginUser.accessToken, userScoreData);
             await putUserQuestionSubmit(loginUser.accessToken, userQuestionData);
+            let {submitTime} = this.state;
+            submitTime = submitTime - 1;
+            this.setState({submitTime});
 
             // Continue with any other logic you want to execute after submitting the test case
         } catch (error) {
@@ -184,10 +188,15 @@ class Editor extends React.Component {
                                 </Button>
                             </Grid>
                             <Grid className="col-md-6">
-                                <Button bsStyle="success" type="button" style={{fontSize: '15px'}}
-                                        onClick={this.handleSubmit}>
-                                    Submit Code
-                                </Button>
+                                {this.state.submitTime === 0 ? (
+                                    <Button bsStyle="success" type="button" style={{fontSize: '15px'}} onClick={this.handleSubmit} disabled>
+                                        Submit Code {this.state.submitTime}/3
+                                    </Button>
+                                ) : (
+                                    <Button bsStyle="success" type="button" style={{fontSize: '15px'}} onClick={this.handleSubmit}>
+                                        Submit Code {this.state.submitTime}/3
+                                    </Button>
+                                )}
                             </Grid>
                             <Grid className="col-md-6">
                                 <StatusImage

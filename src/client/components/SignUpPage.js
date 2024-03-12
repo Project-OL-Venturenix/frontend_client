@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {signUpUser} from "../api/AuthApi";
+import logo from "./Logo.png";
 
 const SignupPage = () => {
     const [userData, setUserData] = useState({
@@ -44,7 +45,8 @@ const SignupPage = () => {
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-md-9 col-lg-6 col-xl-5">
                             <img
-                                src="https://scontent-lhr6-1.xx.fbcdn.net/v/t39.30808-6/292037637_1989864014557999_7909280466945465412_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=Xtv6txuTil8AX-VG5b5&_nc_ht=scontent-lhr6-1.xx&oh=00_AfBRt_p-ZmAfsrnSvWAILIbyNCF6CETvxbsgp-M32srT6g&oe=65F41EDC"
+                               // src="https://scontent-lhr6-1.xx.fbcdn.net/v/t39.30808-6/292037637_1989864014557999_7909280466945465412_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=Xtv6txuTil8AX-VG5b5&_nc_ht=scontent-lhr6-1.xx&oh=00_AfBRt_p-ZmAfsrnSvWAILIbyNCF6CETvxbsgp-M32srT6g&oe=65F41EDC"
+                                src={logo}
                                 className="img-fluid"
                                 alt="Sample image"
                             />
