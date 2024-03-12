@@ -43,6 +43,13 @@ const GameModePage = () => {
 
     useEffect(() => {
         getEventList()
+
+        const intervalId = setInterval(() => {
+            getEventList()
+        }, 5000);
+
+        // 在组件卸载时清除定时器，防止内存泄漏
+        return () => clearInterval(intervalId);
     }, []);
 
 
@@ -69,11 +76,16 @@ const GameModePage = () => {
                     value={selectedEvent}
                 >
                     <option value="" disabled>Select an event</option>
-                    {eventList.map((event) => (
-                        <option key={event.id} value={event.id}>
-                            {event.name}
-                        </option>
-                    ))}
+                    {eventList.map((event) => {
+                        if (event.status === "O") {
+                            return (
+                                <option key={event.id} value={event.id}>
+                                    {event.name}
+                                </option>
+                            );
+                        }
+                        return null; // or you can omit this line to skip rendering the option
+                    })}
                 </select>
             </div>
 
