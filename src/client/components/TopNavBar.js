@@ -121,7 +121,7 @@ export default function TopNavBar() {
                                 {eventUserList.length > 0 ? (
                                     eventUserList.map((user, index) => (
                                         <span key={index} style={{fontSize: '3em'}}>
-                                        {user.id === loginUser.id ? loginUser.firstname : "You are not in this contest"}
+                                        {user.id === loginUser.id ? loginUser.firstname : null}
                                          </span>
                                     ))
                                 ) : (

@@ -7,7 +7,7 @@ import OutputBox from './controls/OutputBox';
 import StatusImage from './controls/StatusImage';
 import CompilerApi from '../api/CompilerApi';
 import {putUserTestCase} from "../api/UserTestCaseApi";
-import {putUserScores} from "../api/UserScoresApi";
+import {createUserScores} from "../api/UserScoresApi";
 import {putUserQuestionSubmit} from "../api/UserQuestionSubmit";
 import {putGroupQuestionSubmit} from "../api/GroupQuestionSubmit";
 import {putGroupScores} from "../api/GroupScoresApi";
@@ -133,6 +133,7 @@ class EditorTeam extends React.Component {
             console.error('Failed to submit test case:', error);
         }
     };
+
 
 
     updateSolution(event) {

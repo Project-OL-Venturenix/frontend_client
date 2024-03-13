@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const CountdownTimer = () => {
     const storedTime = sessionStorage.getItem('countdownTime');
-    const initialTime = storedTime ? JSON.parse(storedTime) : { hours: 1, minutes: 0, seconds: 0 };
+    const initialTime = storedTime ? JSON.parse(storedTime) : { hours: 0, minutes: 1, seconds: 0 };
 
     const [time, setTime] = useState(initialTime);
 
@@ -33,7 +33,7 @@ const CountdownTimer = () => {
     const reset = () => {
         setTime({ hours: 0, minutes: 0, seconds: 0 });
         sessionStorage.removeItem('countdownTime');
-        clearInterval(interval);
+        sessionStorage.setItem('eventStatus','C');
     };
 
     useEffect(() => {

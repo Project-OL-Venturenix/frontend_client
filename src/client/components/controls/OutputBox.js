@@ -16,6 +16,15 @@ class OutputBox extends React.Component {
     const regex = /Test Case Result: (\d+) \/ 10/;
     const match = message.match(regex);
     const counter = match ? match[1] : 'N/A'; // Default to 'N/A' if counter not found
+    let messageText;
+    if (counter !== 'N/A') {
+        if (counter == 9) {
+          messageText = ` Test Case Pass: ${counter} / 9 \n you pass all the test cases! \n you got 3 marks!`;
+        } else {
+          messageText = `Test Case Pass: ${counter} / 9 \n  you fail the test cases, \n you do not have any marks`;
+        }
+    }
+
     console.log(message);
     console.log('counter:', typeof (counter));
     console.log('counter:', counter);
@@ -30,7 +39,7 @@ class OutputBox extends React.Component {
               rows="8"
               readOnly
               // value={this.props.message}
-              value={`Test Case Pass: ${counter} / 10`}
+              value={messageText}
               style={{ fontSize: '20px' }}
           />
       );

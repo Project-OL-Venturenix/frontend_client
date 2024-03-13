@@ -7,8 +7,13 @@ import OutputBox from './controls/OutputBox';
 import StatusImage from './controls/StatusImage';
 import CompilerApi from '../api/CompilerApi';
 import {putUserTestCase} from "../api/UserTestCaseApi";
-import {putUserScores} from "../api/UserScoresApi";
+import {createUserScores, getUserScores} from "../api/UserScoresApi";
 import {putUserQuestionSubmit} from "../api/UserQuestionSubmit";
+import {
+    addEventGroupUserQuestionHandle,
+    getEventGroupUserQuestionHandle,
+    putEventGroupUserQuestionHandle
+} from "../api/GroupQuestionHandleApi";
 
 let languages = ['Java', 'Python', 'JavaScript', 'C', 'C++'];
 const languagesProd = ['JavaScript', 'Python'];
@@ -46,6 +51,7 @@ class Editor extends React.Component {
         this.updateSolution = this.updateSolution.bind(this);
         this.handleLangChange = this.handleLangChange.bind(this);
         this.handleCodeChange = this.handleCodeChange.bind(this);
+        this.handleSaveUserScores = this.handleSaveUserScores.bind(this);
     }
 
     componentDidMount() {
@@ -120,18 +126,124 @@ class Editor extends React.Component {
                 submittime: new Date()
             }
 
-            // Call the external putUserTestCase function
-            await putUserScores(loginUser.accessToken, userScoreData);
-            await putUserQuestionSubmit(loginUser.accessToken, userQuestionData);
-            let {submitTime} = this.state;
-            submitTime = submitTime - 1;
-            this.setState({submitTime});
+            if(sessionStorage.getItem('eventStatus') != 'O'){
+                alert("You can not submit")
+            } else {
+                    // Call the external putUserTestCase function
+                    // await createUserScores(loginUser.accessToken, userScoreData);
+                    this.handleSaveUserScores(userScoreData)
+                    await putUserQuestionSubmit(loginUser.accessToken, userQuestionData);
+
+                    let {submitTime} = this.state;
+                    submitTime = submitTime - 1;
+                    this.setState({submitTime});
+            }
 
             // Continue with any other logic you want to execute after submitting the test case
         } catch (error) {
             console.error('Failed to submit test case:', error);
         }
     };
+
+    checkExistingRecord = async (userScoreData) => {
+        try {
+            const response = await getEventGroupUserQuestionHandle(loginUser.accessToken);
+            const userScoreHandles = response.data;
+            console.log(userScoreHandles)
+            return userScoreHandles.find(handle =>
+                handle.eventid === parseInt(selectedEventId, 10) &&
+                handle.questionid === this.props.question.id &&
+                handle.userid === loginUser.id
+            );
+        } catch (error) {
+            console.error('Failed to check existing record:', error);
+            throw error;
+        }
+    };
+
+    handleSaveUserScores = async (userScoreData) => {
+        try {
+            const response = await getUserScores(loginUser.accessToken);
+            console.log(response);
+            // if (response.status == 204){
+            //     await createEventGroupUserQuestionHandle(userScoreData);
+            // }
+
+            // Check if there is an existing record with the same eventid, questionid, and groupid
+            const existingRecord = await this.checkExistingRecord(userScoreData);
+            console.log(existingRecord);
+            // if (existingRecord) {
+            //     // If exists, update user.id for the existing record
+            //     await updateEventGroupUserQuestionHandle(existingRecord.id, question);
+            // } else {
+            //     // If not exists, create a new record
+            //     await createEventGroupUserQuestionHandle(question);
+            // }
+            //
+            // console.log('Response saved successfully');
+        } catch (error) {
+            console.error('Failed to save response:', error);
+        }
+    };
+
+
+
+    // const updateEventGroupUserQuestionHandle = async (recordId, question) => {
+    //     try {
+    //         // Call the API to fetch the existing record
+    //         const existingRecordResponse = await getEventGroupUserQuestionHandle(loginUser.accessToken);
+    //
+    //         // Check if there is an existing record with the same userlist
+    //         const recordWithSameUserlist = existingRecordResponse.data.find(data =>
+    //             data.userid == loginUser.id && data.id != recordId
+    //         );
+    //
+    //
+    //         // If exists, update the existing record with userlist as 0
+    //         if (recordWithSameUserlist) {
+    //             await putEventGroupUserQuestionHandle(loginUser.accessToken, recordWithSameUserlist.id, {
+    //                 ...recordWithSameUserlist,
+    //                 userid: 0,
+    //             });
+    //         }
+    //
+    //
+    //         // Update the current record with the new user.id
+    //         const questionData = {
+    //             eventid: parseInt(selectedEventId, 10),
+    //             questionid: question.id,
+    //             groupid: userGroupIds[0],
+    //             userid: loginUser.id,
+    //             response: question.response,
+    //         };
+    //         const updatedResponse = await putEventGroupUserQuestionHandle(loginUser.accessToken, recordId, questionData);
+    //         console.log('Record updated:', updatedResponse.data);
+    //     } catch (error) {
+    //         console.error('Failed to update record:', error);
+    //         throw error;
+    //     }
+    // };
+    //
+    // const createEventGroupUserQuestionHandle = async (question) => {
+    //     try {
+    //         // Prepare the questionData object with necessary information
+    //         console.log(userGroupIds)
+    //         const questionData = {
+    //             eventid: parseInt(selectedEventId, 10),
+    //             questionid: question.id,
+    //             groupid: userGroupIds[0],
+    //             userid: loginUser.id,
+    //             response: question.response,
+    //         };
+    //
+    //         // Call the API to create a new record
+    //         const response = await addEventGroupUserQuestionHandle(loginUser.accessToken, questionData);
+    //         console.log('New record created:', response.data);
+    //     } catch (error) {
+    //         console.error('Failed to create new record:', error);
+    //         throw error;
+    //     }
+    // };
 
 
     updateSolution(event) {

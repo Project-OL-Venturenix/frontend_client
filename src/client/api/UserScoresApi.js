@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const putUserScores = async (accessToken, userScoreData)=> {
+export const createUserScores = async (accessToken, userScoreData)=> {
     try {
         const response = await axios.post(
             `http://localhost:8081/api/userscores/addScore`,
@@ -9,7 +9,19 @@ export const putUserScores = async (accessToken, userScoreData)=> {
             params:userScoreData,
             headers: {Authorization: `Bearer ${accessToken}`}
             }
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
 
+export const getUserScores = async (accessToken)=> {
+    try {
+        const response = await axios.get(
+            `http://localhost:8081/api/userscores`,
+            { headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;
     } catch (error) {

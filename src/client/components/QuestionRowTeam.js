@@ -210,9 +210,6 @@ function QuestionRowTeam() {
                 handle.questionid === questionId &&
                 handle.groupid == groupId
             );
-
-
-
         } catch (error) {
             console.error('Failed to check existing record:', error);
             throw error;

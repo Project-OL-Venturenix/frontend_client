@@ -4,11 +4,13 @@ import Editor from './Editor';
 import TopNavBar from './TopNavBar';
 import {getQuestions} from "../api/QuestionApi";
 import {getEventQuestions} from "../api/EventQuestionApi";
+import {getEventByid} from "../api/EventApi";
 
 function QuestionRowIndividual() {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
     const loginUser = storedUser || null;
     const [eventQuestionList, setEventQuestionList] = useState([]);
+
     const selectedEventId = sessionStorage.getItem('selectedEventId');
 
     const getEventQuestionList = async () => {
@@ -30,11 +32,26 @@ function QuestionRowIndividual() {
         }
     };
 
+    const getEventEntity = async () => {
+        try {
+            const response = await getEventByid(loginUser.asscessToken,selectedEventId)
+            sessionStorage.setItem('eventStatus',response.data.status)
+            const eventStatus  = sessionStorage.getItem('eventStatus')
+            if (eventStatus === "O") {
+                getEventQuestionList();
+            }
+        } catch (error) {
+            console.error('can not find event', error);
+        }
+    }
+
     useEffect(() => {
         if (loginUser) {
-            getEventQuestionList();
+            getEventEntity();
         }
     }, []);
+
+
 
     return (
         <>

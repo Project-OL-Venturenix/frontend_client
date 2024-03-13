@@ -4,15 +4,15 @@ import logo from "./Logo.png";
 
 const SignupPage = () => {
     const [userData, setUserData] = useState({
-        firstname: '',
-        lastname: '',
-        mobile: '',
-        email: '',
-        username: '',
-        password: '',
-        company: '',
-        title: '',
-        status: '',
+        firstname: 'Dicky',
+        lastname: 'Yuen',
+        mobile: '12345678',
+        email: '1234@gmail.com',
+        username: 'Dicky',
+        password: '12345678',
+        company: 'Venturenix',
+        title: 'Director',
+        status: 'A',
     });
 
     const handleChange = (e) => {
@@ -26,7 +26,7 @@ const SignupPage = () => {
         try {
             console.log(userData);
             const response = await signUpUser(userData);
-            console.log('Signup successful:', response.data);
+            alert('Signup successful');
         } catch (error) {
             console.error('Signup failed:', error);
         }
