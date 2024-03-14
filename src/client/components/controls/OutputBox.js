@@ -19,9 +19,9 @@ class OutputBox extends React.Component {
     let messageText;
     if (counter !== 'N/A') {
         if (counter == 9) {
-          messageText = ` Test Case Pass: ${counter} / 9 \n you pass all the test cases! \n you got 3 marks!`;
+          messageText = ` Test Case Pass: ${counter} / 9 \n You pass all the test cases! \n You got 3 marks!`;
         } else {
-          messageText = `Test Case Pass: ${counter} / 9 \n  you fail the test cases, \n you do not have any marks`;
+          messageText = `Test Case Pass: ${counter} / 9 \n  You fail the test cases, \n You do not have any marks`;
         }
     }
 
