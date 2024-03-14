@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Rectangle} from 'recharts';
 import {Col} from 'react-bootstrap';
-import {faCircleCheck, faCircleXmark} from '@fortawesome/free-solid-svg-icons';
+import {faCircleCheck, faCircleXmark, faCrown} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {getUserTestCase} from "../api/UserTestCaseApi";
 import {getEventQuestions} from "../api/EventQuestionApi";
@@ -163,7 +163,7 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {data.Q1>0? "Question Pass" : "Question Fail"}
+                                {data.Q1===9? <FontAwesomeIcon icon={faCrown} /> : null}
                                 {filteredUserQuestionSubmit && (
                                     <div>
                                         Submittime: {filteredUserQuestionSubmit.submittime}
@@ -231,7 +231,7 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {data.Q2>0? "Question Pass" : "Question Fail"}
+                                {data.Q2===9? <FontAwesomeIcon icon={faCrown} /> : null}
                                 {filteredUserQuestionSubmit && (
                                     <div>
                                         Submittime: {filteredUserQuestionSubmit.submittime}
@@ -299,7 +299,7 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {data.Q3>0? "Question Pass" : "Question Fail"}
+                                {data.Q3===9? <FontAwesomeIcon icon={faCrown} /> : null}
                                 {filteredUserQuestionSubmit && (
                                     <div>
                                         Submittime: {filteredUserQuestionSubmit.submittime}

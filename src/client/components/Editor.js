@@ -122,8 +122,8 @@ class Editor extends React.Component {
 
             const userQuestionData = {
                 eventid: parseInt(selectedEventId),
-                userid: loginUser.id,
-                questionid: this.props.question.id,
+                userid: this.props.question.id,
+                questionid: loginUser.id,
                 runtimebymsec: executionTime,
                 submittime: new Date()
             }
@@ -199,6 +199,7 @@ class Editor extends React.Component {
                 userid: loginUser.id,
                 questionid: this.props.question.id,
                 testcasepasstotal: localStorage.getItem('counter'),
+                testcasescoretotal: (localStorage.getItem('counter') == 9) ? 3 : 0
             };
             const updatedResponse = await putUserScores(loginUser.accessToken, recordId, newUserScoreData);
             console.log('Record updated:', updatedResponse.data);

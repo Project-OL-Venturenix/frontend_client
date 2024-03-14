@@ -17,6 +17,7 @@ class OutputBox extends React.Component {
     const match = message.match(regex);
     const counter = match ? match[1] : 'N/A'; // Default to 'N/A' if counter not found
     let messageText;
+
     if (counter !== 'N/A') {
         if (counter == 9) {
           messageText = ` Test Case Pass: ${counter} / 9 \n You pass all the test cases! \n You got 3 marks!`;
