@@ -17,6 +17,20 @@ export const createUserScores = async (accessToken, userScoreData)=> {
     }
 };
 
+export const putUserScores = async (accessToken, id, userScoreData)=> {
+    try {
+        const response = await axios.put(
+            `http://localhost:8081/api/userscores/${id}`,
+            userScoreData,
+            { headers: {Authorization: `Bearer ${accessToken}`}}
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
 export const getUserScores = async (accessToken)=> {
     try {
         const response = await axios.get(
