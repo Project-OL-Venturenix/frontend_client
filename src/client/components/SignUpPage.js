@@ -25,8 +25,9 @@ const SignupPage = () => {
     const handleSubmit = async () => {
         try {
             console.log(userData);
-            const response = await signUpUser(userData);
+            await signUpUser(userData);
             alert('Signup successful');
+            window.location.href = '/'
         } catch (error) {
             console.error('Signup failed:', error);
         }
@@ -147,6 +148,7 @@ const SignupPage = () => {
                                 <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                                     Signup
                                 </button>
+
                             </form>
                         </div>
                     </div>

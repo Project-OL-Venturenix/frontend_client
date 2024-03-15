@@ -58,7 +58,9 @@ const CountdownTimer = () => {
         sessionStorage.removeItem('countdownTime');
         sessionStorage.setItem('eventStatus', 'C');
         const eventData = {
-            status: "C",
+            name: "C",
+            
+
         };
         putEventById(loginUser.accessToken,selectedEventId, eventData)
     };
