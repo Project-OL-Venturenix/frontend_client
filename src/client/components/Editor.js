@@ -295,6 +295,7 @@ class Editor extends React.Component {
                     <FormGroup>
                         <Col sm={12}>
                             <OutputBox
+                                question={this.props.question}
                                 executionTime={this.state.executionTime}
                                 show={this.state.response.status === '0'}
                                 message={this.state.response.message}

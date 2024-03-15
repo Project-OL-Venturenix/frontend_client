@@ -10,7 +10,7 @@ class OutputBox extends React.Component {
 
   render() {
     // if (this.props.show) {
-    const { show, message, executionTime } = this.props;
+    const { show, message, executionTime, question } = this.props;
 
     // Regular expression to extract the counter value
     const regex = /Test Case Result: (\d+) \/ 10/;
@@ -20,7 +20,7 @@ class OutputBox extends React.Component {
 
     if (counter !== 'N/A') {
         if (counter == 9) {
-          if (executionTime <= 1000) {
+          if (executionTime <= question.targetcompletetime) {
             messageText = ` Test Case Pass: ${counter} / 9 \n You pass all the test cases! \n You got 3 marks! \n You pass the run time! \n You got 1 bonus mark!` ;
           } else {
             messageText = ` Test Case Pass: ${counter} / 9 \n You pass all the test cases! \n You got 3 marks! \n However, you do not pass the run time! \n Pleases improve your algorithm` ;
@@ -30,7 +30,7 @@ class OutputBox extends React.Component {
         }
     }
 
-    console.log(message);
+    console.log(question.targetcompletetime);
     console.log('counter:', typeof (counter));
     console.log('counter:', counter);
 
