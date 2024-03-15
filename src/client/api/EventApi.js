@@ -27,3 +27,17 @@ export const getEventByid = async (accessToken, id) => {
         throw error;
     }
 };
+
+export const putEventById = async (accessToken, id) => {
+    try {
+        const response = await axios.put(
+            `http://localhost:8081/api/events/${id}`,
+            {headers: {Authorization: `Bearer ${accessToken}`}}
+        );
+        return response;
+    } catch
+        (error) {
+        console.error(error);
+        throw error;
+    }
+};
