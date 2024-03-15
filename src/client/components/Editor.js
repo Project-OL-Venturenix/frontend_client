@@ -122,8 +122,8 @@ class Editor extends React.Component {
 
             const userQuestionData = {
                 eventid: parseInt(selectedEventId),
-                userid: this.props.question.id,
-                questionid: loginUser.id,
+                userid: this.props.question.id,     //bug
+                questionid: loginUser.id,           //bug
                 runtimebymsec: executionTime,
                 submittime: new Date()
             }
@@ -295,6 +295,7 @@ class Editor extends React.Component {
                     <FormGroup>
                         <Col sm={12}>
                             <OutputBox
+                                executionTime={this.state.executionTime}
                                 show={this.state.response.status === '0'}
                                 message={this.state.response.message}
                             />
