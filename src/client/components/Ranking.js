@@ -18,7 +18,7 @@ const Ranking = () => {
     const [eventQuestionList, setEventQuestionList] = useState([]);
     const selectedEventId = sessionStorage.getItem('selectedEventId');
     const [userQuestionSubmitList, setUserQuestionSubmitList] = useState();
-
+    const [userTestCaseDataList, setUserTestCaseDataList] = useState();
 
     const getUserQuestionSubmitList = async () => {
         try {
@@ -54,6 +54,7 @@ const Ranking = () => {
         try {
             const response = await getUserScoresByEventId(loginUser.accessToken, selectedEventId);
             const userTestCaseDataList = response.data.result
+            setUserTestCaseDataList(userTestCaseDataList);
             console.log(userTestCaseDataList)
 
 
@@ -125,16 +126,15 @@ const Ranking = () => {
             <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
         ));
 
-        console.log(userQuestionSubmitList);
+        console.log(data);
         let filteredUserQuestionSubmit = null;
 
-        if (Array.isArray(userQuestionSubmitList) && userQuestionSubmitList.length > 0) {
-            filteredUserQuestionSubmit = userQuestionSubmitList.find(
+        if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
+            filteredUserQuestionSubmit = userTestCaseDataList.find(
                 item =>
-                    item.eventid == selectedEventId &&
-                    item.questionid == 1
-                    //&& item.userid == data.name
+                    item.name === data.name
             );
+            console.log(filteredUserQuestionSubmit)
         }
 
 
@@ -166,9 +166,9 @@ const Ranking = () => {
                                 {data.Q1===9? <FontAwesomeIcon icon={faCrown} /> : null}
                                 {filteredUserQuestionSubmit && (
                                     <div>
-                                        Submittime: {filteredUserQuestionSubmit.submittime}
+                                        Submittime: {filteredUserQuestionSubmit.submittime.Q1}
                                         <br />
-                                        Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms
+                                        {/*Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms*/}
                                         <br />
                                     </div>
                                 )}
@@ -196,13 +196,12 @@ const Ranking = () => {
         console.log(userQuestionSubmitList);
         let filteredUserQuestionSubmit = null;
 
-        if (Array.isArray(userQuestionSubmitList) && userQuestionSubmitList.length > 0) {
-            filteredUserQuestionSubmit = userQuestionSubmitList.find(
+        if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
+            filteredUserQuestionSubmit = userTestCaseDataList.find(
                 item =>
-                    item.eventid == selectedEventId &&
-                    item.questionid == 2
-                //&& item.userid == data.name
+                    item.name === data.name
             );
+            console.log(filteredUserQuestionSubmit)
         }
 
 
@@ -234,7 +233,7 @@ const Ranking = () => {
                                 {data.Q2===9? <FontAwesomeIcon icon={faCrown} /> : null}
                                 {filteredUserQuestionSubmit && (
                                     <div>
-                                        Submittime: {filteredUserQuestionSubmit.submittime}
+                                        Submittime: {filteredUserQuestionSubmit.submittime.Q2}
                                         <br />
                                         Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms
                                         <br />
@@ -264,13 +263,12 @@ const Ranking = () => {
         console.log(userQuestionSubmitList);
         let filteredUserQuestionSubmit = null;
 
-        if (Array.isArray(userQuestionSubmitList) && userQuestionSubmitList.length > 0) {
-            filteredUserQuestionSubmit = userQuestionSubmitList.find(
+        if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
+            filteredUserQuestionSubmit = userTestCaseDataList.find(
                 item =>
-                    item.eventid == selectedEventId &&
-                    item.questionid == 3
-                //&& item.userid == data.name
+                    item.name === data.name
             );
+            console.log(filteredUserQuestionSubmit)
         }
 
 
@@ -302,7 +300,7 @@ const Ranking = () => {
                                 {data.Q3===9? <FontAwesomeIcon icon={faCrown} /> : null}
                                 {filteredUserQuestionSubmit && (
                                     <div>
-                                        Submittime: {filteredUserQuestionSubmit.submittime}
+                                        Submittime: {filteredUserQuestionSubmit.submittime.Q3}
                                         <br />
                                         Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms
                                         <br />
