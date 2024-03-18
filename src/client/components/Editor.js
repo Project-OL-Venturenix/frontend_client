@@ -8,7 +8,7 @@ import StatusImage from './controls/StatusImage';
 import CompilerApi from '../api/CompilerApi';
 import {putUserTestCase} from "../api/UserTestCaseApi";
 import {createUserScores, getUserScores, putUserScores} from "../api/UserScoresApi";
-import {putUserQuestionSubmit} from "../api/UserQuestionSubmit";
+import {createUserQuestionSubmit, getUserQuestionSubmit, putUserQuestionSubmit} from "../api/UserQuestionSubmit";
 import {
     addEventGroupUserQuestionHandle,
     getEventGroupUserQuestionHandle,
@@ -54,6 +54,9 @@ class Editor extends React.Component {
         this.handleSaveUserScores = this.handleSaveUserScores.bind(this);
         this.checkExistingRecord = this.checkExistingRecord.bind(this)
         this.updateUserScores = this.updateUserScores.bind(this);
+        this.handleUserQuestionSubmit = this.handleUserQuestionSubmit.bind(this);
+        this.checkExistingUserQuestionSubmitRecord = this.checkExistingUserQuestionSubmitRecord.bind(this);
+        this.updateQuestionSubmit = this.updateQuestionSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -134,7 +137,7 @@ class Editor extends React.Component {
                     // Call the external putUserTestCase function
                     // await createUserScores(loginUser.accessToken, userScoreData);
                     await this.handleSaveUserScores(userScoreData)
-                    await putUserQuestionSubmit(loginUser.accessToken, userQuestionData);
+                    await this.handleUserQuestionSubmit(userQuestionData);
 
                     let {submitTime} = this.state;
                     submitTime = submitTime - 1;
@@ -203,6 +206,58 @@ class Editor extends React.Component {
             };
             const updatedResponse = await putUserScores(loginUser.accessToken, recordId, newUserScoreData);
             console.log('Record updated:', updatedResponse.data);
+        } catch (error) {
+            console.error('Failed to update record:', error);
+            throw error;
+        }
+    };
+
+    checkExistingUserQuestionSubmitRecord = async () => {
+        try {
+            const response = await getUserQuestionSubmit(loginUser.accessToken);
+            const userScoreHandles = response.data;
+            console.log(response)
+            return userScoreHandles.find(handle =>
+                handle.eventid == parseInt(selectedEventId, 10) &&
+                handle.questionid === this.props.question.id &&
+                handle.userid === loginUser.id
+            );
+        } catch (error) {
+            console.error('Failed to check existing record:', error);
+            throw error;
+        }
+    };
+
+    handleUserQuestionSubmit = async (userQuestionData) => {
+        try {
+            const response = await getUserQuestionSubmit(loginUser.accessToken);
+            console.log(response);
+            if (response.status == 204){
+                await createUserQuestionSubmit(loginUser.accessToken, userQuestionData);
+            }
+
+            //  Check if there is an existing record with the same eventid, questionid, and groupid
+            const existingRecord =  await this.checkExistingUserQuestionSubmitRecord();
+            console.log(existingRecord);
+            if (existingRecord) {
+                // If exists, update user.id for the existing record
+                await this.updateQuestionSubmit(existingRecord.id, userQuestionData);
+            }
+            else {
+                // If not exists, create a new record
+                await createUserQuestionSubmit(loginUser.accessToken, userQuestionData);
+            }
+
+            console.log('Response saved successfully');
+        } catch (error) {
+            console.error('Failed to save response:', error);
+        }
+    };
+
+    updateQuestionSubmit = async (recordId, userScoreData) => {
+        try {
+            const updatedResponse = await putUserQuestionSubmit(loginUser.accessToken, recordId, userScoreData);
+            console.log('Record updated:', updatedResponse);
         } catch (error) {
             console.error('Failed to update record:', error);
             throw error;
