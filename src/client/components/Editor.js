@@ -125,8 +125,8 @@ class Editor extends React.Component {
 
             const userQuestionData = {
                 eventid: parseInt(selectedEventId),
-                userid: this.props.question.id,     //bug
-                questionid: loginUser.id,           //bug
+                userid: loginUser.id,
+                questionid: this.props.question.id,
                 runtimebymsec: executionTime,
                 submittime: new Date()
             }
