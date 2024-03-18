@@ -136,7 +136,7 @@ class Editor extends React.Component {
             } else {
                     // Call the external putUserTestCase function
                     // await createUserScores(loginUser.accessToken, userScoreData);
-                    await this.handleSaveUserScores(userScoreData)
+                    await this.handleSaveUserScores(userScoreData,userQuestionData)
                     await this.handleUserQuestionSubmit(userQuestionData);
 
                     let {submitTime} = this.state;
@@ -167,7 +167,7 @@ class Editor extends React.Component {
     };
 
 
-    handleSaveUserScores = async (userScoreData) => {
+    handleSaveUserScores = async (userScoreData, userQuestionData) => {
         try {
             const response = await getUserScores(loginUser.accessToken);
             console.log(response);
@@ -180,7 +180,7 @@ class Editor extends React.Component {
             console.log(existingRecord);
             if (existingRecord) {
                 // If exists, update user.id for the existing record
-                await this.updateUserScores(existingRecord.id, userScoreData);
+                await this.updateUserScores(existingRecord.id, userScoreData, userQuestionData);
             }
              else {
                 // If not exists, create a new record
@@ -195,17 +195,17 @@ class Editor extends React.Component {
 
 
 
-    updateUserScores = async (recordId, userScoreData) => {
+    updateUserScores = async (recordId, userScoreData, userQuestionData) => {
         try {
             const newUserScoreData = {
                 eventid: userScoreData.eventid,
                 userid: loginUser.id,
                 questionid: this.props.question.id,
                 testcasepasstotal: localStorage.getItem('counter'),
-                testcasescoretotal: (localStorage.getItem('counter') == 9) ? 3 : 0
+                testcasescoretotal: (localStorage.getItem('counter') == 9) ? userQuestionData.runtimebymsec <= this.props.question.targetcompletetime? 4 : 3 : 0
             };
             const updatedResponse = await putUserScores(loginUser.accessToken, recordId, newUserScoreData);
-            console.log('Record updated:', updatedResponse.data);
+            console.log('Record updated:', this.props.question);
         } catch (error) {
             console.error('Failed to update record:', error);
             throw error;
