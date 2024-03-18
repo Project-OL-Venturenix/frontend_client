@@ -9,6 +9,7 @@ import {getQuestions} from "../api/QuestionApi";
 import {getUserScoresByEventId} from "../api/UserScoresApi";
 import {getUserQuestionSubmit} from "../api/UserQuestionSubmit";
 import {getUserById} from "../api/UserApi";
+import {getGroupScoresByEventId} from "../api/GroupScoresApi";
 
 const Ranking = () => {
 
@@ -52,7 +53,7 @@ const Ranking = () => {
 
     const getUserTestCaseList = async () => {
         try {
-            const response = await getUserScoresByEventId(loginUser.accessToken, selectedEventId);
+            const response = await getGroupScoresByEventId(loginUser.accessToken, selectedEventId);
             const userTestCaseDataList = response.data.result
             setUserTestCaseDataList(userTestCaseDataList);
             console.log(userTestCaseDataList)

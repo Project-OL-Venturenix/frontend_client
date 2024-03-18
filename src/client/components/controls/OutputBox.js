@@ -30,7 +30,7 @@ class OutputBox extends React.Component {
         }
     }
 
-    console.log(question.targetcompletetime);
+    // console.log(question.targetcompletetime);
     console.log('counter:', typeof (counter));
     console.log('counter:', counter);
 

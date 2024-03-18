@@ -6,31 +6,32 @@ import GameModePage from './GameModePage';
 import QuestionRowTeam from './QuestionRowTeam';
 import Ranking from './Ranking';
 import SignupPage from "./SignUpPage";
+import RankingTeam from "./RankingTeam";
 
 
 export const TeamContext = createContext(null);
 
 const App = () => {
-    const Lucas = {
-        name: 'Lucas',
-        teamID: 1,
-    };
-
-    const Oscar = {
-        name: 'Oscar',
-        teamID: 1,
-    };
-
-    const Max = {
-        name: 'Max',
-        teamID: 1,
-    };
-
-
-    const team1 = [Lucas, Oscar, Max];
-
-    const [loginUser, setLoginUser] = useState(null);
-    const [team, setTeam] = useState(team1);
+    // const Lucas = {
+    //     name: 'Lucas',
+    //     teamID: 1,
+    // };
+    //
+    // const Oscar = {
+    //     name: 'Oscar',
+    //     teamID: 1,
+    // };
+    //
+    // const Max = {
+    //     name: 'Max',
+    //     teamID: 1,
+    // };
+    //
+    //
+    // const team1 = [Lucas, Oscar, Max];
+    //
+    // const [loginUser, setLoginUser] = useState(null);
+    // const [team, setTeam] = useState(team1);
 
 
     useEffect(() => {
@@ -39,7 +40,7 @@ const App = () => {
 
     return (
         <>
-            <TeamContext.Provider value={team}>
+            {/*<TeamContext.Provider value={team}>*/}
 
                 <Switch>
                     <Route exact path="/" component={LoginPage} />
@@ -48,9 +49,10 @@ const App = () => {
                     <Route path="/team" component={QuestionRowTeam} />
                     <Route path="/gamemode" component={GameModePage} />
                     <Route path="/ranking" component={Ranking} />
+                    <Route path="/rankingteam" component={RankingTeam} />
                     <Route path="/signup" component={SignupPage} />
                 </Switch>
-            </TeamContext.Provider>
+            {/*</TeamContext.Provider>*/}
         </>
     );
 };

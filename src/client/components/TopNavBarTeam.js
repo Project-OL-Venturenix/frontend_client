@@ -122,7 +122,7 @@ export default function TopNavBarTeam() {
     };
 
     if (redirectToDash) {
-        return <Redirect to="/ranking"/>;
+        return <Redirect to="/rankingteam"/>;
     }
 
     return (<>
