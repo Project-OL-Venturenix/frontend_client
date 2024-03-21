@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
 import {getEventQuestions} from "../api/EventQuestionApi";
 import {getQuestions} from "../api/QuestionApi";
-import {getEventUsers} from "../api/EventUserApi";
+import {getEventUser, getEventUsers} from "../api/EventUserApi";
 import {getUsers} from "../api/UserApi";
 import {getEventByid, getEvents} from "../api/EventApi";
 import {signInUser} from "../api/AuthApi";
@@ -25,21 +25,24 @@ export default function TopNavBar() {
     const getEventUserList = async () => {
         try {
             await getEventById(selectedEventId);
-            const response = await getEventUsers(loginUser.accessToken);
-            const eventUsers = response.data;
-            console.log(eventUsers)
-            const selectedEventUsers = eventUsers.filter(user => user.eventid === parseInt(selectedEventId, 10));
-            console.log("Selected Event ID:", parseInt(selectedEventId, 10));
-            console.log("Filtered Users:", selectedEventUsers);
-            const userIds = selectedEventUsers.map((user) => user.userid);
-            const UserData = await getUsers(loginUser.accessToken);
-            const userList = UserData.data;
-            console.log("UserList:", userList);
-            console.log("UserIds:", userIds);
-            const filteredUser = userList.filter((user) => userIds.includes(user.id));
-            console.log("filteredUser:", filteredUser);
-            setEventUserList(filteredUser);
+            // const response = await getEventUsers(loginUser.accessToken);
+            // const eventUsers = response.data;
+            // console.log(eventUsers)
+            // const selectedEventUsers = eventUsers.filter(user => user.eventid === parseInt(selectedEventId, 10));
+            // console.log("Selected Event ID:", parseInt(selectedEventId, 10));
+            // console.log("Filtered Users:", selectedEventUsers);
+            // const userIds = selectedEventUsers.map((user) => user.userid);
+            // const UserData = await getUsers(loginUser.accessToken);
+            // const userList = UserData.data;
+            // console.log("UserList:", userList);
+            // console.log("UserIds:", userIds);
+            // const filteredUser = userList.filter((user) => userIds.includes(user.id));
+            // console.log("filteredUser:", filteredUser);
+            // setEventUserList(filteredUser);
 
+            const response = await getEventUser(loginUser.accessToken,selectedEventId)
+            console.log(response.data)
+            setEventUserList(response.data);
         } catch (error) {
             console.error('Failed to get questions:', error);
         }
@@ -118,17 +121,17 @@ export default function TopNavBar() {
                         />
                         {loginUser && (
                             <div>
-                                {eventUserList.length > 0 ? (
-                                    eventUserList.map((user, index) => (
-                                        <span key={index} style={{fontSize: '3em'}}>
-                                        {user.id === loginUser.id ? loginUser.firstname : null}
-                                         </span>
-                                    ))
-                                ) : (
+                                {/*{eventUserList.length > 0 ? (*/}
+
+                                {/*        <span key={index} style={{fontSize: '3em'}}>*/}
+                                {/*        {eventUserList.firstName}*/}
+                                {/*         </span>*/}
+
+                                {/*) : (*/}
                                     <span style={{fontSize: '3em'}}>
-                                    You are not in this contest.
+                                    {eventUserList.firstName || "You are not in this content"}
                                     </span>
-                                )}
+                                {/*)}*/}
                             </div>
                         )}
                     </div>

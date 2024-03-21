@@ -20,7 +20,7 @@ class OutputBox extends React.Component {
 
     if (counter !== 'N/A') {
         if (counter == 9) {
-          if (executionTime <= question.targetcompletetime) {
+          if (executionTime <= question.targetCompleteTime) {
             messageText = ` Test Case Pass: ${counter} / 9 \n You pass all the test cases! \n You got 3 marks! \n You pass the run time! \n You got 1 bonus mark!` ;
           } else {
             messageText = ` Test Case Pass: ${counter} / 9 \n You pass all the test cases! \n You got 3 marks! \n However, you do not pass the run time! \n Pleases improve your algorithm` ;

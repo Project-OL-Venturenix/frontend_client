@@ -57,18 +57,17 @@ const CountdownTimer = () => {
         setTime({ hours: 0, minutes: 0, seconds: 0 });
         sessionStorage.removeItem('countdownTime');
         sessionStorage.setItem('eventStatus', 'C');
-        const eventData = {
-            name: "C",
-            
 
-        };
-        putEventById(loginUser.accessToken,selectedEventId, eventData)
+
+
+
+        putEventById(loginUser.accessToken,selectedEventId, "Close" )
     };
 
     const getEventById = async (id) => {
         try {
             const response = await getEventByid(loginUser.accessToken, id);
-            setEventEndTime(response.data.targetenddate);
+            setEventEndTime(response.data.targetEndTime);
         } catch (error) {
             console.error('Failed to get events:', error);
         }

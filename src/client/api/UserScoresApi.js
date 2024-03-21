@@ -56,3 +56,39 @@ export const getUserScoresByEventId = async (accessToken, id)=> {
         throw error;
     }
 };
+
+export const addUserScores = async (accessToken, userScoreData, userQuestionData)=> {
+    try {
+        const response = await axios.post(
+            `http://localhost:8081/api/userscores/addScore`,
+            userQuestionData,
+            {
+                params:userScoreData,
+                headers: {Authorization: `Bearer ${accessToken}`}
+            }
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+export const updateUserScores = async (accessToken, userScoreData, userQuestionData)=> {
+    try {
+        const response = await axios.put(
+            `http://localhost:8081/api/userscores/updateScore`,
+            userQuestionData,
+            {
+                params:userScoreData,
+                headers: {Authorization: `Bearer ${accessToken}`}
+            }
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+
+

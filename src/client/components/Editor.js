@@ -7,7 +7,7 @@ import OutputBox from './controls/OutputBox';
 import StatusImage from './controls/StatusImage';
 import CompilerApi from '../api/CompilerApi';
 import {putUserTestCase} from "../api/UserTestCaseApi";
-import {createUserScores, getUserScores, putUserScores} from "../api/UserScoresApi";
+import {addUserScores, createUserScores, getUserScores, putUserScores, updateUserScores} from "../api/UserScoresApi";
 import {createUserQuestionSubmit, getUserQuestionSubmit, putUserQuestionSubmit} from "../api/UserQuestionSubmit";
 import {
     addEventGroupUserQuestionHandle,
@@ -116,19 +116,18 @@ class Editor extends React.Component {
             const executionTime = endTime - startTime;
             this.setState({response: res, executionTime});
 
+            console.log(this.props.question.questionId)
+
             const userScoreData = {
                 eventid: selectedEventId,
                 userid: loginUser.id,
-                questionid: this.props.question.id,
+                questionid: this.props.question.questionId,
                 testcasePassTotal: localStorage.getItem('counter'),
             };
 
             const userQuestionData = {
-                eventid: parseInt(selectedEventId),
-                userid: loginUser.id,
-                questionid: this.props.question.id,
-                runtimebymsec: executionTime,
-                submittime: new Date()
+                runTimeByMsec: executionTime,
+                submitTime: new Date()
             }
 
             if(sessionStorage.getItem('eventStatus') != 'O'){
@@ -137,7 +136,7 @@ class Editor extends React.Component {
                     // Call the external putUserTestCase function
                     // await createUserScores(loginUser.accessToken, userScoreData);
                     await this.handleSaveUserScores(userScoreData,userQuestionData)
-                    await this.handleUserQuestionSubmit(userQuestionData);
+                    // await this.handleUserQuestionSubmit(userQuestionData);
 
                     let {submitTime} = this.state;
                     submitTime = submitTime - 1;
@@ -154,11 +153,12 @@ class Editor extends React.Component {
         try {
             const response = await getUserScores(loginUser.accessToken);
             const userScoreHandles = response.data;
-            console.log(response)
+            console.log(userScoreHandles)
+
             return userScoreHandles.find(handle =>
-                handle.eventid == parseInt(selectedEventId, 10) &&
-                handle.questionid === this.props.question.id &&
-                handle.userid === loginUser.id
+                handle.event.id == parseInt(selectedEventId, 10) &&
+                handle.question.questionId == this.props.question.questionId &&
+                handle.user.id == loginUser.id
             );
         } catch (error) {
             console.error('Failed to check existing record:', error);
@@ -169,23 +169,23 @@ class Editor extends React.Component {
 
     handleSaveUserScores = async (userScoreData, userQuestionData) => {
         try {
-            const response = await getUserScores(loginUser.accessToken);
-            console.log(response);
-            if (response.status == 204){
-                await createUserScores(loginUser.accessToken, userScoreData);
-            }
+            // const response = await getUserScores(loginUser.accessToken);
+            // console.log(response);
+            // if (response.status == 204){
+                await addUserScores(loginUser.accessToken, userScoreData, userQuestionData);
+            // }
 
             // Check if there is an existing record with the same eventid, questionid, and groupid
-            const existingRecord =  await this.checkExistingRecord();
-            console.log(existingRecord);
-            if (existingRecord) {
-                // If exists, update user.id for the existing record
-                await this.updateUserScores(existingRecord.id, userScoreData, userQuestionData);
-            }
-             else {
-                // If not exists, create a new record
-                await createUserScores(loginUser.accessToken, userScoreData);
-            }
+            // const existingRecord =  await this.checkExistingRecord();
+            // console.log(existingRecord);
+            // if (existingRecord) {
+            //     // If exists, update user.id for the existing record
+            //     await this.updateUserScores(userScoreData, userQuestionData);
+            // }
+            //  else {
+            //     // If not exists, create a new record
+            //     await createUserScores(loginUser.accessToken, userScoreData);
+            // }
 
             console.log('Response saved successfully');
         } catch (error) {
@@ -195,16 +195,9 @@ class Editor extends React.Component {
 
 
 
-    updateUserScores = async (recordId, userScoreData, userQuestionData) => {
+    updateUserScores = async (userScoreData, userQuestionData) => {
         try {
-            const newUserScoreData = {
-                eventid: userScoreData.eventid,
-                userid: loginUser.id,
-                questionid: this.props.question.id,
-                testcasepasstotal: localStorage.getItem('counter'),
-                testcasescoretotal: (localStorage.getItem('counter') == 9) ? userQuestionData.runtimebymsec <= this.props.question.targetcompletetime? 4 : 3 : 0
-            };
-            const updatedResponse = await putUserScores(loginUser.accessToken, recordId, newUserScoreData);
+            const updatedResponse = await updateUserScores(loginUser.accessToken, userScoreData, userQuestionData);
             console.log('Record updated:', this.props.question);
         } catch (error) {
             console.error('Failed to update record:', error);

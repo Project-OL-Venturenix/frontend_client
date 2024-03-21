@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Rectangle} from 'recharts';
 import {Col} from 'react-bootstrap';
-import {faCircleCheck, faCircleXmark, faCrown} from '@fortawesome/free-solid-svg-icons';
+import {faCircleCheck, faCircleXmark, faClock, faCrown} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {getUserTestCase} from "../api/UserTestCaseApi";
 import {getEventQuestions} from "../api/EventQuestionApi";
@@ -63,13 +63,15 @@ const Ranking = () => {
             for (const userTestData of userTestCaseDataList) {
                 const newDataEntry = {
                     name: userTestData.name,
-                    Q1: userTestData.score.Q1,
-                    Q2: userTestData.score.Q2,
-                    Q3: userTestData.score.Q3,
+                    Q1: userTestData.score.Q1 || 0,
+                    Q2: userTestData.score.Q2 || 0,
+                    Q3: userTestData.score.Q3 || 0,
                 };
 
                 data.push(newDataEntry);
             }
+
+            console.log(data)
 
 
             const sortedData = data.slice().sort((a, b) => {
@@ -117,17 +119,6 @@ const Ranking = () => {
     const CustomBar = (props) => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
         const borderRadius = 5; // 設定圓角半徑，根據需要調整
-
-        iconRight = Array.from({length: data.Q1}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
-        ));
-
-        iconWrong = Array.from({length: (10 - data.Q1)}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
-        ));
-
-        console.log(data);
-        let filteredUserRunTimeSubmit = null;
         let filteredUserQuestionSubmit = null;
 
         if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
@@ -138,6 +129,16 @@ const Ranking = () => {
             console.log(filteredUserQuestionSubmit)
         }
 
+        iconRight = Array.from({length: filteredUserQuestionSubmit.passingTestCaseNumber.Q1}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
+        ));
+
+        iconWrong = Array.from({length: (10 - (filteredUserQuestionSubmit.passingTestCaseNumber.Q1))}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
+        ));
+
+        console.log(data);
+        let filteredUserRunTimeSubmit = null;
 
 
         return (
@@ -162,13 +163,13 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {data.Q1===9? <FontAwesomeIcon icon={faCrown} /> : null}
+                                {filteredUserQuestionSubmit.score.Q1 === 5 ? <><FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/><FontAwesomeIcon icon={faClock} style={{color: "#ffffff",}} /></> : filteredUserQuestionSubmit.score.Q1 === 4 ? <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
                                 {filteredUserQuestionSubmit && (
-                                    <div style={{ color:'white'}}>
-                                        Submittime: {filteredUserQuestionSubmit.submittime.Q1}
-                                        <br />
-                                        {/*Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms*/}
-                                        <br />
+                                    <div style={{color: 'white'}}>
+                                        Submittime: {filteredUserQuestionSubmit.submitTime.Q1}
+                                        <br/>
+                                        Runtime: {filteredUserQuestionSubmit.runtime.Q1}ms
+                                        <br/>
                                     </div>
                                 )}
                             </Col>
@@ -183,16 +184,6 @@ const Ranking = () => {
     const CustomBar2 = (props) => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
         const borderRadius = 5; // 設定圓角半徑，根據需要調整
-
-        iconRight = Array.from({length: data.Q2}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
-        ));
-
-        iconWrong = Array.from({length: (10 - data.Q2)}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
-        ));
-
-        console.log(userQuestionSubmitList);
         let filteredUserQuestionSubmit = null;
 
         if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
@@ -203,8 +194,15 @@ const Ranking = () => {
             console.log(filteredUserQuestionSubmit)
         }
 
+        iconRight = Array.from({length: filteredUserQuestionSubmit.passingTestCaseNumber.Q2}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
+        ));
 
+        iconWrong = Array.from({length: (10 - (filteredUserQuestionSubmit.passingTestCaseNumber.Q2))}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
+        ));
 
+        console.log(data);
 
 
         return (
@@ -229,13 +227,13 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {data.Q2===9? <FontAwesomeIcon icon={faCrown} /> : null}
+                                {filteredUserQuestionSubmit.score.Q2 === 5 ? <><FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/><FontAwesomeIcon icon={faClock} style={{color: "#ffffff",}}/></> : filteredUserQuestionSubmit.score.Q2 === 4 ? <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
                                 {filteredUserQuestionSubmit && (
-                                    <div style={{ color:'white'}}>
-                                        Submittime: {filteredUserQuestionSubmit.submittime.Q2}
-                                        <br />
-                                        {/*Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms*/}
-                                        <br />
+                                    <div style={{color: 'white'}}>
+                                        Submittime: {filteredUserQuestionSubmit.submitTime.Q2}
+                                        <br/>
+                                        Runtime: {filteredUserQuestionSubmit.runtime.Q2}ms
+                                        <br/>
                                     </div>
                                 )}
                             </Col>
@@ -250,16 +248,6 @@ const Ranking = () => {
     const CustomBar3 = (props) => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
         const borderRadius = 5; // 設定圓角半徑，根據需要調整
-
-        iconRight = Array.from({length: data.Q3}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
-        ));
-
-        iconWrong = Array.from({length: (10 - data.Q3)}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
-        ));
-
-        console.log(userQuestionSubmitList);
         let filteredUserQuestionSubmit = null;
 
         if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
@@ -270,8 +258,15 @@ const Ranking = () => {
             console.log(filteredUserQuestionSubmit)
         }
 
+        iconRight = Array.from({length: filteredUserQuestionSubmit.passingTestCaseNumber.Q3}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
+        ));
 
+        iconWrong = Array.from({length: (10 - (filteredUserQuestionSubmit.passingTestCaseNumber.Q3))}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
+        ));
 
+        console.log(data);
 
 
         return (
@@ -296,13 +291,13 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {data.Q3===9? <FontAwesomeIcon icon={faCrown} /> : null}
+                                {filteredUserQuestionSubmit.score.Q3 === 5 ? <><FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/><FontAwesomeIcon icon={faClock} style={{color: "#ffffff",}}/></> : filteredUserQuestionSubmit.score.Q3 === 4 ? <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
                                 {filteredUserQuestionSubmit && (
-                                    <div style={{ color:'white'}}>
-                                        Submittime: {filteredUserQuestionSubmit.submittime.Q3}
-                                        <br />
-                                        {/*Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms*/}
-                                        <br />
+                                    <div style={{color: 'white'}}>
+                                        Submittime: {filteredUserQuestionSubmit.submitTime.Q3}
+                                        <br/>
+                                        Runtime: {filteredUserQuestionSubmit.runtime.Q3}ms
+                                        <br/>
                                     </div>
                                 )}
                             </Col>
@@ -323,7 +318,7 @@ const Ranking = () => {
                 justifyContent: 'center',
                 width: '100vw',
                 height: '100vh',
-                backgroundColor: '#2E2E2E'
+                backgroundColor: '#F1FEC9'
             }}
         >
             <ResponsiveContainer>
@@ -332,7 +327,7 @@ const Ranking = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    color: 'white',
+                    color: 'black',
                     marginTop: ' 20px'
                 }}>
                     <h1>Ranking</h1>
@@ -346,7 +341,7 @@ const Ranking = () => {
                 >
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis type="number"/>
-                    <YAxis dataKey="name" type="category"  tick={{ fill: 'white' }}/>
+                    <YAxis dataKey="name" type="category"/>
                     <Tooltip/>
                     <Legend/>
                     {/*<Bar dataKey="Q1" stackId="stack" fill="#8884d8" shape={<CustomBar fill="#8884d8"/>}/>*/}

@@ -2,6 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // 引入 Bootstrap 样式
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import questionText from "./QuestionText";
 
 
 function QuestionAreaIndividual({question}) {

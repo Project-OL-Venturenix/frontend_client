@@ -28,10 +28,10 @@ export const getEventByid = async (accessToken, id) => {
     }
 };
 
-export const putEventById = async (accessToken, id) => {
+export const putEventById = async (accessToken, id, status) => {
     try {
         const response = await axios.put(
-            `http://localhost:8081/api/events/${id}`,
+            `http://localhost:8081/api/events/${id}/${status}`,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;
