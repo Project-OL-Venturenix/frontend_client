@@ -31,52 +31,49 @@ export default function TopNavBarTeam() {
 
     const getEventGroupUserList = async () => {
         try {
+            console.log("hi")
             await getEventById(selectedEventId);
-            const response = await getEventGroups(loginUser.accessToken);
-            const eventGroups = response.data;
+            const response = await getGroupUsers(loginUser.accessToken, selectedEventId);
+            const eventGroups = response.data.users;
             console.log(eventGroups);
-
-            const selectedEventGroups = eventGroups.filter(group => group.eventid === parseInt(selectedEventId, 10));
-            console.log("Selected Event ID:", parseInt(selectedEventId, 10));
-            console.log("Filtered groups:", selectedEventGroups);
-
-            const groupUserData = await getGroupUsers(loginUser.accessToken);
-            const groupUsers = groupUserData.data;
-            console.log("groupUsers:", groupUsers);
-
-            // Find the group IDs where loginUser is a member
-            const userGroupIds = groupUsers
-                .filter(user => user.userId === loginUser.id)
-                .map(user => user.groupId);
-            console.log("userGroupIds:", userGroupIds);
-            localStorage.setItem("groupId",userGroupIds)
-
-            // Filter selectedEventGroups based on the user's group membership
-            const userEventGroups = selectedEventGroups.filter(group => userGroupIds.includes(group.groupid));
-            console.log("userEventGroups:", userEventGroups);
-
-
-            // Get all users in the userEventGroups
-            const userEventGroupUsers = groupUsers
-                .filter(user => userEventGroups.some(group => group.groupId === user.groupid))
-                .map(user => ({
-                    userid: user.userId,
-                }));
-
-            console.log("Users in user's groups:", userEventGroupUsers);
-
+            //
+            // const selectedEventGroups = eventGroups.filter(group => group.eventid === parseInt(selectedEventId, 10));
+            // console.log("Selected Event ID:", parseInt(selectedEventId, 10));
+            // console.log("Filtered groups:", selectedEventGroups);
+            //
+            // const groupUserData = await getGroupUsers(loginUser.accessToken);
+            // const groupUsers = groupUserData.data;
+            // console.log("groupUsers:", groupUsers);
+            //
+            // // Find the group IDs where loginUser is a member
+            // const userGroupIds = groupUsers
+            //     .filter(user => user.userId === loginUser.id)
+            //     .map(user => user.groupId);
+            // console.log("userGroupIds:", userGroupIds);
+            // localStorage.setItem("groupId",userGroupIds)
+            //
+            // // Filter selectedEventGroups based on the user's group membership
+            // const userEventGroups = selectedEventGroups.filter(group => userGroupIds.includes(group.groupid));
+            // console.log("userEventGroups:", userEventGroups);
+            //
+            //
+            // // Get all users in the userEventGroups
+            // const userEventGroupUsers = groupUsers
+            //     .filter(user => userEventGroups.some(group => group.groupId === user.groupid))
+            //     .map(user => ({
+            //         userid: user.userId,
+            //     }));
+            //
+            // console.log("Users in user's groups:", userEventGroupUsers);
+            //
             const updatedTeam = [];
-            for (const user of userEventGroupUsers) {
-                try {
-                    const userDetails = await getUserById(loginUser.accessToken, user.userid);
-                    const userToAdd = userDetails.data;
-                    //       // Assuming 'team' is a state variable, you need to use setTeam to update it
-                    updatedTeam.push(userToAdd);
-                    console.log(updatedTeam)
-                } catch (error) {
-                    console.error('Failed to get user details:', error);
+            for (const key in eventGroups) {
+                if (Object.hasOwnProperty.call(eventGroups, key)) {
+                    const member = { id: key, name: eventGroups[key] };
+                    updatedTeam.push(member);
                 }
             }
+
             setTeam(updatedTeam);
             console.log(team);
 
@@ -164,10 +161,10 @@ export default function TopNavBarTeam() {
                             <span
                                 style={{
                                     fontSize: '3em',
-                                    fontWeight: team[index].id === loginUser.id ? 'bold' : 'normal',
-                                    color: team[index].id === loginUser.id ? teamColors[team[index].id] : 'black',
+                                    fontWeight: team[index].id == loginUser.id ? 'bold' : 'normal',
+                                    color: team[index].id == loginUser.id ? teamColors[team[index].id] : 'black',
                                 }}>
-                                        {team[index].firstname}
+                                        {team[index].name}
                                     </span>
 
                         </div>

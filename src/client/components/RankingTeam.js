@@ -64,9 +64,9 @@ const Ranking = () => {
             for (const userTestData of userTestCaseDataList) {
                 const newDataEntry = {
                     name: userTestData.groupUserDTO.groupId,
-                    Q1: userTestData.passingTestCaseNumber.Q1,
-                    Q2: userTestData.passingTestCaseNumber.Q2,
-                    Q3: userTestData.passingTestCaseNumber.Q3,
+                    Q1: userTestData.score.Q1,
+                    Q2: userTestData.score.Q2,
+                    Q3: userTestData.score.Q3,
                 };
 
                 data.push(newDataEntry);
