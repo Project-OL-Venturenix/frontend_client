@@ -111,10 +111,12 @@ export default function TopNavBarTeam() {
     }
 
     const handleDashboard = () => {
-        try {
+        const confirmMessage = 'DO YOU FINISH YOU ANSWER ?';
+        const userConfirmed = window.confirm(confirmMessage);
+        if (userConfirmed) {
             setRedirectToDash(true);
-        } catch (error) {
-            console.error('logout error', error);
+        } else {
+
         }
     };
 

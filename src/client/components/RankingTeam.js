@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Rectangle} from 'recharts';
 import {Col} from 'react-bootstrap';
-import {faCircleCheck, faCircleXmark, faCrown} from '@fortawesome/free-solid-svg-icons';
+import {faCircleCheck, faCircleXmark, faClock, faCrown} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {getUserTestCase} from "../api/UserTestCaseApi";
 import {getEventQuestions} from "../api/EventQuestionApi";
@@ -16,40 +16,8 @@ const Ranking = () => {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
     const loginUser = storedUser || null;
     const [sortedData, setSortedData] = useState();
-    const [eventQuestionList, setEventQuestionList] = useState([]);
     const selectedEventId = sessionStorage.getItem('selectedEventId');
-    const [userQuestionSubmitList, setUserQuestionSubmitList] = useState();
     const [userTestCaseDataList, setUserTestCaseDataList] = useState();
-
-    // const getUserQuestionSubmitList = async () => {
-    //     try {
-    //         const response = await getUserQuestionSubmit(loginUser.accessToken);
-    //         setUserQuestionSubmitList(response.data);
-    //         console.log(response)
-    //     } catch (error) {
-    //         console.error('Failed to get questions:', error);
-    //     }
-    // }
-    //
-    // const getEventQuestionList = async () => {
-    //     try {
-    //         const response = await getEventQuestions(loginUser.accessToken);
-    //         const eventQuestions = response.data;
-    //         const selectedEventQuestions = eventQuestions.filter(question => question.eventid === parseInt(selectedEventId, 10));
-    //         console.log(selectedEventQuestions)
-    //         const questionIds = selectedEventQuestions.map((question) => question.questionid);
-    //         const questionData = await getQuestions(loginUser.accessToken);
-    //         const questionList = questionData.data;
-    //         console.log("questionList:", questionList);
-    //         console.log("questionIds:", questionIds);
-    //         const filteredQuestions = questionList.filter((question) => questionIds.includes(question.id));
-    //         console.log("filteredQuestions:", filteredQuestions);
-    //         setEventQuestionList(filteredQuestions);
-    //     } catch (error) {
-    //         console.error('Failed to get questions:', error);
-    //     }
-    // };
-
 
     const getUserTestCaseList = async () => {
         try {
@@ -64,13 +32,15 @@ const Ranking = () => {
             for (const userTestData of userTestCaseDataList) {
                 const newDataEntry = {
                     name: userTestData.groupUserDTO.groupId,
-                    Q1: userTestData.score.Q1,
-                    Q2: userTestData.score.Q2,
-                    Q3: userTestData.score.Q3,
+                    Q1: userTestData.score.Q1 || 0,
+                    Q2: userTestData.score.Q2 || 0,
+                    Q3: userTestData.score.Q3 || 0,
                 };
 
                 data.push(newDataEntry);
             }
+
+            console.log(data)
 
 
             const sortedData = data.slice().sort((a, b) => {
@@ -89,14 +59,9 @@ const Ranking = () => {
     }
 
     useEffect(() => {
-        // getEventQuestionList();
-        getUserTestCaseList();
-        // getUserQuestionSubmitList();
-
         const intervalId = setInterval(() => {
-            // getEventQuestionList();
             getUserTestCaseList();
-            // getUserQuestionSubmitList();
+
         }, 1000);
 
         // 在组件卸载时清除定时器，防止内存泄漏
@@ -117,28 +82,27 @@ const Ranking = () => {
 
     const CustomBar = (props) => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
-        const borderRadius = 5; // 設定圓角半徑，根據需要調整
-
-        iconRight = Array.from({length: data.Q1}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
-        ));
-
-        iconWrong = Array.from({length: (10 - data.Q1)}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
-        ));
-
-        console.log(data);
-        let filteredUserRunTimeSubmit = null;
+        const borderRadius = 0; // 設定圓角半徑，根據需要調整
         let filteredUserQuestionSubmit = null;
 
         if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
             filteredUserQuestionSubmit = userTestCaseDataList.find(
                 item =>
-                    item.name === data.name
+                    item.groupUserDTO.groupId === data.name
             );
             console.log(filteredUserQuestionSubmit)
         }
 
+        iconRight = Array.from({length: filteredUserQuestionSubmit.passingTestCaseNumber.Q1}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
+        ));
+
+        iconWrong = Array.from({length: (10 - (filteredUserQuestionSubmit.passingTestCaseNumber.Q1))}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
+        ));
+
+        console.log(data);
+        let filteredUserRunTimeSubmit = null;
 
 
         return (
@@ -163,13 +127,17 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {data.Q1===9? <FontAwesomeIcon icon={faCrown} /> : null}
+                                {filteredUserQuestionSubmit.score.Q1 === 5 ? <><FontAwesomeIcon icon={faCrown}
+                                                                                                style={{color: "#FFD43B",}}/><FontAwesomeIcon
+                                    icon={faClock}
+                                    style={{color: "#ffffff",}}/></> : filteredUserQuestionSubmit.score.Q1 === 4 ?
+                                    <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
                                 {filteredUserQuestionSubmit && (
-                                    <div style={{ color:'white'}}>
-                                        Submittime: {filteredUserQuestionSubmit.submittime.Q1}
-                                        <br />
-                                        {/*Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms*/}
-                                        <br />
+                                    <div style={{color: 'white'}}>
+                                        Submittime: {filteredUserQuestionSubmit.submitTime.Q1}
+                                        <br/>
+                                        Runtime: {filteredUserQuestionSubmit.runtime.Q1}ms
+                                        <br/>
                                     </div>
                                 )}
                             </Col>
@@ -183,29 +151,26 @@ const Ranking = () => {
 
     const CustomBar2 = (props) => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
-        const borderRadius = 5; // 設定圓角半徑，根據需要調整
-
-        iconRight = Array.from({length: data.Q2}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
-        ));
-
-        iconWrong = Array.from({length: (10 - data.Q2)}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
-        ));
-
-        console.log(userQuestionSubmitList);
+        const borderRadius = 0; // 設定圓角半徑，根據需要調整
         let filteredUserQuestionSubmit = null;
 
         if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
             filteredUserQuestionSubmit = userTestCaseDataList.find(
                 item =>
-                    item.name === data.name
+                    item.groupUserDTO.groupId === data.name
             );
             console.log(filteredUserQuestionSubmit)
         }
 
+        iconRight = Array.from({length: filteredUserQuestionSubmit.passingTestCaseNumber.Q2}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
+        ));
 
+        iconWrong = Array.from({length: (10 - (filteredUserQuestionSubmit.passingTestCaseNumber.Q2))}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
+        ));
 
+        console.log(data);
 
 
         return (
@@ -230,13 +195,17 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {data.Q2===9? <FontAwesomeIcon icon={faCrown} /> : null}
+                                {filteredUserQuestionSubmit.score.Q2 === 5 ? <><FontAwesomeIcon icon={faCrown}
+                                                                                                style={{color: "#FFD43B",}}/><FontAwesomeIcon
+                                    icon={faClock}
+                                    style={{color: "#ffffff",}}/></> : filteredUserQuestionSubmit.score.Q2 === 4 ?
+                                    <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
                                 {filteredUserQuestionSubmit && (
-                                    <div style={{ color:'white'}}>
-                                        Submittime: {filteredUserQuestionSubmit.submittime.Q2}
-                                        <br />
-                                        {/*Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms*/}
-                                        <br />
+                                    <div style={{color: 'white'}}>
+                                        Submittime: {filteredUserQuestionSubmit.submitTime.Q2}
+                                        <br/>
+                                        Runtime: {filteredUserQuestionSubmit.runtime.Q2}ms
+                                        <br/>
                                     </div>
                                 )}
                             </Col>
@@ -250,29 +219,26 @@ const Ranking = () => {
 
     const CustomBar3 = (props) => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
-        const borderRadius = 5; // 設定圓角半徑，根據需要調整
-
-        iconRight = Array.from({length: data.Q3}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
-        ));
-
-        iconWrong = Array.from({length: (10 - data.Q3)}, (_, index) => (
-            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
-        ));
-
-        console.log(userQuestionSubmitList);
+        const borderRadius = 0; // 設定圓角半徑，根據需要調整
         let filteredUserQuestionSubmit = null;
 
         if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
             filteredUserQuestionSubmit = userTestCaseDataList.find(
                 item =>
-                    item.name === data.name
+                    item.groupUserDTO.groupId === data.name
             );
             console.log(filteredUserQuestionSubmit)
         }
 
+        iconRight = Array.from({length: filteredUserQuestionSubmit.passingTestCaseNumber.Q3}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleCheck} style={{color: '#63E6BE',}}/>
+        ));
 
+        iconWrong = Array.from({length: (10 - (filteredUserQuestionSubmit.passingTestCaseNumber.Q3))}, (_, index) => (
+            <FontAwesomeIcon icon={faCircleXmark} style={{color: '#c40808',}}/>
+        ));
 
+        console.log(data);
 
 
         return (
@@ -297,13 +263,17 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {data.Q3===9? <FontAwesomeIcon icon={faCrown} /> : null}
+                                {filteredUserQuestionSubmit.score.Q3 === 5 ? <><FontAwesomeIcon icon={faCrown}
+                                                                                                style={{color: "#FFD43B",}}/><FontAwesomeIcon
+                                    icon={faClock}
+                                    style={{color: "#ffffff",}}/></> : filteredUserQuestionSubmit.score.Q3 === 4 ?
+                                    <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
                                 {filteredUserQuestionSubmit && (
-                                    <div style={{ color:'white'}}>
-                                        Submittime: {filteredUserQuestionSubmit.submittime.Q3}
-                                        <br />
-                                        {/*Runtime: {filteredUserQuestionSubmit.runtimebymsec}ms*/}
-                                        <br />
+                                    <div style={{color: 'white'}}>
+                                        Submittime: {filteredUserQuestionSubmit.submitTime.Q3}
+                                        <br/>
+                                        Runtime: {filteredUserQuestionSubmit.runtime.Q3}ms
+                                        <br/>
                                     </div>
                                 )}
                             </Col>
@@ -315,6 +285,9 @@ const Ranking = () => {
         );
     };
 
+    const handleDetailOnClick = () => {
+        window.location.href = '/dashboardteam'
+    }
 
     return (
         <div
@@ -324,21 +297,37 @@ const Ranking = () => {
                 justifyContent: 'center',
                 width: '100vw',
                 height: '100vh',
-                backgroundColor: '#2E2E2E'
+                backgroundColor: '#F2F0ED'
             }}
         >
             <ResponsiveContainer>
 
                 <div style={{
                     display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
-                    color: 'white',
+                    color: 'black',
                     marginTop: ' 20px'
                 }}>
-                    <h1>Ranking</h1>
-                </div>
+                    <div/>
+                    <div>
+                        <h1>Ranking</h1>
+                    </div>
 
+                    <div>
+                        <button
+                            style={{
+                                backgroundColor: '#198754',
+                                marginLeft: '-200px'
+                            }}
+                            type="button"
+                            className="btn btn-primary btn-lg"
+                            onClick={handleDetailOnClick}
+                        >
+                            Details
+                        </button>
+                    </div>
+                </div>
 
                 <BarChart
                     data={sortedData}
@@ -347,7 +336,7 @@ const Ranking = () => {
                 >
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis type="number"/>
-                    <YAxis dataKey="name" type="category"  tick={{ fill: 'white' }}/>
+                    <YAxis dataKey="name" type="category"/>
                     <Tooltip/>
                     <Legend/>
                     {/*<Bar dataKey="Q1" stackId="stack" fill="#8884d8" shape={<CustomBar fill="#8884d8"/>}/>*/}
@@ -356,19 +345,19 @@ const Ranking = () => {
                     <Bar
                         dataKey="Q1"
                         stackId="stack"
-                        fill="#ffa600"
+                        fill="#DFC498"
                         shape={(props) => <CustomBar {...props} data={props.payload}/>}
                     />
                     <Bar
                         dataKey="Q2"
                         stackId="stack"
-                        fill="#bc5090"
+                        fill="#CB9D54"
                         shape={(props) => <CustomBar2 {...props} data={props.payload}/>}
                     />
                     <Bar
                         dataKey="Q3"
                         stackId="stack"
-                        fill="#003f5c"
+                        fill="#795E32"
                         shape={(props) => <CustomBar3 {...props} data={props.payload}/>}
                     />
                 </BarChart>

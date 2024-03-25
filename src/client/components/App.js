@@ -8,6 +8,7 @@ import Ranking from './Ranking';
 import SignupPage from "./SignUpPage";
 import RankingTeam from "./RankingTeam";
 import DetailDashboard from "./DetailDashboard";
+import DetailDashboardTeam from "./DetailDashboardTeam";
 
 
 export const TeamContext = createContext(null);
@@ -53,6 +54,7 @@ const App = () => {
                     <Route path="/rankingteam" component={RankingTeam} />
                     <Route path="/signup" component={SignupPage} />
                     <Route path="/dashboard" component={DetailDashboard} />
+                    <Route path="/dashboardteam" component={DetailDashboardTeam} />
                 </Switch>
             {/*</TeamContext.Provider>*/}
         </>

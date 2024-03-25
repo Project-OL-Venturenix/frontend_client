@@ -81,7 +81,7 @@ const Ranking = () => {
 
     const CustomBar = (props) => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
-        const borderRadius = 5; // 設定圓角半徑，根據需要調整
+        const borderRadius = 0; // 設定圓角半徑，根據需要調整
         let filteredUserQuestionSubmit = null;
 
         if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
@@ -126,7 +126,11 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {filteredUserQuestionSubmit.score.Q1 === 5 ? <><FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/><FontAwesomeIcon icon={faClock} style={{color: "#ffffff",}} /></> : filteredUserQuestionSubmit.score.Q1 === 4 ? <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
+                                {filteredUserQuestionSubmit.score.Q1 === 5 ? <><FontAwesomeIcon icon={faCrown}
+                                                                                                style={{color: "#FFD43B",}}/><FontAwesomeIcon
+                                    icon={faClock}
+                                    style={{color: "#ffffff",}}/></> : filteredUserQuestionSubmit.score.Q1 === 4 ?
+                                    <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
                                 {filteredUserQuestionSubmit && (
                                     <div style={{color: 'white'}}>
                                         Submittime: {filteredUserQuestionSubmit.submitTime.Q1}
@@ -146,7 +150,7 @@ const Ranking = () => {
 
     const CustomBar2 = (props) => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
-        const borderRadius = 5; // 設定圓角半徑，根據需要調整
+        const borderRadius = 0; // 設定圓角半徑，根據需要調整
         let filteredUserQuestionSubmit = null;
 
         if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
@@ -190,7 +194,11 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {filteredUserQuestionSubmit.score.Q2 === 5 ? <><FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/><FontAwesomeIcon icon={faClock} style={{color: "#ffffff",}}/></> : filteredUserQuestionSubmit.score.Q2 === 4 ? <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
+                                {filteredUserQuestionSubmit.score.Q2 === 5 ? <><FontAwesomeIcon icon={faCrown}
+                                                                                                style={{color: "#FFD43B",}}/><FontAwesomeIcon
+                                    icon={faClock}
+                                    style={{color: "#ffffff",}}/></> : filteredUserQuestionSubmit.score.Q2 === 4 ?
+                                    <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
                                 {filteredUserQuestionSubmit && (
                                     <div style={{color: 'white'}}>
                                         Submittime: {filteredUserQuestionSubmit.submitTime.Q2}
@@ -210,7 +218,7 @@ const Ranking = () => {
 
     const CustomBar3 = (props) => {
         let {x, y, width, height, fill, iconRight, iconWrong, data} = props;
-        const borderRadius = 5; // 設定圓角半徑，根據需要調整
+        const borderRadius = 0; // 設定圓角半徑，根據需要調整
         let filteredUserQuestionSubmit = null;
 
         if (Array.isArray(userTestCaseDataList) && userTestCaseDataList.length > 0) {
@@ -254,7 +262,11 @@ const Ranking = () => {
                             <Col>
                                 {/*<h5 style={{marginBottom: '5px'}}>Test Case:</h5>*/}
                                 <h5 style={{marginBottom: '5px'}}>{iconRight}{iconWrong}</h5>
-                                {filteredUserQuestionSubmit.score.Q3 === 5 ? <><FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/><FontAwesomeIcon icon={faClock} style={{color: "#ffffff",}}/></> : filteredUserQuestionSubmit.score.Q3 === 4 ? <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
+                                {filteredUserQuestionSubmit.score.Q3 === 5 ? <><FontAwesomeIcon icon={faCrown}
+                                                                                                style={{color: "#FFD43B",}}/><FontAwesomeIcon
+                                    icon={faClock}
+                                    style={{color: "#ffffff",}}/></> : filteredUserQuestionSubmit.score.Q3 === 4 ?
+                                    <FontAwesomeIcon icon={faCrown} style={{color: "#FFD43B",}}/> : null}
                                 {filteredUserQuestionSubmit && (
                                     <div style={{color: 'white'}}>
                                         Submittime: {filteredUserQuestionSubmit.submitTime.Q3}
@@ -284,7 +296,7 @@ const Ranking = () => {
                 justifyContent: 'center',
                 width: '100vw',
                 height: '100vh',
-                backgroundColor: '#F1FEC9'
+                backgroundColor: '#F2F0ED'
             }}
         >
             <ResponsiveContainer>
@@ -298,22 +310,22 @@ const Ranking = () => {
                 }}>
                     <div/>
                     <div>
-                    <h1>Ranking</h1>
+                        <h1>Ranking</h1>
                     </div>
 
                     <div>
-                <button
-                    style={{
-                        backgroundColor: '#198754',
-                        marginLeft: '-200px'
-                    }}
-                    type="button"
-                    className="btn btn-primary btn-lg"
-                    onClick={handleDetailOnClick}
-                >
-                    Details
-                </button>
-                </div>
+                        <button
+                            style={{
+                                backgroundColor: '#198754',
+                                marginLeft: '-200px'
+                            }}
+                            type="button"
+                            className="btn btn-primary btn-lg"
+                            onClick={handleDetailOnClick}
+                        >
+                            Details
+                        </button>
+                    </div>
                 </div>
 
                 <BarChart
@@ -332,19 +344,19 @@ const Ranking = () => {
                     <Bar
                         dataKey="Q1"
                         stackId="stack"
-                        fill="#ffa600"
+                        fill="#DFC498"
                         shape={(props) => <CustomBar {...props} data={props.payload}/>}
                     />
                     <Bar
                         dataKey="Q2"
                         stackId="stack"
-                        fill="#bc5090"
+                        fill="#CB9D54"
                         shape={(props) => <CustomBar2 {...props} data={props.payload}/>}
                     />
                     <Bar
                         dataKey="Q3"
                         stackId="stack"
-                        fill="#003f5c"
+                        fill="#795E32"
                         shape={(props) => <CustomBar3 {...props} data={props.payload}/>}
                     />
                 </BarChart>
