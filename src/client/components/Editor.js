@@ -51,12 +51,12 @@ class Editor extends React.Component {
         this.updateSolution = this.updateSolution.bind(this);
         this.handleLangChange = this.handleLangChange.bind(this);
         this.handleCodeChange = this.handleCodeChange.bind(this);
-        this.handleSaveUserScores = this.handleSaveUserScores.bind(this);
-        this.checkExistingRecord = this.checkExistingRecord.bind(this)
-        this.updateUserScores = this.updateUserScores.bind(this);
-        this.handleUserQuestionSubmit = this.handleUserQuestionSubmit.bind(this);
-        this.checkExistingUserQuestionSubmitRecord = this.checkExistingUserQuestionSubmitRecord.bind(this);
-        this.updateQuestionSubmit = this.updateQuestionSubmit.bind(this);
+        // this.handleSaveUserScores = this.handleSaveUserScores.bind(this);
+        // this.checkExistingRecord = this.checkExistingRecord.bind(this)
+        // this.updateUserScores = this.updateUserScores.bind(this);
+        // this.handleUserQuestionSubmit = this.handleUserQuestionSubmit.bind(this);
+        // this.checkExistingUserQuestionSubmitRecord = this.checkExistingUserQuestionSubmitRecord.bind(this);
+        // this.updateQuestionSubmit = this.updateQuestionSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -135,7 +135,7 @@ class Editor extends React.Component {
             } else {
                     // Call the external putUserTestCase function
                     // await createUserScores(loginUser.accessToken, userScoreData);
-                    await this.handleSaveUserScores(userScoreData,userQuestionData)
+                    await addUserScores(loginUser.accessToken, userScoreData, userQuestionData);
                     // await this.handleUserQuestionSubmit(userQuestionData);
 
                     let {submitTime} = this.state;
@@ -149,113 +149,113 @@ class Editor extends React.Component {
         }
     };
 
-    checkExistingRecord = async () => {
-        try {
-            const response = await getUserScores(loginUser.accessToken);
-            const userScoreHandles = response.data;
-            console.log(userScoreHandles)
-
-            return userScoreHandles.find(handle =>
-                handle.event.id == parseInt(selectedEventId, 10) &&
-                handle.question.questionId == this.props.question.questionId &&
-                handle.user.id == loginUser.id
-            );
-        } catch (error) {
-            console.error('Failed to check existing record:', error);
-            throw error;
-        }
-    };
-
-
-    handleSaveUserScores = async (userScoreData, userQuestionData) => {
-        try {
-            // const response = await getUserScores(loginUser.accessToken);
-            // console.log(response);
-            // if (response.status == 204){
-                await addUserScores(loginUser.accessToken, userScoreData, userQuestionData);
-            // }
-
-            // Check if there is an existing record with the same eventid, questionid, and groupid
-            // const existingRecord =  await this.checkExistingRecord();
-            // console.log(existingRecord);
-            // if (existingRecord) {
-            //     // If exists, update user.id for the existing record
-            //     await this.updateUserScores(userScoreData, userQuestionData);
-            // }
-            //  else {
-            //     // If not exists, create a new record
-            //     await createUserScores(loginUser.accessToken, userScoreData);
-            // }
-
-            console.log('Response saved successfully');
-        } catch (error) {
-            console.error('Failed to save response:', error);
-        }
-    };
+    // checkExistingRecord = async () => {
+    //     try {
+    //         const response = await getUserScores(loginUser.accessToken);
+    //         const userScoreHandles = response.data;
+    //         console.log(userScoreHandles)
+    //
+    //         return userScoreHandles.find(handle =>
+    //             handle.event.id == parseInt(selectedEventId, 10) &&
+    //             handle.question.questionId == this.props.question.questionId &&
+    //             handle.user.id == loginUser.id
+    //         );
+    //     } catch (error) {
+    //         console.error('Failed to check existing record:', error);
+    //         throw error;
+    //     }
+    // };
 
 
+    // handleSaveUserScores = async (userScoreData, userQuestionData) => {
+    //     try {
+    //         // const response = await getUserScores(loginUser.accessToken);
+    //         // console.log(response);
+    //         // if (response.status == 204){
+    //             await addUserScores(loginUser.accessToken, userScoreData, userQuestionData);
+    //         // }
+    //
+    //         // Check if there is an existing record with the same eventid, questionid, and groupid
+    //         // const existingRecord =  await this.checkExistingRecord();
+    //         // console.log(existingRecord);
+    //         // if (existingRecord) {
+    //         //     // If exists, update user.id for the existing record
+    //         //     await this.updateUserScores(userScoreData, userQuestionData);
+    //         // }
+    //         //  else {
+    //         //     // If not exists, create a new record
+    //         //     await createUserScores(loginUser.accessToken, userScoreData);
+    //         // }
+    //
+    //         console.log('Response saved successfully');
+    //     } catch (error) {
+    //         console.error('Failed to save response:', error);
+    //     }
+    // };
 
-    updateUserScores = async (userScoreData, userQuestionData) => {
-        try {
-            const updatedResponse = await updateUserScores(loginUser.accessToken, userScoreData, userQuestionData);
-            console.log('Record updated:', this.props.question);
-        } catch (error) {
-            console.error('Failed to update record:', error);
-            throw error;
-        }
-    };
 
-    checkExistingUserQuestionSubmitRecord = async () => {
-        try {
-            const response = await getUserQuestionSubmit(loginUser.accessToken);
-            const userScoreHandles = response.data;
-            console.log(response)
-            return userScoreHandles.find(handle =>
-                handle.eventid == parseInt(selectedEventId, 10) &&
-                handle.questionid === this.props.question.id &&
-                handle.userid === loginUser.id
-            );
-        } catch (error) {
-            console.error('Failed to check existing record:', error);
-            throw error;
-        }
-    };
 
-    handleUserQuestionSubmit = async (userQuestionData) => {
-        try {
-            const response = await getUserQuestionSubmit(loginUser.accessToken);
-            console.log(response);
-            if (response.status == 204){
-                await createUserQuestionSubmit(loginUser.accessToken, userQuestionData);
-            }
+    // updateUserScores = async (userScoreData, userQuestionData) => {
+    //     try {
+    //         const updatedResponse = await updateUserScores(loginUser.accessToken, userScoreData, userQuestionData);
+    //         console.log('Record updated:', this.props.question);
+    //     } catch (error) {
+    //         console.error('Failed to update record:', error);
+    //         throw error;
+    //     }
+    // };
 
-            //  Check if there is an existing record with the same eventid, questionid, and groupid
-            const existingRecord =  await this.checkExistingUserQuestionSubmitRecord();
-            console.log(existingRecord);
-            if (existingRecord) {
-                // If exists, update user.id for the existing record
-                await this.updateQuestionSubmit(existingRecord.id, userQuestionData);
-            }
-            else {
-                // If not exists, create a new record
-                await createUserQuestionSubmit(loginUser.accessToken, userQuestionData);
-            }
-
-            console.log('Response saved successfully');
-        } catch (error) {
-            console.error('Failed to save response:', error);
-        }
-    };
-
-    updateQuestionSubmit = async (recordId, userScoreData) => {
-        try {
-            const updatedResponse = await putUserQuestionSubmit(loginUser.accessToken, recordId, userScoreData);
-            console.log('Record updated:', updatedResponse);
-        } catch (error) {
-            console.error('Failed to update record:', error);
-            throw error;
-        }
-    };
+    // checkExistingUserQuestionSubmitRecord = async () => {
+    //     try {
+    //         const response = await getUserQuestionSubmit(loginUser.accessToken);
+    //         const userScoreHandles = response.data;
+    //         console.log(response)
+    //         return userScoreHandles.find(handle =>
+    //             handle.eventid == parseInt(selectedEventId, 10) &&
+    //             handle.questionid === this.props.question.id &&
+    //             handle.userid === loginUser.id
+    //         );
+    //     } catch (error) {
+    //         console.error('Failed to check existing record:', error);
+    //         throw error;
+    //     }
+    // };
+    //
+    // handleUserQuestionSubmit = async (userQuestionData) => {
+    //     try {
+    //         const response = await getUserQuestionSubmit(loginUser.accessToken);
+    //         console.log(response);
+    //         if (response.status == 204){
+    //             await createUserQuestionSubmit(loginUser.accessToken, userQuestionData);
+    //         }
+    //
+    //         //  Check if there is an existing record with the same eventid, questionid, and groupid
+    //         const existingRecord =  await this.checkExistingUserQuestionSubmitRecord();
+    //         console.log(existingRecord);
+    //         if (existingRecord) {
+    //             // If exists, update user.id for the existing record
+    //             await this.updateQuestionSubmit(existingRecord.id, userQuestionData);
+    //         }
+    //         else {
+    //             // If not exists, create a new record
+    //             await createUserQuestionSubmit(loginUser.accessToken, userQuestionData);
+    //         }
+    //
+    //         console.log('Response saved successfully');
+    //     } catch (error) {
+    //         console.error('Failed to save response:', error);
+    //     }
+    // };
+    //
+    // updateQuestionSubmit = async (recordId, userScoreData) => {
+    //     try {
+    //         const updatedResponse = await putUserQuestionSubmit(loginUser.accessToken, recordId, userScoreData);
+    //         console.log('Record updated:', updatedResponse);
+    //     } catch (error) {
+    //         console.error('Failed to update record:', error);
+    //         throw error;
+    //     }
+    // };
 
 
     updateSolution(event) {

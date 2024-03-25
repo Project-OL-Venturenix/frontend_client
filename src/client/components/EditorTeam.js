@@ -7,7 +7,7 @@ import OutputBox from './controls/OutputBox';
 import StatusImage from './controls/StatusImage';
 import CompilerApi from '../api/CompilerApi';
 import {putUserTestCase} from "../api/UserTestCaseApi";
-import {createUserScores} from "../api/UserScoresApi";
+import {addUserScores, createUserScores} from "../api/UserScoresApi";
 import {putUserQuestionSubmit} from "../api/UserQuestionSubmit";
 import {putGroupQuestionSubmit} from "../api/GroupQuestionSubmit";
 import {putGroupScores} from "../api/GroupScoresApi";
@@ -41,6 +41,7 @@ class EditorTeam extends React.Component {
             },
             executionTime: 0,
             output: '',
+            submitTime:3,
         };
 
         this.handleRun = this.handleRun.bind(this);
@@ -106,27 +107,30 @@ class EditorTeam extends React.Component {
             const executionTime = endTime - startTime;
             this.setState({response: res, executionTime});
 
-            const groupScoreData = {
+            const userScoreData = {
                 eventid: selectedEventId,
                 userid: loginUser.id,
-                questionid: this.props.question.id,
-                groupid: localStorage.getItem("groupId"),
-                testcasepasstotal: localStorage.getItem('counter'),
+                questionid: this.props.question.questionId,
+                testcasePassTotal: localStorage.getItem('counter'),
             };
 
-            const groupQuestionData = {
-                eventid: parseInt(selectedEventId),
-                groupid: localStorage.getItem("groupId"),
-                questionid: this.props.question.id,
-                userid: loginUser.id,
-                runtimebymsec: executionTime,
-                submittime: new Date()
-
+            const userQuestionData = {
+                runTimeByMsec: executionTime,
+                submitTime: new Date()
             }
 
-            // Call the external putUserTestCase function
-            await putGroupScores(loginUser.accessToken, groupScoreData);
-            await putGroupQuestionSubmit(loginUser.accessToken, groupQuestionData);
+            if(sessionStorage.getItem('eventStatus') != 'O'){
+                alert("You can not submit")
+            } else {
+                // Call the external putUserTestCase function
+                // await createUserScores(loginUser.accessToken, userScoreData);
+                await addUserScores(loginUser.accessToken, userScoreData, userQuestionData);
+                // await this.handleUserQuestionSubmit(userQuestionData);
+
+                let {submitTime} = this.state;
+                submitTime = submitTime - 1;
+                this.setState({submitTime});
+            }
 
             // Continue with any other logic you want to execute after submitting the test case
         } catch (error) {
@@ -216,6 +220,8 @@ class EditorTeam extends React.Component {
                     <FormGroup>
                         <Col sm={12}>
                             <OutputBox
+                                question={this.props.question}
+                                executionTime={this.state.executionTime}
                                 show={this.state.response.status === '0'}
                                 message={this.state.response.message}
                             />

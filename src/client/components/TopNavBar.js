@@ -20,26 +20,9 @@ export default function TopNavBar() {
     const [redirectToNext, setRedirectToNext] = useState(false);
     const [redirectToDash, setRedirectToDash] = useState(false);
 
-    //get user 之後set user
-
     const getEventUserList = async () => {
         try {
             await getEventById(selectedEventId);
-            // const response = await getEventUsers(loginUser.accessToken);
-            // const eventUsers = response.data;
-            // console.log(eventUsers)
-            // const selectedEventUsers = eventUsers.filter(user => user.eventid === parseInt(selectedEventId, 10));
-            // console.log("Selected Event ID:", parseInt(selectedEventId, 10));
-            // console.log("Filtered Users:", selectedEventUsers);
-            // const userIds = selectedEventUsers.map((user) => user.userid);
-            // const UserData = await getUsers(loginUser.accessToken);
-            // const userList = UserData.data;
-            // console.log("UserList:", userList);
-            // console.log("UserIds:", userIds);
-            // const filteredUser = userList.filter((user) => userIds.includes(user.id));
-            // console.log("filteredUser:", filteredUser);
-            // setEventUserList(filteredUser);
-
             const response = await getEventUser(loginUser.accessToken,selectedEventId)
             console.log(response.data)
             setEventUserList(response.data);
@@ -77,10 +60,12 @@ export default function TopNavBar() {
     }
 
     const handleDashboard = () => {
-        try {
+        const confirmMessage = 'DO YOU FINISH YOU ANSWER ?';
+        const userConfirmed = window.confirm(confirmMessage);
+        if (userConfirmed) {
             setRedirectToDash(true);
-        } catch (error) {
-            console.error('logout error', error);
+        } else {
+
         }
     };
 
@@ -121,17 +106,9 @@ export default function TopNavBar() {
                         />
                         {loginUser && (
                             <div>
-                                {/*{eventUserList.length > 0 ? (*/}
-
-                                {/*        <span key={index} style={{fontSize: '3em'}}>*/}
-                                {/*        {eventUserList.firstName}*/}
-                                {/*         </span>*/}
-
-                                {/*) : (*/}
                                     <span style={{fontSize: '3em'}}>
                                     {eventUserList.firstName || "You are not in this content"}
                                     </span>
-                                {/*)}*/}
                             </div>
                         )}
                     </div>

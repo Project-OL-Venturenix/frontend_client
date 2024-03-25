@@ -5,7 +5,7 @@ const CountdownTimer = () => {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
     const loginUser = storedUser || null;
     const selectedEventId = sessionStorage.getItem('selectedEventId');
-    const storedTime = sessionStorage.getItem('countdownTime');
+
     const [eventEndTime, setEventEndTime] = useState();
     const [time, setTime] = useState({ hours: 1, minutes: 0, seconds: 0 });
 
@@ -55,12 +55,7 @@ const CountdownTimer = () => {
 
     const reset = () => {
         setTime({ hours: 0, minutes: 0, seconds: 0 });
-        sessionStorage.removeItem('countdownTime');
-        sessionStorage.setItem('eventStatus', 'C');
-
-
-
-
+        sessionStorage.setItem('eventStatus', 'Close');
         putEventById(loginUser.accessToken,selectedEventId, "Close" )
     };
 
@@ -80,7 +75,6 @@ const CountdownTimer = () => {
         }
         const interval = setInterval(() => {
             tick();
-            sessionStorage.setItem('countdownTime', JSON.stringify(time));
         }, 1000);
 
         return () => clearInterval(interval);

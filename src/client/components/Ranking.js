@@ -15,40 +15,8 @@ const Ranking = () => {
     const storedUser = JSON.parse(localStorage.getItem('loginUser'));
     const loginUser = storedUser || null;
     const [sortedData, setSortedData] = useState();
-    const [eventQuestionList, setEventQuestionList] = useState([]);
     const selectedEventId = sessionStorage.getItem('selectedEventId');
-    const [userQuestionSubmitList, setUserQuestionSubmitList] = useState();
     const [userTestCaseDataList, setUserTestCaseDataList] = useState();
-
-    // const getUserQuestionSubmitList = async () => {
-    //     try {
-    //         const response = await getUserQuestionSubmit(loginUser.accessToken);
-    //         setUserQuestionSubmitList(response.data);
-    //         console.log(response)
-    //     } catch (error) {
-    //         console.error('Failed to get questions:', error);
-    //     }
-    // }
-    //
-    // const getEventQuestionList = async () => {
-    //     try {
-    //         const response = await getEventQuestions(loginUser.accessToken);
-    //         const eventQuestions = response.data;
-    //         const selectedEventQuestions = eventQuestions.filter(question => question.eventid === parseInt(selectedEventId, 10));
-    //         console.log(selectedEventQuestions)
-    //         const questionIds = selectedEventQuestions.map((question) => question.questionid);
-    //         const questionData = await getQuestions(loginUser.accessToken);
-    //         const questionList = questionData.data;
-    //         console.log("questionList:", questionList);
-    //         console.log("questionIds:", questionIds);
-    //         const filteredQuestions = questionList.filter((question) => questionIds.includes(question.id));
-    //         console.log("filteredQuestions:", filteredQuestions);
-    //         setEventQuestionList(filteredQuestions);
-    //     } catch (error) {
-    //         console.error('Failed to get questions:', error);
-    //     }
-    // };
-
 
     const getUserTestCaseList = async () => {
         try {
@@ -90,14 +58,9 @@ const Ranking = () => {
     }
 
     useEffect(() => {
-        // getEventQuestionList();
-        getUserTestCaseList();
-        // getUserQuestionSubmitList();
-
         const intervalId = setInterval(() => {
-            // getEventQuestionList();
             getUserTestCaseList();
-            // getUserQuestionSubmitList();
+
         }, 1000);
 
         // 在组件卸载时清除定时器，防止内存泄漏
@@ -309,6 +272,9 @@ const Ranking = () => {
         );
     };
 
+    const handleDetailOnClick = () => {
+        window.location.href = '/dashboard'
+    }
 
     return (
         <div
@@ -325,14 +291,30 @@ const Ranking = () => {
 
                 <div style={{
                     display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
                     color: 'black',
                     marginTop: ' 20px'
                 }}>
+                    <div/>
+                    <div>
                     <h1>Ranking</h1>
-                </div>
+                    </div>
 
+                    <div>
+                <button
+                    style={{
+                        backgroundColor: '#198754',
+                        marginLeft: '-200px'
+                    }}
+                    type="button"
+                    className="btn btn-primary btn-lg"
+                    onClick={handleDetailOnClick}
+                >
+                    Details
+                </button>
+                </div>
+                </div>
 
                 <BarChart
                     data={sortedData}

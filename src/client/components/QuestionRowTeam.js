@@ -5,7 +5,7 @@ import TopNavBarTeam from './TopNavBarTeam';
 import {TeamContext} from "./App";
 import QuestionAreaTeam from "./QuestionAreaTeam";
 import {getEventQuestions} from "../api/EventQuestionApi";
-import {getQuestions} from "../api/QuestionApi";
+import {getQuestions, getQuestionsList} from "../api/QuestionApi";
 import {getEventGroups} from "../api/EventGroupApi";
 import {getGroupUsers} from "../api/GroupUserApi";
 import {getUserById} from "../api/UserApi";
@@ -104,18 +104,9 @@ function QuestionRowTeam() {
 
     const getEventQuestionList = async () => {
         try {
-            const response = await getEventQuestions(loginUser.accessToken);
-            const eventQuestions = response.data;
-            const selectedEventQuestions = eventQuestions.filter(question => question.eventid === parseInt(selectedEventId, 10));
-            console.log(selectedEventQuestions)
-            const questionIds = selectedEventQuestions.map((question) => question.questionid);
-            const questionData = await getQuestions(loginUser.accessToken);
-            const questionList = questionData.data;
-            console.log("questionList:", questionList);
-            console.log("questionIds:", questionIds);
-            const filteredQuestions = questionList.filter((question) => questionIds.includes(question.id));
-            console.log("filteredQuestions:", filteredQuestions);
-            setEventQuestionList(filteredQuestions);
+            const response = await getQuestionsList(loginUser.accessToken, selectedEventId)
+            setEventQuestionList(response.data);
+            console.log(response)
         } catch (error) {
             console.error('Failed to get questions:', error);
         }
@@ -146,18 +137,18 @@ function QuestionRowTeam() {
 
     useEffect(() => {
         if (loginUser) {
-            getEventGroupUserList();
+            // getEventGroupUserList();
             getEventQuestionList();
-            getEventGroupUserQuestionHandleList();
+            // getEventGroupUserQuestionHandleList();
         }
 
-        const intervalId = setInterval(() => {
-            getEventQuestionList();
-            getEventGroupUserQuestionHandleList();
-        }, 1000);
-
-        // 在组件卸载时清除定时器，防止内存泄漏
-        return () => clearInterval(intervalId);
+        // const intervalId = setInterval(() => {
+        //     getEventQuestionList();
+        //     getEventGroupUserQuestionHandleList();
+        // }, 1000);
+        //
+        // // 在组件卸载时清除定时器，防止内存泄漏
+        // return () => clearInterval(intervalId);
     }, []);
 
 

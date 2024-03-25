@@ -17,7 +17,7 @@ export const putGroupScores = async (accessToken, groupScoreData)=> {
 export const getGroupScoresByEventId = async (accessToken, id)=> {
     try {
         const response = await axios.get(
-            `http://localhost:8081/api/grouptestcases/eventid/${id}`,
+            `http://localhost:8081/api/groups/eventid/${id}`,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;
