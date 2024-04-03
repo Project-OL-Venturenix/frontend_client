@@ -2,15 +2,18 @@ const fs = require('fs');
 const path = require('path');
 const mkdirp = require('mkdirp');
 
+let question;
 module.exports = {
-  saveFile(file, data, callback) {
+
+  saveFile(file, data, questionId, callback) {
     mkdirp(path.dirname(file), (err) => {
       if (err) return callback(err);
 
       const jsonData = data;
       const jsonDataWithoutClosingBrace = jsonData.replace(/\}\s*$/, '');
       //add mainmethod
-      const jsonFile = path.join(__dirname, '../templates', 'Question1.json');
+      const jsonFile = path.join(__dirname, '../templates', `Question${questionId}.json`);
+      question = questionId;
       fs.readFile(jsonFile, 'utf8', (err, data) => {
         if (err) throw err;
         let mainMethodData;
@@ -37,8 +40,8 @@ module.exports = {
     });
   },
   //question part 
-  startConvertJsonToJava(callback) {
-    const jsonFile = path.join(__dirname, '../templates', 'Question1.json');
+  startConvertJsonToJava( questionId, callback) {
+    const jsonFile = path.join(__dirname, '../templates', `Question${questionId}.json`);
     fs.readFile(jsonFile, 'utf8', (err, data) => {
       if (err) throw err;
       let jsonData;
@@ -59,15 +62,15 @@ module.exports = {
     });
   },
 
-  getFile(lang, callback) {
+  getFile(lang, questionId, callback) {
     let file = '';
     const language = lang.toLowerCase();
     if (language === 'java') {
-      file = path.join(__dirname, '../templates', 'Question1.java');
+      file = path.join(__dirname, '../templates', `Question${questionId}.java`);
       if (!fs.existsSync(file)) {
         fs.writeFileSync(file, '');
       }
-      this.startConvertJsonToJava((javaCode) => {
+      this.startConvertJsonToJava( questionId, (javaCode) => {
         fs.writeFile(file, javaCode, (err) => {
           if (err) throw err;
           console.log('Question3.java file created with Java code.');

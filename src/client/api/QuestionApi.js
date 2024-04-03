@@ -26,4 +26,15 @@ export const getQuestionsList = async (accessToken, eventId)=> {
     }
 };
 
-
+export const getQuestionById = async (accessToken,Id)=> {
+    try {
+        const response = await axios.get(
+            `http://localhost:8081/api/questions/${Id}`,
+            {headers: {Authorization: `Bearer ${accessToken}`}}
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}

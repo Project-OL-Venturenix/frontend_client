@@ -60,7 +60,7 @@ class Editor extends React.Component {
     }
 
     componentDidMount() {
-        CompilerApi.getTask('java') //default load java file
+        CompilerApi.getTask('java', this.props.question.questionId) //default load java file
             //  .then(res => res.json())
             .then((task) => {
                 console.log(task);
@@ -83,7 +83,7 @@ class Editor extends React.Component {
         console.log('handleRun lang: ' + task.lang);
         console.log('handleRun this.state.output: ' + this.state.output);
 
-        CompilerApi.run(task)
+        CompilerApi.run(task,this.props.question.questionId)
             .then((res) => {
                 // Append the new test case result to the existing message
                 const endTime = new Date().getTime();
@@ -300,6 +300,7 @@ class Editor extends React.Component {
                                 }}
                                 onFocus={this.props.handleColorChange}
                                 code={this.state.task.code}
+                                question={this.props.question}
                             />
                         </Col>
                     </FormGroup>
