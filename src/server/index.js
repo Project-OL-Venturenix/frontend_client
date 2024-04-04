@@ -40,7 +40,7 @@ app.get('/api', (req, res) => {
 
 app.get('/api/file/:lang/:questionId', (req, res) => {
   const language = req.params.lang;
-  const { questionId } = req.params;re
+  const { questionId } = req.params;
   console.log(language);
   FileApi.getFile(language, questionId, (content) => {
     const file = {
