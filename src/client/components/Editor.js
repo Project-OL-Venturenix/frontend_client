@@ -106,7 +106,7 @@ class Editor extends React.Component {
 
         try {
             const res = await new Promise((resolve, reject) => {
-                CompilerApi.run(task)
+                CompilerApi.run(task, this.props.question.questionId)
                     .then(resolve)
                     .catch(reject);
             });
