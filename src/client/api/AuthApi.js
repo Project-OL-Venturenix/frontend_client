@@ -3,7 +3,7 @@ import axios from "axios";
 export const signInUser = async (userName, password)=> {
     try {
         const response = await axios.post(
-            `http://localhost:8081/api/auth/signin`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/auth/signin`,
             {userName, password}
         );
         return response;
@@ -17,7 +17,7 @@ export const signUpUser = async (userData) => {
     try {
         console.log(userData)
         const response = await axios.post(
-                `http://localhost:8081/api/auth/signup`,
+                `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/auth/signup`,
                 userData
             );
         return response;

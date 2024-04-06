@@ -3,7 +3,7 @@ import axios from "axios";
 export const putGroupScores = async (accessToken, groupScoreData)=> {
     try {
         const response = await axios.post(
-            `http://localhost:8081/api/groupscores`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/groupscores`,
             groupScoreData,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         )
@@ -17,7 +17,7 @@ export const putGroupScores = async (accessToken, groupScoreData)=> {
 export const getGroupScoresByEventId = async (accessToken, id)=> {
     try {
         const response = await axios.get(
-            `http://localhost:8081/api/groups/eventid/${id}`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/groups/eventid/${id}`,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;

@@ -3,7 +3,7 @@ import axios from "axios";
 export const createUserScores = async (accessToken, userScoreData)=> {
     try {
         const response = await axios.post(
-            `http://localhost:8081/api/userscores/addScore`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/userscores/addScore`,
             null,
             {
             params:userScoreData,
@@ -20,7 +20,7 @@ export const createUserScores = async (accessToken, userScoreData)=> {
 export const putUserScores = async (accessToken, id, userScoreData)=> {
     try {
         const response = await axios.put(
-            `http://localhost:8081/api/userscores/${id}`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/userscores/${id}`,
             userScoreData,
             { headers: {Authorization: `Bearer ${accessToken}`}}
         );
@@ -34,7 +34,7 @@ export const putUserScores = async (accessToken, id, userScoreData)=> {
 export const getUserScores = async (accessToken)=> {
     try {
         const response = await axios.get(
-            `http://localhost:8081/api/userscores`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/userscores`,
             { headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;
@@ -47,7 +47,7 @@ export const getUserScores = async (accessToken)=> {
 export const getUserScoresByEventId = async (accessToken, id)=> {
     try {
         const response = await axios.get(
-            `http://localhost:8081/api/usertestcases/eventid/${id}`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/usertestcases/eventid/${id}`,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;
@@ -60,7 +60,7 @@ export const getUserScoresByEventId = async (accessToken, id)=> {
 export const addUserScores = async (accessToken, userScoreData, userQuestionData)=> {
     try {
         const response = await axios.post(
-            `http://localhost:8081/api/userscores/addScore`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/userscores/addScore`,
             userQuestionData,
             {
                 params:userScoreData,
@@ -77,7 +77,7 @@ export const addUserScores = async (accessToken, userScoreData, userQuestionData
 export const updateUserScores = async (accessToken, userScoreData, userQuestionData)=> {
     try {
         const response = await axios.put(
-            `http://localhost:8081/api/userscores/updateScore`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/userscores/updateScore`,
             userQuestionData,
             {
                 params:userScoreData,

@@ -3,7 +3,7 @@ import axios from "axios";
 export const putGroupQuestionSubmit = async (accessToken, groupQuestionData)=> {
     try {
         const response = await axios.post(
-            `http://localhost:8081/api/groupquestionsubmits`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/groupquestionsubmits`,
             groupQuestionData,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         );
@@ -17,7 +17,7 @@ export const putGroupQuestionSubmit = async (accessToken, groupQuestionData)=> {
 export const getGroupQuestionSubmit = async (accessToken)=> {
     try {
         const response = await axios.get(
-            `http://localhost:8081/api/groupquestionsubmits`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/groupquestionsubmits`,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;

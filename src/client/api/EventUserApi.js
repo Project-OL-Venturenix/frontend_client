@@ -3,7 +3,7 @@ import axios from "axios";
 export const getEventUsers = async (accessToken)=> {
     try {
         const response = await axios.get(
-            `http://localhost:8081/api/eventusers`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/eventusers`,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;
@@ -16,7 +16,7 @@ export const getEventUsers = async (accessToken)=> {
 export const getEventUser = async (accessToken,eventid)=> {
     try {
         const response = await axios.get(
-            `http://localhost:8081/api/user/eventid/${eventid}`,
+            `http://vtxlab-projectol-backend.ap-southeast-1.elasticbeanstalk.com:8080/api/user/eventid/${eventid}`,
             {headers: {Authorization: `Bearer ${accessToken}`}}
         );
         return response;
